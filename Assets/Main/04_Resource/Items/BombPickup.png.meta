@@ -1,0 +1,2613 @@
+fileFormatVersion: 2
+guid: 0cb5abd5b5a3632419f892ff76a3ec83
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -2338302539415144794
+    second: BombPickup_0
+  - first:
+      213: 7636564935055147170
+    second: BombPickup_1
+  - first:
+      213: 6004269257631063359
+    second: BombPickup_2
+  - first:
+      213: 9109333234464505114
+    second: BombPickup_3
+  - first:
+      213: 3069073729254065097
+    second: BombPickup_4
+  - first:
+      213: -1902951005617270663
+    second: BombPickup_5
+  - first:
+      213: 2544707068478764731
+    second: BombPickup_6
+  - first:
+      213: 7160202690853182147
+    second: BombPickup_7
+  - first:
+      213: -2551602902504045009
+    second: BombPickup_8
+  - first:
+      213: 4966810224096307171
+    second: BombPickup_9
+  - first:
+      213: 1664353355414387061
+    second: BombPickup_10
+  - first:
+      213: -7949366990850677601
+    second: BombPickup_11
+  - first:
+      213: 6680735713916085456
+    second: BombPickup_12
+  - first:
+      213: 7423702334505939008
+    second: BombPickup_13
+  - first:
+      213: 8510272025266141414
+    second: BombPickup_14
+  - first:
+      213: -8519591965508513313
+    second: BombPickup_15
+  - first:
+      213: -4994280078739126173
+    second: BombPickup_16
+  - first:
+      213: -8583340465391566136
+    second: BombPickup_17
+  - first:
+      213: 277397789348322856
+    second: BombPickup_18
+  - first:
+      213: 8552611782255842167
+    second: BombPickup_19
+  - first:
+      213: 1719870117117883969
+    second: BombPickup_20
+  - first:
+      213: -1493241009393940159
+    second: BombPickup_21
+  - first:
+      213: 8550242035917924402
+    second: BombPickup_22
+  - first:
+      213: 4822772295998076218
+    second: BombPickup_23
+  - first:
+      213: 4703980190353460571
+    second: BombPickup_24
+  - first:
+      213: 8534609890548439314
+    second: BombPickup_25
+  - first:
+      213: 7711921973167891362
+    second: BombPickup_26
+  - first:
+      213: -7960257373614696655
+    second: BombPickup_27
+  - first:
+      213: -943024562901655641
+    second: BombPickup_28
+  - first:
+      213: -4311469166370710352
+    second: BombPickup_29
+  - first:
+      213: 5182903660300681092
+    second: BombPickup_30
+  - first:
+      213: 153898447402168545
+    second: BombPickup_31
+  - first:
+      213: -2392850258900309651
+    second: BombPickup_32
+  - first:
+      213: 6087948414347030369
+    second: BombPickup_33
+  - first:
+      213: 7786555843419519746
+    second: BombPickup_34
+  - first:
+      213: 1015576787057220524
+    second: BombPickup_35
+  - first:
+      213: -6188304077003414083
+    second: BombPickup_36
+  - first:
+      213: -8104257215084961290
+    second: BombPickup_37
+  - first:
+      213: 2619800360596321737
+    second: BombPickup_38
+  - first:
+      213: 148048226611595946
+    second: BombPickup_39
+  - first:
+      213: 6600655668594672933
+    second: BombPickup_40
+  - first:
+      213: -8333421898128302469
+    second: BombPickup_41
+  - first:
+      213: -6931906692441236610
+    second: BombPickup_42
+  - first:
+      213: -3502659579629996462
+    second: BombPickup_43
+  - first:
+      213: 3722285450991696259
+    second: BombPickup_44
+  - first:
+      213: -2891962623635884693
+    second: BombPickup_45
+  - first:
+      213: 9063559405985414472
+    second: BombPickup_46
+  - first:
+      213: 2299993741240528643
+    second: BombPickup_47
+  - first:
+      213: -8056679986520152987
+    second: BombPickup_48
+  - first:
+      213: -7855517250747129961
+    second: BombPickup_49
+  - first:
+      213: -4417877936715071790
+    second: BombPickup_50
+  - first:
+      213: -9083174528523004042
+    second: BombPickup_51
+  - first:
+      213: -3156023425009519689
+    second: BombPickup_52
+  - first:
+      213: 7545648675017156339
+    second: BombPickup_53
+  - first:
+      213: 6428889826098463334
+    second: BombPickup_54
+  - first:
+      213: -3704896994667076268
+    second: BombPickup_55
+  - first:
+      213: 8021276715474797590
+    second: BombPickup_56
+  - first:
+      213: 4929281611689933981
+    second: BombPickup_57
+  - first:
+      213: 802487523067531249
+    second: BombPickup_58
+  - first:
+      213: 1713681644791635035
+    second: BombPickup_59
+  - first:
+      213: 8344583347227148530
+    second: BombPickup_60
+  - first:
+      213: -4985606826816502039
+    second: BombPickup_61
+  - first:
+      213: 915362152154760862
+    second: BombPickup_62
+  - first:
+      213: 22889485683797404
+    second: BombPickup_63
+  - first:
+      213: -3246615464675568436
+    second: BombPickup_64
+  - first:
+      213: -2305647044518640327
+    second: BombPickup_65
+  - first:
+      213: -4342535328638395286
+    second: BombPickup_66
+  - first:
+      213: -7925092904264623695
+    second: BombPickup_67
+  - first:
+      213: 7878738843262454800
+    second: BombPickup_68
+  - first:
+      213: 7551190339591315602
+    second: BombPickup_69
+  - first:
+      213: 5540563332712579680
+    second: BombPickup_70
+  - first:
+      213: 8701360475125757366
+    second: BombPickup_71
+  - first:
+      213: 1221144351437660210
+    second: BombPickup_72
+  - first:
+      213: 5408429347790518999
+    second: BombPickup_73
+  - first:
+      213: 6630707131238915071
+    second: BombPickup_74
+  - first:
+      213: 8655272249335389617
+    second: BombPickup_75
+  - first:
+      213: -4873571307064758199
+    second: BombPickup_76
+  - first:
+      213: -7741902280476222627
+    second: BombPickup_77
+  - first:
+      213: 4037031797550743357
+    second: BombPickup_78
+  - first:
+      213: -2219153896363417047
+    second: BombPickup_79
+  - first:
+      213: 2193749364240056246
+    second: BombPickup_80
+  - first:
+      213: -8814104400485365895
+    second: BombPickup_81
+  - first:
+      213: 6716344379357987192
+    second: BombPickup_82
+  - first:
+      213: -8858838786344694101
+    second: BombPickup_83
+  - first:
+      213: -1235530973232822791
+    second: BombPickup_84
+  - first:
+      213: 25985360044329325
+    second: BombPickup_85
+  - first:
+      213: -8002887572328893930
+    second: BombPickup_86
+  - first:
+      213: -7908275228936733388
+    second: BombPickup_87
+  - first:
+      213: -1504792868236064372
+    second: BombPickup_88
+  - first:
+      213: -8783411642186063243
+    second: BombPickup_89
+  - first:
+      213: 8826168486081291536
+    second: BombPickup_90
+  - first:
+      213: 3528690352003521744
+    second: BombPickup_91
+  - first:
+      213: -4277160582644698667
+    second: BombPickup_92
+  - first:
+      213: 9009534381391909436
+    second: BombPickup_93
+  - first:
+      213: -7843493551315548995
+    second: BombPickup_94
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: BombPickup_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 845
+        width: 399
+        height: 409
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6a634c0ba3eac8fd0800000000000000
+      internalID: -2338302539415144794
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_1
+      rect:
+        serializedVersion: 2
+        x: 396
+        y: 1203
+        width: 67
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a08a2229578af960800000000000000
+      internalID: 7636564935055147170
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_2
+      rect:
+        serializedVersion: 2
+        x: 715
+        y: 1175
+        width: 52
+        height: 57
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f3dd5ece313735350800000000000000
+      internalID: 6004269257631063359
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_3
+      rect:
+        serializedVersion: 2
+        x: 860
+        y: 1205
+        width: 59
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a1dbaec305ada6e70800000000000000
+      internalID: 9109333234464505114
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_4
+      rect:
+        serializedVersion: 2
+        x: 919
+        y: 1217
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c30cadcb4a879a20800000000000000
+      internalID: 3069073729254065097
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_5
+      rect:
+        serializedVersion: 2
+        x: 930
+        y: 1197
+        width: 36
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 970d535842c5795e0800000000000000
+      internalID: -1902951005617270663
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_6
+      rect:
+        serializedVersion: 2
+        x: 963
+        y: 1209
+        width: 17
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bb63a1aa89d905320800000000000000
+      internalID: 2544707068478764731
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_7
+      rect:
+        serializedVersion: 2
+        x: 1011
+        y: 1209
+        width: 13
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3ca991439662e5360800000000000000
+      internalID: 7160202690853182147
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_8
+      rect:
+        serializedVersion: 2
+        x: 1113
+        y: 1221
+        width: 15
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f26046cdda2e69cd0800000000000000
+      internalID: -2551602902504045009
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_9
+      rect:
+        serializedVersion: 2
+        x: 1131
+        y: 1214
+        width: 14
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3e7e9026597ade440800000000000000
+      internalID: 4966810224096307171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1254
+        height: 1190
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 57934320f88f81710800000000000000
+      internalID: 1664353355414387061
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_11
+      rect:
+        serializedVersion: 2
+        x: 963
+        y: 1181
+        width: 19
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f942121e6dc2ea190800000000000000
+      internalID: -7949366990850677601
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_12
+      rect:
+        serializedVersion: 2
+        x: 977
+        y: 1156
+        width: 47
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0d4eb3a5cbdb6bc50800000000000000
+      internalID: 6680735713916085456
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_13
+      rect:
+        serializedVersion: 2
+        x: 1020
+        y: 1189
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 040f676d0f9460760800000000000000
+      internalID: 7423702334505939008
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_14
+      rect:
+        serializedVersion: 2
+        x: 1065
+        y: 1186
+        width: 69
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e8beef415f8a1670800000000000000
+      internalID: 8510272025266141414
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_15
+      rect:
+        serializedVersion: 2
+        x: 1141
+        y: 1171
+        width: 18
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fd1d7900f3454c980800000000000000
+      internalID: -8519591965508513313
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_16
+      rect:
+        serializedVersion: 2
+        x: 842
+        y: 1101
+        width: 70
+        height: 59
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 368c1fdaab0c0bab0800000000000000
+      internalID: -4994280078739126173
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_17
+      rect:
+        serializedVersion: 2
+        x: 1027
+        y: 1129
+        width: 29
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8c2891eb259d1e880800000000000000
+      internalID: -8583340465391566136
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_18
+      rect:
+        serializedVersion: 2
+        x: 1043
+        y: 1164
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 82ed597d1d389d300800000000000000
+      internalID: 277397789348322856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_19
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 1164
+        width: 8
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7731e2f2a1bf0b670800000000000000
+      internalID: 8552611782255842167
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_20
+      rect:
+        serializedVersion: 2
+        x: 1176
+        y: 1148
+        width: 47
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 146fe9e52c43ed710800000000000000
+      internalID: 1719870117117883969
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_21
+      rect:
+        serializedVersion: 2
+        x: 62
+        y: 1030
+        width: 21
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1494707a631f64be0800000000000000
+      internalID: -1493241009393940159
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_22
+      rect:
+        serializedVersion: 2
+        x: 1093
+        y: 1002
+        width: 110
+        height: 114
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 238208e94df88a670800000000000000
+      internalID: 8550242035917924402
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_23
+      rect:
+        serializedVersion: 2
+        x: 78
+        y: 953
+        width: 34
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a357f8fd9ddede240800000000000000
+      internalID: 4822772295998076218
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_24
+      rect:
+        serializedVersion: 2
+        x: 1170
+        y: 973
+        width: 19
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b5d0e747f05e74140800000000000000
+      internalID: 4703980190353460571
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_25
+      rect:
+        serializedVersion: 2
+        x: 1184
+        y: 964
+        width: 23
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 219dca62a76017670800000000000000
+      internalID: 8534609890548439314
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_26
+      rect:
+        serializedVersion: 2
+        x: 1198
+        y: 881
+        width: 56
+        height: 110
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a3a332dc20460b60800000000000000
+      internalID: 7711921973167891362
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_27
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 953
+        width: 23
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 137130d081c778190800000000000000
+      internalID: -7960257373614696655
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_28
+      rect:
+        serializedVersion: 2
+        x: 78
+        y: 953
+        width: 9
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7af57c90824b9e2f0800000000000000
+      internalID: -943024562901655641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_29
+      rect:
+        serializedVersion: 2
+        x: 1188
+        y: 939
+        width: 13
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0bc9c66e2a59a24c0800000000000000
+      internalID: -4311469166370710352
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_30
+      rect:
+        serializedVersion: 2
+        x: 46
+        y: 937
+        width: 21
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 48f3b493b6f5de740800000000000000
+      internalID: 5182903660300681092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_31
+      rect:
+        serializedVersion: 2
+        x: 62
+        y: 939
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e0f3e092d1c22200800000000000000
+      internalID: 153898447402168545
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_32
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 923
+        width: 17
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d69ab8d0e53eaced0800000000000000
+      internalID: -2392850258900309651
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_33
+      rect:
+        serializedVersion: 2
+        x: 86
+        y: 931
+        width: 6
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 16fae08d3dcbc7450800000000000000
+      internalID: 6087948414347030369
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_34
+      rect:
+        serializedVersion: 2
+        x: 1139
+        y: 937
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20b33ced8476f0c60800000000000000
+      internalID: 7786555843419519746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_35
+      rect:
+        serializedVersion: 2
+        x: 1141
+        y: 931
+        width: 28
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cab9da205bd081e00800000000000000
+      internalID: 1015576787057220524
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_36
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 899
+        width: 29
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db52c10aa3abe1aa0800000000000000
+      internalID: -6188304077003414083
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_37
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 854
+        width: 13
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6f1e6764005e78f80800000000000000
+      internalID: -8104257215084961290
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_38
+      rect:
+        serializedVersion: 2
+        x: 1206
+        y: 843
+        width: 11
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c5b8c33c866b5420800000000000000
+      internalID: 2619800360596321737
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_39
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 826
+        width: 5
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aaa8fc4e319fd0200800000000000000
+      internalID: 148048226611595946
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_40
+      rect:
+        serializedVersion: 2
+        x: 1141
+        y: 819
+        width: 34
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 525014bdb5d3a9b50800000000000000
+      internalID: 6600655668594672933
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_41
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 700
+        width: 49
+        height: 113
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b7ed99e9fecb95c80800000000000000
+      internalID: -8333421898128302469
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_42
+      rect:
+        serializedVersion: 2
+        x: 78
+        y: 807
+        width: 11
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7b13ec079beccf90800000000000000
+      internalID: -6931906692441236610
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_43
+      rect:
+        serializedVersion: 2
+        x: 86
+        y: 809
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 256f8039bad046fc0800000000000000
+      internalID: -3502659579629996462
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_44
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 457
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 389f6fa65e638a330800000000000000
+      internalID: 3722285450991696259
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_45
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 402
+        width: 15
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b65f97ae05fadd7d0800000000000000
+      internalID: -2891962623635884693
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_46
+      rect:
+        serializedVersion: 2
+        x: 1208
+        y: 381
+        width: 46
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84d396a424b38cd70800000000000000
+      internalID: 9063559405985414472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_47
+      rect:
+        serializedVersion: 2
+        x: 1123
+        y: 355
+        width: 18
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 30f634c2f183bef10800000000000000
+      internalID: 2299993741240528643
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_48
+      rect:
+        serializedVersion: 2
+        x: 1155
+        y: 322
+        width: 34
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 564a7760d3ce03090800000000000000
+      internalID: -8056679986520152987
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_49
+      rect:
+        serializedVersion: 2
+        x: 1197
+        y: 358
+        width: 11
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 79f93464ea89bf290800000000000000
+      internalID: -7855517250747129961
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_50
+      rect:
+        serializedVersion: 2
+        x: 1206
+        y: 312
+        width: 48
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2deff096c6b80b2c0800000000000000
+      internalID: -4417877936715071790
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_51
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 329
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 677928a14e412f180800000000000000
+      internalID: -9083174528523004042
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_52
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 333
+        width: 8
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b3fe719a6d8334d0800000000000000
+      internalID: -3156023425009519689
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_53
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 324
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3f66b4acd7787b860800000000000000
+      internalID: 7545648675017156339
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_54
+      rect:
+        serializedVersion: 2
+        x: 1037
+        y: 206
+        width: 168
+        height: 138
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 662c8b03c31083950800000000000000
+      internalID: 6428889826098463334
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_55
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 312
+        width: 9
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 455e47f00df859cc0800000000000000
+      internalID: -3704896994667076268
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_56
+      rect:
+        serializedVersion: 2
+        x: 94
+        y: 318
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 614ccf69cac415f60800000000000000
+      internalID: 8021276715474797590
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_57
+      rect:
+        serializedVersion: 2
+        x: 1196
+        y: 299
+        width: 19
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d9cb4a66283586440800000000000000
+      internalID: 4929281611689933981
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_58
+      rect:
+        serializedVersion: 2
+        x: 78
+        y: 274
+        width: 29
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ff8f158622032b00800000000000000
+      internalID: 802487523067531249
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_59
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 298
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b5c99ef506838c710800000000000000
+      internalID: 1713681644791635035
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_60
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 274
+        width: 9
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2f04d12c75aedc370800000000000000
+      internalID: 8344583347227148530
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_61
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 277
+        width: 23
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e607d181019fcab0800000000000000
+      internalID: -4985606826816502039
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_62
+      rect:
+        serializedVersion: 2
+        x: 107
+        y: 208
+        width: 7
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e968500170504bc00800000000000000
+      internalID: 915362152154760862
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_63
+      rect:
+        serializedVersion: 2
+        x: 1163
+        y: 198
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c9d264fadd1515000800000000000000
+      internalID: 22889485683797404
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_64
+      rect:
+        serializedVersion: 2
+        x: 1133
+        y: 194
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc419b9af64b1f2d0800000000000000
+      internalID: -3246615464675568436
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_65
+      rect:
+        serializedVersion: 2
+        x: 179
+        y: 60
+        width: 53
+        height: 79
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 93589069a32b000e0800000000000000
+      internalID: -2305647044518640327
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_66
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 93
+        width: 39
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a6c9ce750273cb3c0800000000000000
+      internalID: -4342535328638395286
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_67
+      rect:
+        serializedVersion: 2
+        x: 904
+        y: 71
+        width: 100
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1b996551ef9640290800000000000000
+      internalID: -7925092904264623695
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_68
+      rect:
+        serializedVersion: 2
+        x: 1132
+        y: 136
+        width: 19
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 01c0bbe0c37e65d60800000000000000
+      internalID: 7878738843262454800
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_69
+      rect:
+        serializedVersion: 2
+        x: 159
+        y: 95
+        width: 17
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 290a3be1b973bc860800000000000000
+      internalID: 7551190339591315602
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_70
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 95
+        width: 12
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 06243e5fef804ec40800000000000000
+      internalID: 5540563332712579680
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_71
+      rect:
+        serializedVersion: 2
+        x: 1003
+        y: 94
+        width: 13
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b5be76104171c870800000000000000
+      internalID: 8701360475125757366
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_72
+      rect:
+        serializedVersion: 2
+        x: 1077
+        y: 95
+        width: 23
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 230aae6515062f010800000000000000
+      internalID: 1221144351437660210
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_73
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 63
+        width: 17
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7daf9d336d99e0b40800000000000000
+      internalID: 5408429347790518999
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_74
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 71
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ffb152f3101050c50800000000000000
+      internalID: 6630707131238915071
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_75
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 66
+        width: 7
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1bd9eefc044bd1870800000000000000
+      internalID: 8655272249335389617
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_76
+      rect:
+        serializedVersion: 2
+        x: 231
+        y: 79
+        width: 9
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9407edea7b89d5cb0800000000000000
+      internalID: -4873571307064758199
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_77
+      rect:
+        serializedVersion: 2
+        x: 279
+        y: 71
+        width: 9
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d5b9d6ee4ec3f8490800000000000000
+      internalID: -7741902280476222627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_78
+      rect:
+        serializedVersion: 2
+        x: 327
+        y: 63
+        width: 18
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d3ff7ffd70b660830800000000000000
+      internalID: 4037031797550743357
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_79
+      rect:
+        serializedVersion: 2
+        x: 344
+        y: 69
+        width: 17
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 922a551f94bf331e0800000000000000
+      internalID: -2219153896363417047
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_80
+      rect:
+        serializedVersion: 2
+        x: 979
+        y: 73
+        width: 15
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6bf74cd7c63c17e10800000000000000
+      internalID: 2193749364240056246
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_81
+      rect:
+        serializedVersion: 2
+        x: 125
+        y: 37
+        width: 19
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 977ccd33fb20ea580800000000000000
+      internalID: -8814104400485365895
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_82
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 55
+        width: 13
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 87103d8d0af353d50800000000000000
+      internalID: 6716344379357987192
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_83
+      rect:
+        serializedVersion: 2
+        x: 408
+        y: 45
+        width: 9
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: baec8795f051f0580800000000000000
+      internalID: -8858838786344694101
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_84
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 55
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f5077f30238adee0800000000000000
+      internalID: -1235530973232822791
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_85
+      rect:
+        serializedVersion: 2
+        x: 930
+        y: 42
+        width: 20
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d698dca1c815c5000800000000000000
+      internalID: 25985360044329325
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_86
+      rect:
+        serializedVersion: 2
+        x: 159
+        y: 33
+        width: 7
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 612b2f1772800f090800000000000000
+      internalID: -8002887572328893930
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_87
+      rect:
+        serializedVersion: 2
+        x: 271
+        y: 29
+        width: 7
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 43d74314499204290800000000000000
+      internalID: -7908275228936733388
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_88
+      rect:
+        serializedVersion: 2
+        x: 287
+        y: 9
+        width: 36
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c898f3cebd6ed1be0800000000000000
+      internalID: -1504792868236064372
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_89
+      rect:
+        serializedVersion: 2
+        x: 362
+        y: 13
+        width: 21
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 572287fd5ad0b1680800000000000000
+      internalID: -8783411642186063243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_90
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 33
+        width: 15
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0156f9c9979dc7a70800000000000000
+      internalID: 8826168486081291536
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_91
+      rect:
+        serializedVersion: 2
+        x: 747
+        y: 37
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0dc9489ed2d68f030800000000000000
+      internalID: 3528690352003521744
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_92
+      rect:
+        serializedVersion: 2
+        x: 892
+        y: 22
+        width: 21
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d1f8288c1974a4c0800000000000000
+      internalID: -4277160582644698667
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_93
+      rect:
+        serializedVersion: 2
+        x: 820
+        y: 15
+        width: 23
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c32988a09cb480d70800000000000000
+      internalID: 9009534381391909436
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BombPickup_94
+      rect:
+        serializedVersion: 2
+        x: 852
+        y: 10
+        width: 7
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db405c3fb20562390800000000000000
+      internalID: -7843493551315548995
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      BombPickup_0: -2338302539415144794
+      BombPickup_1: 7636564935055147170
+      BombPickup_10: 1664353355414387061
+      BombPickup_11: -7949366990850677601
+      BombPickup_12: 6680735713916085456
+      BombPickup_13: 7423702334505939008
+      BombPickup_14: 8510272025266141414
+      BombPickup_15: -8519591965508513313
+      BombPickup_16: -4994280078739126173
+      BombPickup_17: -8583340465391566136
+      BombPickup_18: 277397789348322856
+      BombPickup_19: 8552611782255842167
+      BombPickup_2: 6004269257631063359
+      BombPickup_20: 1719870117117883969
+      BombPickup_21: -1493241009393940159
+      BombPickup_22: 8550242035917924402
+      BombPickup_23: 4822772295998076218
+      BombPickup_24: 4703980190353460571
+      BombPickup_25: 8534609890548439314
+      BombPickup_26: 7711921973167891362
+      BombPickup_27: -7960257373614696655
+      BombPickup_28: -943024562901655641
+      BombPickup_29: -4311469166370710352
+      BombPickup_3: 9109333234464505114
+      BombPickup_30: 5182903660300681092
+      BombPickup_31: 153898447402168545
+      BombPickup_32: -2392850258900309651
+      BombPickup_33: 6087948414347030369
+      BombPickup_34: 7786555843419519746
+      BombPickup_35: 1015576787057220524
+      BombPickup_36: -6188304077003414083
+      BombPickup_37: -8104257215084961290
+      BombPickup_38: 2619800360596321737
+      BombPickup_39: 148048226611595946
+      BombPickup_4: 3069073729254065097
+      BombPickup_40: 6600655668594672933
+      BombPickup_41: -8333421898128302469
+      BombPickup_42: -6931906692441236610
+      BombPickup_43: -3502659579629996462
+      BombPickup_44: 3722285450991696259
+      BombPickup_45: -2891962623635884693
+      BombPickup_46: 9063559405985414472
+      BombPickup_47: 2299993741240528643
+      BombPickup_48: -8056679986520152987
+      BombPickup_49: -7855517250747129961
+      BombPickup_5: -1902951005617270663
+      BombPickup_50: -4417877936715071790
+      BombPickup_51: -9083174528523004042
+      BombPickup_52: -3156023425009519689
+      BombPickup_53: 7545648675017156339
+      BombPickup_54: 6428889826098463334
+      BombPickup_55: -3704896994667076268
+      BombPickup_56: 8021276715474797590
+      BombPickup_57: 4929281611689933981
+      BombPickup_58: 802487523067531249
+      BombPickup_59: 1713681644791635035
+      BombPickup_6: 2544707068478764731
+      BombPickup_60: 8344583347227148530
+      BombPickup_61: -4985606826816502039
+      BombPickup_62: 915362152154760862
+      BombPickup_63: 22889485683797404
+      BombPickup_64: -3246615464675568436
+      BombPickup_65: -2305647044518640327
+      BombPickup_66: -4342535328638395286
+      BombPickup_67: -7925092904264623695
+      BombPickup_68: 7878738843262454800
+      BombPickup_69: 7551190339591315602
+      BombPickup_7: 7160202690853182147
+      BombPickup_70: 5540563332712579680
+      BombPickup_71: 8701360475125757366
+      BombPickup_72: 1221144351437660210
+      BombPickup_73: 5408429347790518999
+      BombPickup_74: 6630707131238915071
+      BombPickup_75: 8655272249335389617
+      BombPickup_76: -4873571307064758199
+      BombPickup_77: -7741902280476222627
+      BombPickup_78: 4037031797550743357
+      BombPickup_79: -2219153896363417047
+      BombPickup_8: -2551602902504045009
+      BombPickup_80: 2193749364240056246
+      BombPickup_81: -8814104400485365895
+      BombPickup_82: 6716344379357987192
+      BombPickup_83: -8858838786344694101
+      BombPickup_84: -1235530973232822791
+      BombPickup_85: 25985360044329325
+      BombPickup_86: -8002887572328893930
+      BombPickup_87: -7908275228936733388
+      BombPickup_88: -1504792868236064372
+      BombPickup_89: -8783411642186063243
+      BombPickup_9: 4966810224096307171
+      BombPickup_90: 8826168486081291536
+      BombPickup_91: 3528690352003521744
+      BombPickup_92: -4277160582644698667
+      BombPickup_93: 9009534381391909436
+      BombPickup_94: -7843493551315548995
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

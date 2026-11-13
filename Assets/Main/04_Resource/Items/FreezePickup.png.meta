@@ -1,0 +1,1157 @@
+fileFormatVersion: 2
+guid: 259032b4bb92a4a4d803c70d98b051ab
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 2386873404620640959
+    second: FreezePickup_0
+  - first:
+      213: 1092800068312071279
+    second: FreezePickup_1
+  - first:
+      213: 8358471615682054962
+    second: FreezePickup_2
+  - first:
+      213: 7650175733075363839
+    second: FreezePickup_3
+  - first:
+      213: -8199631922940230985
+    second: FreezePickup_4
+  - first:
+      213: -214154655926347391
+    second: FreezePickup_5
+  - first:
+      213: -5884906186769182729
+    second: FreezePickup_6
+  - first:
+      213: 4831433074594938533
+    second: FreezePickup_7
+  - first:
+      213: -5142097783339240783
+    second: FreezePickup_8
+  - first:
+      213: 3094713663465415750
+    second: FreezePickup_9
+  - first:
+      213: 7967141742376769010
+    second: FreezePickup_10
+  - first:
+      213: -8666777446819949906
+    second: FreezePickup_11
+  - first:
+      213: -2709666229532889044
+    second: FreezePickup_12
+  - first:
+      213: 945292167089155133
+    second: FreezePickup_13
+  - first:
+      213: 4999486279410187829
+    second: FreezePickup_14
+  - first:
+      213: -4403932328269174504
+    second: FreezePickup_15
+  - first:
+      213: -697313479744183443
+    second: FreezePickup_16
+  - first:
+      213: -2745372770999697142
+    second: FreezePickup_17
+  - first:
+      213: 2925997775250810332
+    second: FreezePickup_18
+  - first:
+      213: 8543992683222136173
+    second: FreezePickup_19
+  - first:
+      213: -4962362585659581002
+    second: FreezePickup_20
+  - first:
+      213: -4476292368233110610
+    second: FreezePickup_21
+  - first:
+      213: -2618747972800631438
+    second: FreezePickup_22
+  - first:
+      213: 1589957332057882817
+    second: FreezePickup_23
+  - first:
+      213: -1677916305186882750
+    second: FreezePickup_24
+  - first:
+      213: 5862895856293178815
+    second: FreezePickup_25
+  - first:
+      213: -6317170738820625768
+    second: FreezePickup_26
+  - first:
+      213: 1705113120902951324
+    second: FreezePickup_27
+  - first:
+      213: 1196146531984063753
+    second: FreezePickup_28
+  - first:
+      213: 8817168275536718520
+    second: FreezePickup_29
+  - first:
+      213: 4908261495061420398
+    second: FreezePickup_30
+  - first:
+      213: 4369138769395211390
+    second: FreezePickup_31
+  - first:
+      213: 1442497065256645121
+    second: FreezePickup_32
+  - first:
+      213: 6910810972185493185
+    second: FreezePickup_33
+  - first:
+      213: -2646671252300494331
+    second: FreezePickup_34
+  - first:
+      213: -1210941305342415331
+    second: FreezePickup_35
+  - first:
+      213: -8868335820378282951
+    second: FreezePickup_36
+  - first:
+      213: 3749932947140933811
+    second: FreezePickup_37
+  - first:
+      213: -2445350974520163324
+    second: FreezePickup_38
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: FreezePickup_0
+      rect:
+        serializedVersion: 2
+        x: 310
+        y: 1220
+        width: 13
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fb29d3e17b0ef1120800000000000000
+      internalID: 2386873404620640959
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FreezePickup_1
+      rect:
+        serializedVersion: 2
+        x: 772
+        y: 1221
+        width: 65
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f6c734a4fd76a2f00800000000000000
+      internalID: 1092800068312071279
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FreezePickup_2
+      rect:
+        serializedVersion: 2
+        x: 834
+        y: 1224
+        width: 19
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 23b0aed36a14ff370800000000000000
+      internalID: 8358471615682054962
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FreezePickup_3
+      rect:
+        serializedVersion: 2
+        x: 852
+        y: 1199
+        width: 33
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff7454ffb42ea2a60800000000000000
+      internalID: 7650175733075363839
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FreezePickup_4
+      rect:
+        serializedVersion: 2
+        x: 255
+        y: 1195
+        width: 31
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b2c138a53e053e80800000000000000
+      internalID: -8199631922940230985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FreezePickup_5
+      rect:
+        serializedVersion: 2
+        x: 310
+        y: 1205
+        width: 13
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 189938e997b270df0800000000000000
+      internalID: -214154655926347391
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FreezePickup_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1241
+        height: 1198
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ffcf11b00d945ea0800000000000000
+      internalID: -5884906186769182729
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FreezePickup_7
+      rect:
+        serializedVersion: 2
+        x: 737
+        y: 1138
+        width: 18
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5aefd4788c2bc0340800000000000000
+      internalID: 4831433074594938533
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FreezePickup_8
+      rect:
+        serializedVersion: 2
+        x: 932
+        y: 1181
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1b2bdbf5f4993a8b0800000000000000
+      internalID: -5142097783339240783
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FreezePickup_9
+      rect:
+        serializedVersion: 2
+        x: 737
+        y: 1070
+        width: 138
+        height: 101
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 64467603ea1a2fa20800000000000000
+      internalID: 3094713663465415750
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FreezePickup_10
+      rect:
+        serializedVersion: 2
+        x: 948
+        y: 1158
+        width: 16
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2f5dd85f339f09e60800000000000000
+      internalID: 7967141742376769010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FreezePickup_11
+      rect:
+        serializedVersion: 2
+        x: 922
+        y: 1146
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ea21ee6a4db69b780800000000000000
+      internalID: -8666777446819949906
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FreezePickup_12
+      rect:
+        serializedVersion: 2
+        x: 942
+        y: 1144
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c20f1d0bbe4556ad0800000000000000
+      internalID: -2709666229532889044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FreezePickup_13
+      rect:
+        serializedVersion: 2
+        x: 1206
+        y: 875
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d3cee44b73a5e1d00800000000000000
+      internalID: 945292167089155133
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FreezePickup_14
+      rect:
+        serializedVersion: 2
+        x: 1115
+        y: 771
+        width: 26
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 53efeaf584eb16540800000000000000
+      internalID: 4999486279410187829
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FreezePickup_15
+      rect:
+        serializedVersion: 2
+        x: 145
+        y: 674
+        width: 21
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 81928a661e612e2c0800000000000000
+      internalID: -4403932328269174504
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FreezePickup_16
+      rect:
+        serializedVersion: 2
+        x: 1109
+        y: 359
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d63a1cea515a256f0800000000000000
+      internalID: -697313479744183443
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FreezePickup_17
+      rect:
+        serializedVersion: 2
+        x: 1206
+        y: 353
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a018888a20a76e9d0800000000000000
+      internalID: -2745372770999697142
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FreezePickup_18
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 333
+        width: 9
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd56867597b3b9820800000000000000
+      internalID: 2925997775250810332
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FreezePickup_19
+      rect:
+        serializedVersion: 2
+        x: 1043
+        y: 245
+        width: 59
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d65fdfec31c529670800000000000000
+      internalID: 8543992683222136173
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FreezePickup_20
+      rect:
+        serializedVersion: 2
+        x: 1099
+        y: 331
+        width: 15
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6bd52132585222bb0800000000000000
+      internalID: -4962362585659581002
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FreezePickup_21
+      rect:
+        serializedVersion: 2
+        x: 1131
+        y: 321
+        width: 8
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ea36ca8bec301e1c0800000000000000
+      internalID: -4476292368233110610
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FreezePickup_22
+      rect:
+        serializedVersion: 2
+        x: 1141
+        y: 312
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 27da1fce79658abd0800000000000000
+      internalID: -2618747972800631438
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FreezePickup_23
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 294
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c0865105c9a01610800000000000000
+      internalID: 1589957332057882817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FreezePickup_24
+      rect:
+        serializedVersion: 2
+        x: 1141
+        y: 296
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 24bff7aa208d6b8e0800000000000000
+      internalID: -1677916305186882750
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FreezePickup_25
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 274
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fbde675e7b03d5150800000000000000
+      internalID: 5862895856293178815
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FreezePickup_26
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 240
+        width: 14
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 89aca1fcea6e458a0800000000000000
+      internalID: -6317170738820625768
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FreezePickup_27
+      rect:
+        serializedVersion: 2
+        x: 118
+        y: 230
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c9137417957c9a710800000000000000
+      internalID: 1705113120902951324
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FreezePickup_28
+      rect:
+        serializedVersion: 2
+        x: 1131
+        y: 213
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 90db932fee0999010800000000000000
+      internalID: 1196146531984063753
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FreezePickup_29
+      rect:
+        serializedVersion: 2
+        x: 354
+        y: 130
+        width: 38
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8baa53cc4dfdc5a70800000000000000
+      internalID: 8817168275536718520
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FreezePickup_30
+      rect:
+        serializedVersion: 2
+        x: 840
+        y: 134
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e691ddd13d5ad1440800000000000000
+      internalID: 4908261495061420398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FreezePickup_31
+      rect:
+        serializedVersion: 2
+        x: 850
+        y: 135
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7c5034ef8c42ac30800000000000000
+      internalID: 4369138769395211390
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FreezePickup_32
+      rect:
+        serializedVersion: 2
+        x: 852
+        y: 117
+        width: 33
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1027a2c2077c40410800000000000000
+      internalID: 1442497065256645121
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FreezePickup_33
+      rect:
+        serializedVersion: 2
+        x: 394
+        y: 111
+        width: 15
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1cefcf2d6f128ef50800000000000000
+      internalID: 6910810972185493185
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FreezePickup_34
+      rect:
+        serializedVersion: 2
+        x: 754
+        y: 117
+        width: 9
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 50a0469c482254bd0800000000000000
+      internalID: -2646671252300494331
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FreezePickup_35
+      rect:
+        serializedVersion: 2
+        x: 874
+        y: 111
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d1ea7337c4fd13fe0800000000000000
+      internalID: -1210941305342415331
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FreezePickup_36
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 73
+        width: 8
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 934ea7dce875de480800000000000000
+      internalID: -8868335820378282951
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FreezePickup_37
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 79
+        width: 17
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b87eddb5207a0430800000000000000
+      internalID: 3749932947140933811
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FreezePickup_38
+      rect:
+        serializedVersion: 2
+        x: 762
+        y: 20
+        width: 11
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4040294ae3e501ed0800000000000000
+      internalID: -2445350974520163324
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      FreezePickup_0: 2386873404620640959
+      FreezePickup_1: 1092800068312071279
+      FreezePickup_10: 7967141742376769010
+      FreezePickup_11: -8666777446819949906
+      FreezePickup_12: -2709666229532889044
+      FreezePickup_13: 945292167089155133
+      FreezePickup_14: 4999486279410187829
+      FreezePickup_15: -4403932328269174504
+      FreezePickup_16: -697313479744183443
+      FreezePickup_17: -2745372770999697142
+      FreezePickup_18: 2925997775250810332
+      FreezePickup_19: 8543992683222136173
+      FreezePickup_2: 8358471615682054962
+      FreezePickup_20: -4962362585659581002
+      FreezePickup_21: -4476292368233110610
+      FreezePickup_22: -2618747972800631438
+      FreezePickup_23: 1589957332057882817
+      FreezePickup_24: -1677916305186882750
+      FreezePickup_25: 5862895856293178815
+      FreezePickup_26: -6317170738820625768
+      FreezePickup_27: 1705113120902951324
+      FreezePickup_28: 1196146531984063753
+      FreezePickup_29: 8817168275536718520
+      FreezePickup_3: 7650175733075363839
+      FreezePickup_30: 4908261495061420398
+      FreezePickup_31: 4369138769395211390
+      FreezePickup_32: 1442497065256645121
+      FreezePickup_33: 6910810972185493185
+      FreezePickup_34: -2646671252300494331
+      FreezePickup_35: -1210941305342415331
+      FreezePickup_36: -8868335820378282951
+      FreezePickup_37: 3749932947140933811
+      FreezePickup_38: -2445350974520163324
+      FreezePickup_4: -8199631922940230985
+      FreezePickup_5: -214154655926347391
+      FreezePickup_6: -5884906186769182729
+      FreezePickup_7: 4831433074594938533
+      FreezePickup_8: -5142097783339240783
+      FreezePickup_9: 3094713663465415750
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
