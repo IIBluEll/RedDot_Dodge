@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3f10c3c4629ee049bfb7028d40e9df6, type: 3}
+  m_Name: GameBalance
+  m_EditorClassIdentifier: Assembly-CSharp::GameBalance
+  _arenaSize: {x: 16, y: 9}
+  _playerRadius: 0.25
+  _enemyRadius: 0.12
+  _enemyLifetimeSeconds: 45
+  _enemyCapacity: 96
+  _firstWaveDelaySeconds: 2
+  _patterns:
+  - _pattern: {fileID: 11400000, guid: e354b8e20dac4471829d1e05ac2a0ebe, type: 2}
+    _weight: 50
+  - _pattern: {fileID: 11400000, guid: 9f7fb0a91d48455487eee8f1977eafee, type: 2}
+    _weight: 30
+  - _pattern: {fileID: 11400000, guid: c375deae897e4362b5a00b58606435c1, type: 2}
+    _weight: 20
+  - _pattern: {fileID: 11400000, guid: 18d0791550a54354ac8a811a9928d772, type: 2}
+    _weight: 10
+  _stages:
+  - _startSeconds: 0
+    _waveIntervalSeconds: 6
+    _minimumChaseCount: 3
+    _maximumChaseCount: 4
+    _chaseSpeed: 1.2
+    _warningDurationSeconds: 1.5
+    _allowedPatterns: 00000000
+  - _startSeconds: 15
+    _waveIntervalSeconds: 6
+    _minimumChaseCount: 3
+    _maximumChaseCount: 4
+    _chaseSpeed: 1.2
+    _warningDurationSeconds: 1.5
+    _allowedPatterns: 0000000001000000
+  - _startSeconds: 30
+    _waveIntervalSeconds: 5
+    _minimumChaseCount: 4
+    _maximumChaseCount: 6
+    _chaseSpeed: 1.45
+    _warningDurationSeconds: 1.4
+    _allowedPatterns: 000000000100000002000000
+  - _startSeconds: 60
+    _waveIntervalSeconds: 5
+    _minimumChaseCount: 6
+    _maximumChaseCount: 8
+    _chaseSpeed: 1.45
+    _warningDurationSeconds: 1.4
+    _allowedPatterns: 00000000010000000200000003000000
+  - _startSeconds: 120
+    _waveIntervalSeconds: 5
+    _minimumChaseCount: 8
+    _maximumChaseCount: 10
+    _chaseSpeed: 1.45
+    _warningDurationSeconds: 1.4
+    _allowedPatterns: 00000000010000000200000003000000
+  - _startSeconds: 180
+    _waveIntervalSeconds: 5
+    _minimumChaseCount: 8
+    _maximumChaseCount: 10
+    _chaseSpeed: 1.45
+    _warningDurationSeconds: 1.4
+    _allowedPatterns: 00000000010000000200000003000000
