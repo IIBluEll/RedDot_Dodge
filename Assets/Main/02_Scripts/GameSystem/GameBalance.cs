@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using static WAVE_PATTERN;
 
 [Serializable]
@@ -55,8 +56,7 @@ public sealed class GameBalance : ScriptableObject
 {
     [SerializeField] private Vector2 _arenaSize = new Vector2(16f, 9f);
     [SerializeField, Min(0.01f)] private float _playerRadius = 0.25f;
-    [SerializeField, Min(0.01f)] private float _enemyRadius = 0.12f;
-    [SerializeField, Min(0.01f)] private float _enemyLifetimeSeconds = 45f;
+    [SerializeField, Min(0.01f)] private float _enemyRadius = 0.15f;
     [SerializeField, Min(1)] private int _enemyCapacity = 96;
     [SerializeField, Min(0f)] private float _firstWaveDelaySeconds = 2f;
 
@@ -73,13 +73,55 @@ public sealed class GameBalance : ScriptableObject
         new DifficultyStage(180f, 5f, 8, 10, 1.45f, 1.4f, EDGE_CHASE, WALL, ENCIRCLE, ARROW_DASH)
     };
 
+    [Header("Item Supply")]
+    [SerializeField] private Vector2 _firstItemDelaySeconds = new Vector2(4f, 6f);
+    [SerializeField] private Vector2 _itemSpawnIntervalSeconds = new Vector2(3f, 5f);
+    [SerializeField, Min(0.01f)] private float _itemRetrySeconds = 1f;
+    [SerializeField, Min(1)] private int _itemCapacity = 3;
+    [SerializeField, Min(1)] private int _itemPlacementAttempts = 32;
+    [SerializeField, FormerlySerializedAs("_bombPickupRadius"), Min(0.01f)] private float _itemPickupRadius = 0.7f;
+    [SerializeField, FormerlySerializedAs("_bombLifetimeSeconds"), Min(0.01f)] private float _itemLifetimeSeconds = 18f;
+    [SerializeField, Min(0f)] private float _itemDespawnWarningSeconds = 2f;
+    [SerializeField, Min(0.01f)] private float _itemBlinkPeriodSeconds = 0.2f;
+    [SerializeField, Min(0f)] private float _itemMinPlayerDistance = 1.5f;
+    [SerializeField, Min(0f)] private float _itemMinEnemyDistance = 0.6f;
+    [SerializeField, Min(0f)] private float _itemMinPickupDistance = 1.2f;
+
+    [Header("Item Effects")]
+    [SerializeField] private ItemData[] _items =
+    {
+        new ItemData(ITEM_TYPE.BOMB, 1, 2f, 0.35f, 0.35f),
+        new ItemData(ITEM_TYPE.FREEZE, 1, 3.5f, 3f, 0.35f)
+    };
+    [SerializeField, Min(0f)] private float _freezeWarningSeconds = 0.6f;
+
+    [Header("Score")]
+    [SerializeField, Min(1)] private int _baseKillScore = 100;
+    [SerializeField, Min(0.01f)] private float _comboWindowSeconds = 4f;
+
     public Vector2 ArenaSize => _arenaSize;
     public float PlayerRadius => _playerRadius;
     public float EnemyRadius => _enemyRadius;
-    public float EnemyLifetimeSeconds => _enemyLifetimeSeconds;
     public int EnemyCapacity => _enemyCapacity;
     public float FirstWaveDelaySeconds => _firstWaveDelaySeconds;
     public IReadOnlyList<PatternWeight> Patterns => _patterns;
+
+    public Vector2 FirstItemDelaySeconds => _firstItemDelaySeconds;
+    public Vector2 ItemSpawnIntervalSeconds => _itemSpawnIntervalSeconds;
+    public float ItemRetrySeconds => _itemRetrySeconds;
+    public int ItemCapacity => _itemCapacity;
+    public int ItemPlacementAttempts => _itemPlacementAttempts;
+    public float ItemPickupRadius => _itemPickupRadius;
+    public float ItemLifetimeSeconds => _itemLifetimeSeconds;
+    public float ItemDespawnWarningSeconds => _itemDespawnWarningSeconds;
+    public float ItemBlinkPeriodSeconds => _itemBlinkPeriodSeconds;
+    public float ItemMinPlayerDistance => _itemMinPlayerDistance;
+    public float ItemMinEnemyDistance => _itemMinEnemyDistance;
+    public float ItemMinPickupDistance => _itemMinPickupDistance;
+    public IReadOnlyList<ItemData> Items => _items;
+    public float FreezeWarningSeconds => _freezeWarningSeconds;
+    public int BaseKillScore => _baseKillScore;
+    public float ComboWindowSeconds => _comboWindowSeconds;
 
     public DifficultyStage GetStage(float survivalSeconds)
     {
@@ -109,6 +151,7 @@ public sealed class GameBalance : ScriptableObject
 
     public void Validate()
     {
+        ValidateItems();
         if ( _arenaSize.x <= 0f || _arenaSize.y <= 0f )
         {
             throw new InvalidOperationException("경기장 크기를 확인하세요.");
@@ -154,5 +197,36 @@ public sealed class GameBalance : ScriptableObject
 
             previousStartSeconds = stage.StartSeconds;
         }
+    }
+
+    public void ValidateItems()
+    {
+        if (_firstItemDelaySeconds.x < 0f || _firstItemDelaySeconds.y < _firstItemDelaySeconds.x
+            || _itemSpawnIntervalSeconds.x <= 0f || _itemSpawnIntervalSeconds.y < _itemSpawnIntervalSeconds.x
+            || _itemRetrySeconds <= 0f || _itemCapacity < 1 || _itemPlacementAttempts < 1
+            || _itemPickupRadius <= 0f || _itemLifetimeSeconds <= 0f || _itemDespawnWarningSeconds < 0f
+            || _itemDespawnWarningSeconds > _itemLifetimeSeconds || _itemBlinkPeriodSeconds <= 0f
+            || _itemMinPlayerDistance < 0f || _itemMinEnemyDistance < 0f || _itemMinPickupDistance < 0f
+            || _freezeWarningSeconds < 0f || _baseKillScore < 1 || _comboWindowSeconds <= 0f)
+            throw new InvalidOperationException("아이템 공급·배치·점수 설정을 확인하세요.");
+
+        if (_items == null || _items.Length == 0)
+            throw new InvalidOperationException("아이템 설정이 필요합니다.");
+
+        var types = new HashSet<ITEM_TYPE>();
+        long totalWeight = 0;
+        foreach (ItemData item in _items)
+        {
+            if (item == null || !types.Add(item.Type))
+                throw new InvalidOperationException("아이템 설정의 누락과 종류 중복을 확인하세요.");
+
+            item.Validate();
+            if (item.EffectDefinition is ShieldEffectDefinition shield && shield.BurstRadius < shield.ShieldRadius + _enemyRadius)
+                throw new InvalidOperationException("보호막 파괴 폭발은 보호막과 접촉한 적 중심까지 포함해야 합니다.");
+            totalWeight += item.Weight;
+        }
+
+        if (totalWeight <= 0)
+            throw new InvalidOperationException("등장 가중치가 있는 아이템이 필요합니다.");
     }
 }

@@ -8,7 +8,7 @@ public sealed class EnemySpawnPatternPrototype : MonoBehaviour
     private const float ARENA_HALF_WIDTH = 8f;
     private const float ARENA_HALF_HEIGHT = 4.5f;
     private const float PLAYER_RADIUS = 0.25f;
-    private const float ENEMY_RADIUS = 0.12f;
+    private const float ENEMY_RADIUS = 0.15f;
     private const float PLAYER_SPEED = 6f;
     private const float CHASE_SPEED = 1.8f;
     private const float WALL_SPEED = 2.7f;
@@ -33,7 +33,9 @@ public sealed class EnemySpawnPatternPrototype : MonoBehaviour
     private const float INTERCEPT_SPEED = 7f;
     private const float INTERCEPT_COOLDOWN = 1.25f;
     private const float SURVIVAL_DURATION = 10f;
-    private const float ENEMY_SPRITE_WIDTH = 0.36f;
+    private const float ENEMY_SPRITE_WIDTH = 0.45f;
+    private const float WARNING_WIDTH = 0.8f;
+    private const float SPAWN_PADDING = 0.4375f;
     private static readonly Color INTERCEPT_COLOR = new Color32(255, 186, 76, 255);
 
     // Positions are local to the arrow, with +X pointing toward its tip.
@@ -327,13 +329,13 @@ public sealed class EnemySpawnPatternPrototype : MonoBehaviour
     {
         BeginTrial("Arrow dash");
         float side = _playerPosition.x > 0f ? -1f : 1f;
-        _arrowCenter = new Vector2(side * (ARENA_HALF_WIDTH - 2.5f), Random.Range(-1f, 1f));
+        _arrowCenter = new Vector2(side * (ARENA_HALF_WIDTH - 2.15f - SPAWN_PADDING), Random.Range(-1f, 1f));
         _arrowInitialAngle = side > 0f ? 180f : 0f;
         Vector2 inward = Vector2.left * side;
         for (int i = 0; i < ARROW_FORMATION_OFFSETS.Length; i++)
         {
             Vector2 position = GetArrowSlotPosition(ARROW_SCATTER_OFFSETS[i], inward);
-            QueueEnemy(position, position, Vector2.zero);
+            QueueEnemy(position, Vector2.zero);
             SpriteRenderer renderer = ENEMIES[i].Renderer;
             SetSprite(renderer, _enemySprite, ENEMY_SPRITE_WIDTH);
             renderer.color = new Color32(255, 255, 255, 186);
@@ -398,7 +400,7 @@ public sealed class EnemySpawnPatternPrototype : MonoBehaviour
         bool verticalEdge = edge < 2;
         float side = edge % 2 == 0 ? -1f : 1f;
         float edgeDistance = verticalEdge ? ARENA_HALF_WIDTH : ARENA_HALF_HEIGHT;
-        float span = (verticalEdge ? ARENA_HALF_HEIGHT : ARENA_HALF_WIDTH) * 1.6f;
+        float span = ((verticalEdge ? ARENA_HALF_HEIGHT : ARENA_HALF_WIDTH) - SPAWN_PADDING) * 1.6f;
         float segmentWidth = span / enemyCount;
         Vector2 outward = verticalEdge ? new Vector2(side, 0f) : new Vector2(0f, side);
         Vector2 tangent = verticalEdge ? Vector2.up : Vector2.right;
@@ -407,9 +409,8 @@ public sealed class EnemySpawnPatternPrototype : MonoBehaviour
         {
             float offset = -span * 0.5f + (i + Random.Range(0.2f, 0.8f)) * segmentWidth;
             Vector2 alongEdge = tangent * offset;
-            Vector2 spawnPosition = outward * (edgeDistance + Random.Range(0.2f, 0.75f)) + alongEdge;
-            Vector2 warningPosition = outward * (edgeDistance - 0.25f) + alongEdge;
-            QueueEnemy(spawnPosition, warningPosition, Vector2.zero);
+            Vector2 position = outward * (edgeDistance - Random.Range(SPAWN_PADDING, 0.75f)) + alongEdge;
+            QueueEnemy(position, Vector2.zero);
         }
     }
 
@@ -425,9 +426,9 @@ public sealed class EnemySpawnPatternPrototype : MonoBehaviour
             float distanceToSide = ARENA_HALF_WIDTH - Mathf.Abs(startPosition.x);
             float distanceToTopOrBottom = ARENA_HALF_HEIGHT - Mathf.Abs(startPosition.y);
             if (distanceToSide < distanceToTopOrBottom)
-                startPosition.x = Mathf.Sign(startPosition.x) * (ARENA_HALF_WIDTH + ENEMY_RADIUS);
+                startPosition.x = Mathf.Sign(startPosition.x) * (ARENA_HALF_WIDTH - SPAWN_PADDING);
             else
-                startPosition.y = Mathf.Sign(startPosition.y) * (ARENA_HALF_HEIGHT + ENEMY_RADIUS);
+                startPosition.y = Mathf.Sign(startPosition.y) * (ARENA_HALF_HEIGHT - SPAWN_PADDING);
 
             interceptor.Renderer.transform.localPosition = startPosition;
         }
@@ -500,8 +501,8 @@ public sealed class EnemySpawnPatternPrototype : MonoBehaviour
     {
         float gapCenter = Random.Range(-1, 2) * 1.75f;
         float gapHalfSpacing = WALL_GAP_WIDTH * 0.5f + ENEMY_RADIUS;
-        QueueWallSegment(side, -ARENA_HALF_HEIGHT + ENEMY_RADIUS, gapCenter - gapHalfSpacing);
-        QueueWallSegment(side, gapCenter + gapHalfSpacing, ARENA_HALF_HEIGHT - ENEMY_RADIUS);
+        QueueWallSegment(side, -ARENA_HALF_HEIGHT + SPAWN_PADDING, gapCenter - gapHalfSpacing);
+        QueueWallSegment(side, gapCenter + gapHalfSpacing, ARENA_HALF_HEIGHT - SPAWN_PADDING);
     }
 
     private void QueueWallSegment(float side, float minY, float maxY)
@@ -510,9 +511,8 @@ public sealed class EnemySpawnPatternPrototype : MonoBehaviour
         for (int i = 0; i <= intervals; i++)
         {
             float y = Mathf.Lerp(minY, maxY, i / (float)intervals);
-            Vector2 spawnPosition = new Vector2(side * (ARENA_HALF_WIDTH + ENEMY_RADIUS), y);
-            Vector2 warningPosition = new Vector2(side * (ARENA_HALF_WIDTH - 0.25f), y);
-            QueueEnemy(spawnPosition, warningPosition, Vector2.left * (side * WALL_SPEED));
+            Vector2 position = new Vector2(side * (ARENA_HALF_WIDTH - SPAWN_PADDING), y);
+            QueueEnemy(position, Vector2.left * (side * WALL_SPEED));
         }
     }
 
@@ -530,12 +530,12 @@ public sealed class EnemySpawnPatternPrototype : MonoBehaviour
             float angle = gapDirection + Mathf.Lerp(CIRCLE_OPEN_ANGLE * 0.5f, 360f - CIRCLE_OPEN_ANGLE * 0.5f, i / (float)(positions.Length - 1));
             angle *= Mathf.Deg2Rad;
             positions[i] = center + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * CIRCLE_RADIUS;
-            if (!IsInsideArena(positions[i], ENEMY_RADIUS))
+            if (!IsInsideArena(positions[i], SPAWN_PADDING))
                 return false;
         }
 
         foreach (Vector2 position in positions)
-            QueueEnemy(position, position, Vector2.zero);
+            QueueEnemy(position, Vector2.zero);
         return true;
     }
 
@@ -596,7 +596,7 @@ public sealed class EnemySpawnPatternPrototype : MonoBehaviour
 
     private Vector2 GetArrowSlotPosition(Vector2 offset, Vector2 direction)
     {
-        return _arrowCenter + direction * offset.x + Vector2.Perpendicular(direction) * offset.y;
+        return ClampToArena(_arrowCenter + direction * offset.x + Vector2.Perpendicular(direction) * offset.y, SPAWN_PADDING);
     }
 
     private static Vector2 DirectionFromAngle(float angle)
@@ -666,16 +666,17 @@ public sealed class EnemySpawnPatternPrototype : MonoBehaviour
         return (relativeStart + relativeTravel * closestTime).sqrMagnitude <= contactRadius * contactRadius;
     }
 
-    private void QueueEnemy(Vector2 spawnPosition, Vector2 warningPosition, Vector2 velocity)
+    private void QueueEnemy(Vector2 position, Vector2 velocity)
     {
+        position = ClampToArena(position, SPAWN_PADDING);
         if (_spawnCount == ENEMIES.Count)
             ENEMIES.Add(new PreviewEnemy(CreateRenderer($"Enemy {_spawnCount + 1}", 1)));
 
         PreviewEnemy enemy = ENEMIES[_spawnCount++];
-        enemy.SpawnPosition = spawnPosition;
+        enemy.SpawnPosition = position;
         enemy.Velocity = velocity;
-        enemy.Renderer.transform.localPosition = warningPosition;
-        SetSprite(enemy.Renderer, _warningSprite, 0.64f);
+        enemy.Renderer.transform.localPosition = position;
+        SetSprite(enemy.Renderer, _warningSprite, WARNING_WIDTH);
         enemy.Renderer.color = Color.white;
         enemy.Renderer.enabled = true;
     }

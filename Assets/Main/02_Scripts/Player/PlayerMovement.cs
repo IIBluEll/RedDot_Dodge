@@ -20,6 +20,7 @@ public sealed class PlayerMovement : MonoBehaviour
     [SerializeField, Min(0.01f)] private float _wallBounceDeceleration = 18f;
 
     private Camera _inputCamera;
+    private PlayerTrail _playerTrail;
     private bool _useTilt;
     private Vector2? _mouseTarget;
     private Accelerometer _accelerometer;
@@ -43,6 +44,10 @@ public sealed class PlayerMovement : MonoBehaviour
         if (_playerSprite != null)
             GetComponent<SpriteRenderer>().sprite = _playerSprite;
 
+        _playerTrail = GetComponent<PlayerTrail>();
+        if (_playerTrail == null)
+            _playerTrail = gameObject.AddComponent<PlayerTrail>();
+
         _useTilt = Application.isMobilePlatform;
         if (!_useTilt)
             _inputCamera = Camera.main;
@@ -51,6 +56,7 @@ public sealed class PlayerMovement : MonoBehaviour
     private void OnEnable()
     {
         RecenterTilt();
+        ClearTrail();
     }
 
     private void OnDisable()
@@ -75,6 +81,14 @@ public sealed class PlayerMovement : MonoBehaviour
     {
         _tiltNeedsCalibration = true;
         _tiltInput = Vector2.zero;
+    }
+
+    public void ClearTrail()
+    {
+        if (_playerTrail == null)
+            _playerTrail = GetComponent<PlayerTrail>();
+        if (_playerTrail != null)
+            _playerTrail.ClearTrail();
     }
 
     private void Update()
@@ -137,26 +151,38 @@ public sealed class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         float deltaTime = Time.fixedDeltaTime;
+
         Vector3 currentPosition = transform.position;
         Vector2 halfSize = (_gameBalance != null ? _gameBalance.ArenaSize : DEFAULT_ARENA_SIZE) * 0.5f;
+
         float radius = _gameBalance != null ? _gameBalance.PlayerRadius : DEFAULT_PLAYER_RADIUS;
+
         Vector2 limits = Vector2.Max(halfSize - Vector2.one * radius, Vector2.zero);
         Vector2 velocity = _useTilt ? _tiltInput * _maxSpeed : GetMouseVelocity(currentPosition, halfSize, deltaTime);
 
         float x = MoveAlongAxis(currentPosition.x, velocity.x, limits.x, deltaTime, ref _horizontalBounce);
         float y = MoveAlongAxis(currentPosition.y, velocity.y, limits.y, deltaTime, ref _verticalBounce);
-        transform.position = new Vector3(x, y, currentPosition.z);
 
+        transform.position = new Vector3(x, y, currentPosition.z);
         Vector2 movement = new Vector2(x - currentPosition.x, y - currentPosition.y);
+
         if (movement.sqrMagnitude > 0.000001f)
-            transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg - 90f);
+        {
+            transform.rotation = Quaternion.Euler(0f , 0f , Mathf.Atan2(movement.y , movement.x) * Mathf.Rad2Deg - 90f);
+        }
+
+        if (_playerTrail != null)
+        {
+            _playerTrail.RecordMovement(currentPosition , transform.position , _maxSpeed , deltaTime);
+        }
     }
 
     private Vector2 GetMouseVelocity(Vector2 position, Vector2 halfSize, float deltaTime)
     {
         if (!_mouseTarget.HasValue)
+        {
             return Vector2.zero;
-
+        }
         Vector2 cursor = _mouseTarget.Value;
         Vector2 target = new Vector2(Mathf.Clamp(cursor.x, -halfSize.x, halfSize.x), Mathf.Clamp(cursor.y, -halfSize.y, halfSize.y));
         Vector2 offset = target - position;

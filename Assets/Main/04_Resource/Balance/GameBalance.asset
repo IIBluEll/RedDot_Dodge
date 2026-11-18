@@ -14,8 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameBalance
   _arenaSize: {x: 16, y: 9}
   _playerRadius: 0.25
-  _enemyRadius: 0.12
-  _enemyLifetimeSeconds: 45
+  _enemyRadius: 0.15
   _enemyCapacity: 96
   _firstWaveDelaySeconds: 2
   _patterns:
@@ -70,3 +69,43 @@ MonoBehaviour:
     _chaseSpeed: 1.45
     _warningDurationSeconds: 1.4
     _allowedPatterns: 00000000010000000200000003000000
+  _firstItemDelaySeconds: {x: 4, y: 6}
+  _itemSpawnIntervalSeconds: {x: 3, y: 5}
+  _itemRetrySeconds: 1
+  _itemCapacity: 3
+  _itemPlacementAttempts: 32
+  _itemPickupRadius: 0.7
+  _itemLifetimeSeconds: 18
+  _itemDespawnWarningSeconds: 2
+  _itemBlinkPeriodSeconds: 0.2
+  _itemMinPlayerDistance: 1.5
+  _itemMinEnemyDistance: 0.6
+  _itemMinPickupDistance: 1.2
+  _items:
+  - _type: 0
+    _weight: 1
+    _effectDefinition: {fileID: 0}
+    _radius: 2
+    _durationSeconds: 0.35
+    _visualDurationSeconds: 0.35
+  - _type: 1
+    _weight: 1
+    _effectDefinition: {fileID: 0}
+    _radius: 3.5
+    _durationSeconds: 3
+    _visualDurationSeconds: 0.35
+  - _type: 2
+    _weight: 1
+    _effectDefinition: {fileID: 11400000, guid: 6e44b158b9248da46b21925b776d25ed, type: 2}
+    _radius: 0
+    _durationSeconds: 0
+    _visualDurationSeconds: 0
+  - _type: 4
+    _weight: 1
+    _effectDefinition: {fileID: 11400000, guid: 425de376f7d3adf48986407c05679ef9, type: 2}
+    _radius: 0
+    _durationSeconds: 0
+    _visualDurationSeconds: 0
+  _freezeWarningSeconds: 0.6
+  _baseKillScore: 100
+  _comboWindowSeconds: 4
