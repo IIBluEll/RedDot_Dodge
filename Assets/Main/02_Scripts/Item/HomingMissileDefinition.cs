@@ -4,10 +4,10 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "RedDot Dodge/Item Effects/Homing Missiles")]
 public sealed class HomingMissileDefinition : AItemEffectDefinition
 {
-    [SerializeField, Range(1, 16)] private int _missileCount = 5;
+    [SerializeField, Range(1, 16)] private int _missileCount = 4;
     [SerializeField, Min(0.01f)] private float _speed = 9f;
     [SerializeField, Min(0.01f)] private float _turnSpeed = 540f;
-    [SerializeField, Min(0.01f)] private float _lifetimeSeconds = 7.5f;
+    [SerializeField, Min(0.01f)] private float _lifetimeSeconds = 4f;
     [SerializeField, Min(0.01f)] private float _contactRadius = 0.09f;
     [SerializeField, Min(0.01f)] private float _blastRadius = 0.75f;
     [SerializeField, Min(0.01f)] private float _blastDurationSeconds = 0.22f;

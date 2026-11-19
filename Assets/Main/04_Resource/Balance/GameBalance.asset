@@ -26,6 +26,9 @@ MonoBehaviour:
     _weight: 20
   - _pattern: {fileID: 11400000, guid: 18d0791550a54354ac8a811a9928d772, type: 2}
     _weight: 10
+  - _pattern: {fileID: 11400000, guid: 52c96119babe4d9598bded7f1eb864de, type: 2}
+    _weight: 15
+  _interceptorPattern: {fileID: 11400000, guid: bdbd3c2eac72466a9a62eef4c7d430c2, type: 2}
   _stages:
   - _startSeconds: 0
     _waveIntervalSeconds: 6
@@ -47,28 +50,28 @@ MonoBehaviour:
     _maximumChaseCount: 6
     _chaseSpeed: 1.45
     _warningDurationSeconds: 1.4
-    _allowedPatterns: 000000000100000002000000
+    _allowedPatterns: 00000000010000000200000004000000
   - _startSeconds: 60
     _waveIntervalSeconds: 5
     _minimumChaseCount: 6
     _maximumChaseCount: 8
     _chaseSpeed: 1.45
     _warningDurationSeconds: 1.4
-    _allowedPatterns: 00000000010000000200000003000000
+    _allowedPatterns: 0000000001000000020000000300000004000000
   - _startSeconds: 120
     _waveIntervalSeconds: 5
     _minimumChaseCount: 8
     _maximumChaseCount: 10
     _chaseSpeed: 1.45
     _warningDurationSeconds: 1.4
-    _allowedPatterns: 00000000010000000200000003000000
+    _allowedPatterns: 0000000001000000020000000300000004000000
   - _startSeconds: 180
     _waveIntervalSeconds: 5
     _minimumChaseCount: 8
     _maximumChaseCount: 10
     _chaseSpeed: 1.45
     _warningDurationSeconds: 1.4
-    _allowedPatterns: 00000000010000000200000003000000
+    _allowedPatterns: 0000000001000000020000000300000004000000
   _firstItemDelaySeconds: {x: 4, y: 6}
   _itemSpawnIntervalSeconds: {x: 3, y: 5}
   _itemRetrySeconds: 1
@@ -85,14 +88,14 @@ MonoBehaviour:
   - _type: 0
     _weight: 1
     _effectDefinition: {fileID: 0}
-    _radius: 2
+    _radius: 2.4
     _durationSeconds: 0.35
     _visualDurationSeconds: 0.35
   - _type: 1
     _weight: 1
     _effectDefinition: {fileID: 0}
     _radius: 3.5
-    _durationSeconds: 3
+    _durationSeconds: 3.9
     _visualDurationSeconds: 0.35
   - _type: 2
     _weight: 1

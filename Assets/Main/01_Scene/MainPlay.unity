@@ -212,12 +212,12 @@ MonoBehaviour:
     _effectMaterial: {fileID: 0}
     _effectPrefab: {fileID: 6249561502764411210, guid: 0c605d1acc3dbe24097efe5918fc29c3, type: 3}
   - _type: 2
-    _pickupSprite: {fileID: 21300000, guid: 0092778532a07db4ea33f289abce1580, type: 3}
+    _pickupSprite: {fileID: 21300000, guid: 45f933d1fae54b4093d0cafe652ddbe1, type: 3}
     _effectSprites: []
     _effectMaterial: {fileID: 0}
     _effectPrefab: {fileID: 7361920770802528303, guid: 0ef755c883960e644a4212b895655de0, type: 3}
   - _type: 4
-    _pickupSprite: {fileID: 21300000, guid: 624a21776f4f9d84a913aa0a0228d4dc, type: 3}
+    _pickupSprite: {fileID: 21300000, guid: 51cc08fc496444cdba60f7af0089d22f, type: 3}
     _effectSprites: []
     _effectMaterial: {fileID: 0}
     _effectPrefab: {fileID: 2621078456842759494, guid: 069d19138d2943a48a77676aabb9f8fd, type: 3}

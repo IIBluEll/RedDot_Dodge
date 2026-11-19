@@ -33,6 +33,8 @@ public sealed class PlayerMovement : MonoBehaviour
     private WallBounce _horizontalBounce;
     private WallBounce _verticalBounce;
 
+    public float MaximumSpeed => _maxSpeed;
+
     private struct WallBounce
     {
         public float Velocity;

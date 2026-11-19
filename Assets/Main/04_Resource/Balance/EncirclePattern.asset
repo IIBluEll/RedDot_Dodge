@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e43b6193d652c549b2a4b75946bfcbc, type: 3}
   m_Name: EncirclePattern
   m_EditorClassIdentifier: Assembly-CSharp::EncirclePatternData
-  _enemyCount: 8
+  _maxEnemySpacing: 0.68
   _radius: 2.5
   _openingAngleDegrees: 90

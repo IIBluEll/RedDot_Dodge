@@ -265,6 +265,17 @@ public class ItemSystem : MonoBehaviour, IItemSpawnHost
         return killCount;
     }
 
+    public float GetPlayerEnemyContactRadius(float baseRadius)
+    {
+        float radius = baseRadius;
+        foreach (ActiveEffect active in EFFECTS)
+        {
+            if (active.EFFECT is ShieldEffect shield && !shield.IsFinished && !shield.HasBurst)
+                radius = Mathf.Max(radius, shield.ShieldRadius);
+        }
+        return radius;
+    }
+
     public bool TryBlockPlayerHit(PlayerHit hit)
     {
         for (int i = 0; i < EFFECTS.Count; i++)

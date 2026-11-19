@@ -10,6 +10,7 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
     private const float READY_SECONDS = 3f;
     private const float WARNING_WIDTH = 0.8f;
     private const float ENEMY_WIDTH = 0.45f;
+    private static readonly Color INTERCEPT_COLOR = new Color32(255, 186, 76, 255);
 
     [SerializeField] private GameBalance _gameBalance;
     [SerializeField] private PlayerMovement _playerMovement;
@@ -26,7 +27,7 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
     [SerializeField, Min(0.01f)] private float _deathDurationSeconds = 0.32f;
     [SerializeField, Min(0f)] private float _deathShardSpeed = 2.2f;
 
-    private readonly List<SpriteRenderer> WARNING_RENDERERS = new();
+    private readonly List<PendingEnemy> WARNING_ENEMIES = new();
     private readonly List<ActiveEnemy> ACTIVE_ENEMIES = new();
     private readonly Stack<SpriteRenderer> FREE_RENDERERS = new();
 
@@ -38,23 +39,59 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
         public float Speed;
         public float FrozenUntilSeconds;
         public float ActivatedAtSeconds;
+        public WaveState Wave;
+        public ENEMY_MOTION Motion;
+        public Vector2 Direction;
+        public Vector2 Target;
+        public INTERCEPT_PHASE InterceptPhase;
+        public float PhaseRemainingSeconds;
+        public SpriteRenderer PathRenderer;
+        public SpriteRenderer TargetRenderer;
+    }
+
+    private enum INTERCEPT_PHASE { WARNING, MOVING, COOLDOWN }
+
+    private sealed class PendingEnemy
+    {
+        public SpriteRenderer Renderer;
+        public SpriteRenderer PathRenderer;
+        public SpriteRenderer TargetRenderer;
+        public Vector2 Position;
+        public Vector2 Target;
+        public bool AimLocked;
     }
 
     private EnemyWaveDirector _waveDirector;
     private RoundScore _roundScore;
     private WaveState _warningWave;
     private Sprite _warningSprite;
+    private Sprite _pathSprite;
     private EnemyDeathVisuals _deathVisuals;
     private Vector3 _spawnPosition;
     private Quaternion _spawnRotation;
     private Vector2 _previousPlayerPosition;
+    private Vector2 _playerVelocity;
     private float _readyRemainingSeconds;
     private float _survivalSeconds;
+    private float _nextInterceptorAtSeconds;
+    private float _interceptorRetryAtSeconds;
     private bool _roundInProgress;
     private int _nextEnemyId;
 
     public bool HasWarning => _warningWave != null;
-    public bool HasFormation => false;
+    public bool HasFormation => (_warningWave != null && _warningWave.Request.Pattern.IsFormation)
+        || ACTIVE_ENEMIES.Exists(enemy => enemy.Motion == ENEMY_MOTION.LINEAR);
+    public int EnemyCount
+    {
+        get
+        {
+            int count = ACTIVE_ENEMIES.Count;
+            foreach (PendingEnemy enemy in WARNING_ENEMIES)
+                if (enemy != null)
+                    count++;
+            return count;
+        }
+    }
     public long Score => _roundScore?.Score ?? 0L;
     public int Combo => _roundScore?.Combo ?? 0;
     public int MaximumCombo => _roundScore?.MaximumCombo ?? 0;
@@ -85,6 +122,7 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
         _waveDirector = new EnemyWaveDirector(_gameBalance, Random.Range(0, int.MaxValue));
         Rect warningRect = new Rect(0f, 0f, _warningTexture.width, _warningTexture.height);
         _warningSprite = Sprite.Create(_warningTexture, warningRect, Vector2.one * 0.5f, 100f, 0, SpriteMeshType.FullRect);
+        _pathSprite = Sprite.Create(Texture2D.whiteTexture, new Rect(0f, 0f, 1f, 1f), Vector2.one * 0.5f, 1f, 0, SpriteMeshType.FullRect);
         _deathVisuals = new EnemyDeathVisuals(transform);
 
         _spawnPosition = _playerMovement.transform.position;
@@ -119,6 +157,8 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
 
         _survivalSeconds += deltaTime;
         Vector2 playerPosition = _playerMovement.transform.position;
+        Vector2 measuredVelocity = (playerPosition - _previousPlayerPosition) / deltaTime;
+        _playerVelocity = Vector2.Lerp(_playerVelocity, measuredVelocity, 1f - Mathf.Exp(-deltaTime / 0.12f));
         _itemSystem.TickLifetimes(_survivalSeconds);
         _roundScore.Tick(_survivalSeconds);
         TickActiveEnemies(playerPosition, deltaTime);
@@ -134,6 +174,7 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
         if (shatterCount > 0 && _shatterAudio != null)
             _shatterAudio.Play();
         RefreshEnemyVisuals();
+        RetireExitedEnemies();
         _previousPlayerPosition = playerPosition;
 
         if (killCount > 0)
@@ -150,66 +191,108 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
             return;
         }
 
-        _waveDirector.TryStartWave(_survivalSeconds, this, out _);
+        if (!TryStartInterceptor())
+            _waveDirector.TryStartWave(_survivalSeconds, this, out _);
+    }
+
+    private bool TryStartInterceptor()
+    {
+        InterceptorPatternData pattern = _gameBalance.InterceptorPattern;
+        if (pattern == null || HasWarning || _survivalSeconds < _nextInterceptorAtSeconds
+            || _survivalSeconds < _interceptorRetryAtSeconds)
+            return false;
+
+        // 진행 중 예고가 끝난 뒤 우선 등록합니다. 상한·배치 실패 시 한 기만 대기시킵니다.
+        _interceptorRetryAtSeconds = _survivalSeconds + 1f;
+        var request = new WaveRequest(pattern, _gameBalance.GetStage(_survivalSeconds), 0);
+        WavePlan plan = BuildWavePlan(request);
+        if (plan == null || !TryBeginWave(new WaveState(request, plan, _survivalSeconds), _gameBalance.EnemyCapacity))
+            return false;
+
+        float interval = Mathf.Max(1f, pattern.SpawnIntervalSeconds);
+        // 늦게 등장해도 원래 60초 단위를 유지하며 밀린 적을 몰아서 생성하지 않습니다.
+        _nextInterceptorAtSeconds = (Mathf.Floor(_survivalSeconds / interval) + 1f) * interval;
+        _interceptorRetryAtSeconds = 0f;
+        return true;
     }
 
     public WavePlan BuildWavePlan(WaveRequest request)
     {
-        if (request.Pattern is not EdgeChasePatternData pattern)
-            return null;
-
-        int edge = Random.Range(0, 4);
-        bool verticalEdge = edge < 2;
-        float side = edge % 2 == 0 ? -1f : 1f;
-        Vector2 outward = verticalEdge ? Vector2.right * side : Vector2.up * side;
-        Vector2 tangent = verticalEdge ? Vector2.up : Vector2.right;
-        Vector2 halfSize = _gameBalance.ArenaSize * 0.5f;
         Vector2 limits = GetSpawnLimits();
-        if (limits.x <= 0f || limits.y <= 0f || request.ChaseCount <= 0)
+        if (limits.x <= 0f || limits.y <= 0f)
             return null;
-
-        float edgeDistance = verticalEdge ? halfSize.x : halfSize.y;
-        float edgeLength = (verticalEdge ? limits.y : limits.x) * 2f;
-        float span = edgeLength * Mathf.Clamp01(pattern.EdgeCoverage);
-        float segmentWidth = span / request.ChaseCount;
-        float padding = halfSize.x - limits.x;
-        float minimumInset = Mathf.Min(edgeDistance, Mathf.Max(padding, pattern.MinimumSpawnInset));
-        float maximumInset = Mathf.Min(edgeDistance, Mathf.Max(minimumInset, pattern.MaximumSpawnInset));
-        var placements = new EnemyPlacement[request.ChaseCount];
-
-        for (int i = 0; i < placements.Length; i++)
+        for (int attempt = 0; attempt < 16; attempt++)
         {
-            float offset = -span * 0.5f + (i + Random.Range(0.2f, 0.8f)) * segmentWidth;
-            float inset = Random.Range(minimumInset, maximumInset);
-            Vector2 alongEdge = tangent * offset;
-            Vector2 position = alongEdge + outward * (edgeDistance - inset);
-            placements[i] = new EnemyPlacement(position, position);
+            WavePlan plan = EnemyWaveLayouts.Build(request, _gameBalance, limits, _playerMovement.transform.position);
+            if (plan != null && EnemyCount + plan.EnemyCount <= _gameBalance.EnemyCapacity && HasEscapeRoute(request, plan))
+                return plan;
         }
+        return null;
+    }
 
-        return new WavePlan(placements, outward * edgeDistance, -outward);
+    private bool HasEscapeRoute(WaveRequest request, WavePlan plan)
+    {
+        Vector2 start = _playerMovement.transform.position;
+        float radius = _gameBalance.PlayerRadius + _gameBalance.EnemyRadius + 0.05f;
+        Vector2 playerLimits = _gameBalance.ArenaSize * 0.5f - Vector2.one * _gameBalance.PlayerRadius;
+        // 예고 종료까지 직선 회피 후보를 검사합니다. 이후의 생존을 보장하는 경로 탐색은 아닙니다.
+        for (int route = 0; route < 16; route++)
+        {
+            float angle = route * Mathf.PI * 2f / 16f;
+            Vector2 destination = start + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * 3f;
+            if (!EnemyWaveLayouts.Inside(destination, playerLimits))
+                continue;
+            bool clear = true;
+            for (int step = 1; step <= 16 && clear; step++)
+            {
+                float time = request.WarningDurationSeconds * step / 16f;
+                Vector2 position = Vector2.MoveTowards(start, destination, _playerMovement.MaximumSpeed * time);
+                foreach (ActiveEnemy enemy in ACTIVE_ENEMIES)
+                {
+                    Vector2 predicted = enemy.Renderer.transform.position;
+                    float movingTime = Mathf.Max(0f, time - Mathf.Max(0f, enemy.FrozenUntilSeconds - _survivalSeconds));
+                    if (enemy.Motion == ENEMY_MOTION.LINEAR)
+                        predicted += enemy.Direction * (enemy.Speed * movingTime);
+                    else
+                        predicted = Vector2.MoveTowards(predicted, enemy.Motion == ENEMY_MOTION.INTERCEPTOR ? enemy.Target : position, enemy.Speed * movingTime);
+                    if ((position - predicted).sqrMagnitude < radius * radius)
+                    {
+                        clear = false;
+                        break;
+                    }
+                }
+                if (step != 16)
+                    continue;
+                foreach (EnemyPlacement placement in plan.Placements)
+                {
+                    if (placement.WarningDelaySeconds == 0f && (position - placement.SpawnPosition).sqrMagnitude < radius * radius)
+                    {
+                        clear = false;
+                        break;
+                    }
+                }
+            }
+            if (clear)
+                return true;
+        }
+        return false;
     }
 
     public bool TryBeginWave(WaveState wave, int enemyCapacity)
     {
-        if (HasWarning || ACTIVE_ENEMIES.Count + wave.Plan.EnemyCount > enemyCapacity)
+        if (HasWarning || EnemyCount + wave.Plan.EnemyCount > enemyCapacity)
             return false;
-
-        Vector2 limits = GetSpawnLimits();
         foreach (EnemyPlacement placement in wave.Plan.Placements)
-        {
-            if (Mathf.Abs(placement.SpawnPosition.x) > limits.x || Mathf.Abs(placement.SpawnPosition.y) > limits.y
-                || Mathf.Abs(placement.WarningPosition.x) > limits.x || Mathf.Abs(placement.WarningPosition.y) > limits.y)
+            if (!EnemyWaveLayouts.Inside(placement.SpawnPosition, GetSpawnLimits())
+                || !EnemyWaveLayouts.Inside(placement.WarningPosition, GetSpawnLimits()))
                 return false;
-        }
-
         _warningWave = wave;
         foreach (EnemyPlacement placement in wave.Plan.Placements)
         {
             SpriteRenderer renderer = RentRenderer();
-            ShowSprite(renderer, _warningSprite, placement.WarningPosition, WARNING_WIDTH);
-            WARNING_RENDERERS.Add(renderer);
+            renderer.enabled = false;
+            WARNING_ENEMIES.Add(new PendingEnemy { Renderer = renderer, Position = placement.SpawnPosition });
         }
-
         RefreshWarningVisuals();
         return true;
     }
@@ -221,47 +304,110 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
         return _gameBalance.ArenaSize * 0.5f - Vector2.one * padding;
     }
 
+    private float GetWarningDuration(EnemyPlacement placement)
+    {
+        return _warningWave.Request.GetWarningDuration(placement);
+    }
+
     private void RefreshWarningVisuals()
     {
         if (!HasWarning)
             return;
-
+        _warningWave.TryLockArrowAim(_survivalSeconds, _playerMovement.transform.position);
         float elapsed = Mathf.Max(0f, _survivalSeconds - _warningWave.WarningStartedAtSeconds);
-        float duration = Mathf.Max(0.01f, _warningWave.Request.WarningDurationSeconds);
-        float progress = Mathf.Clamp01(elapsed / duration);
-        float startFrequency = 1f / Mathf.Max(0.01f, _spawnBlinkStartInterval);
-        float endFrequency = 1f / Mathf.Max(0.01f, _spawnBlinkEndInterval);
-        float cycles = startFrequency * elapsed + (endFrequency - startFrequency) * elapsed * progress * 0.5f;
-        float pulse = (1f - Mathf.Cos(cycles * Mathf.PI * 2f)) * 0.5f;
-        float alpha = Mathf.Lerp(0.18f, 1f, pulse) * Mathf.Lerp(0.4f, 1f, Mathf.Clamp01(elapsed / 0.12f));
-        float scale = Mathf.Lerp(0.85f, 1f, progress) + pulse * 0.08f;
-
-        for (int i = 0; i < WARNING_RENDERERS.Count; i++)
+        for (int i = 0; i < WARNING_ENEMIES.Count; i++)
         {
-            SpriteRenderer renderer = WARNING_RENDERERS[i];
-            ShowSprite(renderer, _warningSprite, _warningWave.Plan.Placements[i].WarningPosition, WARNING_WIDTH * scale);
-            renderer.color = new Color(1f, 1f, 1f, alpha);
+            PendingEnemy pending = WARNING_ENEMIES[i];
+            if (pending == null)
+                continue;
+            EnemyPlacement placement = _warningWave.Plan.Placements[i];
+            float localElapsed = elapsed - placement.WarningDelaySeconds;
+            if (localElapsed < 0f)
+                continue;
+            if (placement.Motion == ENEMY_MOTION.INTERCEPTOR && !pending.AimLocked)
+            {
+                var data = (InterceptorPatternData)_warningWave.Request.Pattern;
+                pending.Target = PredictInterceptTarget(data);
+                pending.Position = EnemyWaveLayouts.InterceptorStart(pending.Target, GetSpawnLimits());
+                pending.PathRenderer = RentRenderer();
+                pending.TargetRenderer = RentRenderer();
+                pending.AimLocked = true;
+                ShowInterceptWarning(pending.PathRenderer, pending.TargetRenderer, pending.Position, pending.Target);
+            }
+            if (_warningWave.Request.Pattern is ArrowDashPatternData arrow)
+            {
+                ArrowSlot slot = arrow.Slots[i];
+                float gather = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(elapsed / arrow.GatherDurationSeconds));
+                Vector2 offset = Vector2.Lerp(slot.ScatteredOffset, slot.FormationOffset, gather);
+                Vector2 direction = _warningWave.Plan.InitialDirection;
+                if (_warningWave.LockedAimDirection.HasValue)
+                {
+                    float turn = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01((elapsed - arrow.GatherDurationSeconds) / arrow.TurnDurationSeconds));
+                    float from = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                    Vector2 locked = _warningWave.LockedAimDirection.Value;
+                    float angle = Mathf.LerpAngle(from, Mathf.Atan2(locked.y, locked.x) * Mathf.Rad2Deg, turn) * Mathf.Deg2Rad;
+                    direction = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+                }
+                pending.Position = _warningWave.Plan.Anchor + EnemyWaveLayouts.Rotate(offset, direction);
+            }
+            float progress = Mathf.Clamp01(localElapsed / Mathf.Max(0.01f, GetWarningDuration(placement)));
+            float startFrequency = 1f / Mathf.Max(0.01f, _spawnBlinkStartInterval);
+            float endFrequency = 1f / Mathf.Max(0.01f, _spawnBlinkEndInterval);
+            float cycles = localElapsed * (startFrequency + (endFrequency - startFrequency) * progress * 0.5f);
+            float pulse = (1f - Mathf.Cos(cycles * Mathf.PI * 2f)) * 0.5f;
+            ShowSprite(pending.Renderer, _warningSprite, pending.Position, WARNING_WIDTH * (Mathf.Lerp(0.85f, 1f, progress) + pulse * 0.08f));
+            Color color = placement.Motion == ENEMY_MOTION.INTERCEPTOR ? INTERCEPT_COLOR : Color.white;
+            color.a = Mathf.Lerp(0.18f, 1f, pulse) * Mathf.Lerp(0.4f, 1f, Mathf.Clamp01(localElapsed / 0.12f));
+            pending.Renderer.color = color;
         }
     }
 
     private void ActivateWarning()
     {
-        if (!HasWarning || !_warningWave.TryActivate(_survivalSeconds))
+        if (!HasWarning)
             return;
-
-        float speed = _warningWave.Request.Stage.ChaseSpeed;
-
-        for (int i = 0; i < WARNING_RENDERERS.Count; i++)
+        float elapsed = _survivalSeconds - _warningWave.WarningStartedAtSeconds;
+        bool remaining = false;
+        for (int i = 0; i < WARNING_ENEMIES.Count; i++)
         {
-            SpriteRenderer renderer = WARNING_RENDERERS[i];
-            ShowSprite(renderer, _enemySprite, _warningWave.Plan.Placements[i].SpawnPosition, ENEMY_WIDTH);
-            Vector2 spawnPosition = _warningWave.Plan.Placements[i].SpawnPosition;
-            renderer.color = Color.white;
-            ACTIVE_ENEMIES.Add(new ActiveEnemy { Id = ++_nextEnemyId, Renderer = renderer, PreviousPosition = spawnPosition, Speed = speed, ActivatedAtSeconds = _survivalSeconds });
+            PendingEnemy pending = WARNING_ENEMIES[i];
+            if (pending == null)
+                continue;
+            EnemyPlacement placement = _warningWave.Plan.Placements[i];
+            if (elapsed + 0.0001f < placement.WarningDelaySeconds + GetWarningDuration(placement))
+            {
+                remaining = true;
+                continue;
+            }
+            float speed = _warningWave.Request.Stage.ChaseSpeed;
+            if (placement.Motion == ENEMY_MOTION.LINEAR)
+                speed = _warningWave.Request.Pattern is ArrowDashPatternData arrow ? arrow.DashSpeed : speed * ((WallPatternData)_warningWave.Request.Pattern).SpeedMultiplier;
+            else if (placement.Motion == ENEMY_MOTION.INTERCEPTOR)
+                speed = ((InterceptorPatternData)_warningWave.Request.Pattern).DashSpeed;
+            Sprite sprite = placement.Motion == ENEMY_MOTION.INTERCEPTOR ? _pathSprite : _enemySprite;
+            ShowSprite(pending.Renderer, sprite, pending.Position, ENEMY_WIDTH);
+            pending.Renderer.color = placement.Motion == ENEMY_MOTION.INTERCEPTOR ? INTERCEPT_COLOR : Color.white;
+            pending.Renderer.transform.rotation = placement.Motion == ENEMY_MOTION.INTERCEPTOR ? Quaternion.Euler(0f, 0f, 45f) : Quaternion.identity;
+            if (pending.PathRenderer != null)
+                pending.PathRenderer.enabled = false;
+            ACTIVE_ENEMIES.Add(new ActiveEnemy
+            {
+                Id = ++_nextEnemyId, Renderer = pending.Renderer, PreviousPosition = pending.Position,
+                Speed = speed, ActivatedAtSeconds = _survivalSeconds, Wave = _warningWave,
+                Motion = placement.Motion, Direction = _warningWave.LockedAimDirection ?? _warningWave.Plan.InitialDirection,
+                Target = pending.Target, InterceptPhase = INTERCEPT_PHASE.MOVING,
+                PathRenderer = pending.PathRenderer, TargetRenderer = pending.TargetRenderer
+            });
+            WARNING_ENEMIES[i] = null;
         }
-
-        WARNING_RENDERERS.Clear();
-        _warningWave = null;
+        if (!remaining)
+        {
+            _warningWave.TryActivate(Mathf.Max(_survivalSeconds, _warningWave.WarningEndsAtSeconds));
+            if (!ACTIVE_ENEMIES.Exists(enemy => enemy.Wave == _warningWave))
+                _warningWave.Finish();
+            WARNING_ENEMIES.Clear();
+            _warningWave = null;
+        }
     }
 
     private void TickActiveEnemies(Vector2 playerPosition, float deltaTime)
@@ -273,9 +419,82 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
             if (_survivalSeconds >= enemy.FrozenUntilSeconds)
             {
                 enemy.FrozenUntilSeconds = 0f;
-                enemy.Renderer.transform.position = Vector2.MoveTowards(enemy.PreviousPosition, playerPosition, enemy.Speed * deltaTime);
+                if (enemy.Motion == ENEMY_MOTION.INTERCEPTOR)
+                    TickInterceptor(ref enemy, deltaTime);
+                else if (enemy.Motion == ENEMY_MOTION.LINEAR)
+                    enemy.Renderer.transform.position = enemy.PreviousPosition + enemy.Direction * (enemy.Speed * deltaTime);
+                else
+                    enemy.Renderer.transform.position = Vector2.MoveTowards(enemy.PreviousPosition, playerPosition, enemy.Speed * deltaTime);
+            }
+            else if (enemy.PathRenderer != null)
+            {
+                enemy.PathRenderer.enabled = false;
+                enemy.TargetRenderer.enabled = false;
             }
             ACTIVE_ENEMIES[i] = enemy;
+        }
+    }
+
+    private Vector2 PredictInterceptTarget(InterceptorPatternData data)
+    {
+        Vector2 target = (Vector2)_playerMovement.transform.position + _playerVelocity * data.LookaheadSeconds;
+        Vector2 limits = _gameBalance.ArenaSize * 0.5f - Vector2.one * _gameBalance.PlayerRadius;
+        return new Vector2(Mathf.Clamp(target.x, -limits.x, limits.x), Mathf.Clamp(target.y, -limits.y, limits.y));
+    }
+
+    private void ShowInterceptWarning(SpriteRenderer pathRenderer, SpriteRenderer targetRenderer, Vector2 start, Vector2 target)
+    {
+        Vector2 delta = target - start;
+        ShowSprite(pathRenderer, _pathSprite, (start + target) * 0.5f, 1f);
+        pathRenderer.transform.localScale = new Vector3(delta.magnitude, 0.06f, 1f);
+        pathRenderer.transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(delta.y, delta.x) * Mathf.Rad2Deg);
+        pathRenderer.color = new Color(INTERCEPT_COLOR.r, INTERCEPT_COLOR.g, INTERCEPT_COLOR.b, 0.6f);
+        ShowSprite(targetRenderer, _warningSprite, target, 0.48f);
+        targetRenderer.color = INTERCEPT_COLOR;
+    }
+
+    private void TickInterceptor(ref ActiveEnemy enemy, float deltaTime)
+    {
+        var data = (InterceptorPatternData)enemy.Wave.Request.Pattern;
+        if (enemy.InterceptPhase == INTERCEPT_PHASE.MOVING)
+        {
+            enemy.Renderer.transform.position = Vector2.MoveTowards(enemy.PreviousPosition, enemy.Target, enemy.Speed * deltaTime);
+            enemy.TargetRenderer.enabled = true;
+            if (((Vector2)enemy.Renderer.transform.position - enemy.Target).sqrMagnitude <= 0.000001f)
+            {
+                enemy.TargetRenderer.enabled = false;
+                enemy.InterceptPhase = INTERCEPT_PHASE.COOLDOWN;
+                enemy.PhaseRemainingSeconds = data.CooldownSeconds;
+            }
+            return;
+        }
+        if (enemy.InterceptPhase == INTERCEPT_PHASE.WARNING)
+            ShowInterceptWarning(enemy.PathRenderer, enemy.TargetRenderer, enemy.PreviousPosition, enemy.Target);
+        enemy.PhaseRemainingSeconds -= deltaTime;
+        if (enemy.PhaseRemainingSeconds > 0f)
+            return;
+        if (enemy.InterceptPhase == INTERCEPT_PHASE.COOLDOWN)
+        {
+            enemy.Target = PredictInterceptTarget(data);
+            enemy.InterceptPhase = INTERCEPT_PHASE.WARNING;
+            enemy.PhaseRemainingSeconds = data.WarningDurationSeconds;
+            ShowInterceptWarning(enemy.PathRenderer, enemy.TargetRenderer, enemy.PreviousPosition, enemy.Target);
+        }
+        else
+        {
+            enemy.PathRenderer.enabled = false;
+            enemy.InterceptPhase = INTERCEPT_PHASE.MOVING;
+        }
+    }
+
+    private void RetireExitedEnemies()
+    {
+        Vector2 limits = _gameBalance.ArenaSize * 0.5f + Vector2.one * _gameBalance.EnemyRadius;
+        for (int i = ACTIVE_ENEMIES.Count - 1; i >= 0; i--)
+        {
+            ActiveEnemy enemy = ACTIVE_ENEMIES[i];
+            if (enemy.Motion == ENEMY_MOTION.LINEAR && !EnemyWaveLayouts.Inside(enemy.Renderer.transform.position, limits))
+                RemoveEnemy(i);
         }
     }
 
@@ -399,10 +618,11 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
     private bool ResolvePlayerContact(Vector2 playerPosition, out int shatterCount)
     {
         shatterCount = 0;
+        float playerRadius = _itemSystem.GetPlayerEnemyContactRadius(_gameBalance.PlayerRadius);
 
         foreach (ActiveEnemy enemy in ACTIVE_ENEMIES)
         {
-            if (!TouchesPlayer(enemy, playerPosition) || enemy.FrozenUntilSeconds > _survivalSeconds)
+            if (!TouchesPlayer(enemy, playerPosition, playerRadius) || enemy.FrozenUntilSeconds > _survivalSeconds)
                 continue;
 
             var hit = new PlayerHit(playerPosition, enemy.Renderer.transform.position, _survivalSeconds);
@@ -413,7 +633,7 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
         for (int i = ACTIVE_ENEMIES.Count - 1; i >= 0; i--)
         {
             ActiveEnemy enemy = ACTIVE_ENEMIES[i];
-            if (enemy.FrozenUntilSeconds <= _survivalSeconds || !TouchesPlayer(enemy, playerPosition))
+            if (enemy.FrozenUntilSeconds <= _survivalSeconds || !TouchesPlayer(enemy, playerPosition, playerRadius))
                 continue;
 
             KillEnemy(i);
@@ -423,12 +643,12 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
         return false;
     }
 
-    private bool TouchesPlayer(ActiveEnemy enemy, Vector2 playerPosition)
+    private bool TouchesPlayer(ActiveEnemy enemy, Vector2 playerPosition, float playerRadius)
     {
         Vector2 enemyPosition = enemy.Renderer.transform.position;
         Vector2 relativeStart = enemy.PreviousPosition - _previousPlayerPosition;
         Vector2 relativeEnd = enemyPosition - playerPosition;
-        float radius = _gameBalance.PlayerRadius + _gameBalance.EnemyRadius;
+        float radius = playerRadius + _gameBalance.EnemyRadius;
         return ItemGeometry.DistanceToSegmentSquared(Vector2.zero, relativeStart, relativeEnd) <= radius * radius;
     }
 
@@ -439,10 +659,13 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
             float remainingSeconds = enemy.FrozenUntilSeconds - _survivalSeconds;
             bool frozen = remainingSeconds > 0f;
             Sprite frozenSprite = _itemSystem.FrozenEnemySprite;
-            Sprite sprite = frozen && frozenSprite != null ? frozenSprite : _enemySprite;
+            Sprite sprite = frozen && frozenSprite != null ? frozenSprite
+                : enemy.Motion == ENEMY_MOTION.INTERCEPTOR ? _pathSprite : _enemySprite;
             float reveal = Mathf.Clamp01((_survivalSeconds - enemy.ActivatedAtSeconds) / Mathf.Max(0.01f, _spawnRevealSeconds));
             ShowSprite(enemy.Renderer, sprite, enemy.Renderer.transform.position, ENEMY_WIDTH * Mathf.Lerp(0.72f, 1f, reveal));
-            Color color = frozen && frozenSprite == null ? Color.cyan : Color.white;
+            enemy.Renderer.transform.rotation = !frozen && enemy.Motion == ENEMY_MOTION.INTERCEPTOR ? Quaternion.Euler(0f, 0f, 45f) : Quaternion.identity;
+            Color color = frozen ? (frozenSprite == null ? Color.cyan : Color.white)
+                : enemy.Motion == ENEMY_MOTION.INTERCEPTOR ? INTERCEPT_COLOR : Color.white;
             if (!frozen)
                 color *= Mathf.Lerp(1.7f, 1f, reveal);
             color.a = 1f;
@@ -458,11 +681,22 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
     {
         ActiveEnemy enemy = ACTIVE_ENEMIES[index];
         bool frozen = enemy.FrozenUntilSeconds > _survivalSeconds;
-        Sprite deathSprite = frozen && _itemSystem.FrozenEnemySprite != null ? _itemSystem.FrozenEnemySprite : _enemySprite;
+        Sprite deathSprite = frozen && _itemSystem.FrozenEnemySprite != null ? _itemSystem.FrozenEnemySprite
+            : enemy.Motion == ENEMY_MOTION.INTERCEPTOR ? _pathSprite : _enemySprite;
         _deathVisuals?.Play(enemy.Renderer.transform.position, deathSprite, ENEMY_WIDTH, frozen,
             _deathShardCount, _deathDurationSeconds, _deathShardSpeed);
+        RemoveEnemy(index);
+    }
+
+    private void RemoveEnemy(int index)
+    {
+        ActiveEnemy enemy = ACTIVE_ENEMIES[index];
         ReturnRenderer(enemy.Renderer);
+        ReturnRenderer(enemy.PathRenderer);
+        ReturnRenderer(enemy.TargetRenderer);
         ACTIVE_ENEMIES.RemoveAt(index);
+        if (!ACTIVE_ENEMIES.Exists(other => other.Wave == enemy.Wave) && enemy.Wave != _warningWave)
+            enemy.Wave?.Finish();
     }
 
     public bool IsItemPositionClear(Vector2 position, float enemyDistance)
@@ -477,9 +711,13 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
 
         if (_warningWave != null)
         {
-            foreach (EnemyPlacement placement in _warningWave.Plan.Placements)
+            for (int i = 0; i < WARNING_ENEMIES.Count; i++)
             {
-                if ((position - placement.WarningPosition).sqrMagnitude < distanceSquared
+                PendingEnemy pending = WARNING_ENEMIES[i];
+                if (pending == null)
+                    continue;
+                EnemyPlacement placement = _warningWave.Plan.Placements[i];
+                if ((position - pending.Position).sqrMagnitude < distanceSquared
                     || (position - placement.SpawnPosition).sqrMagnitude < distanceSquared)
                     return false;
             }
@@ -497,14 +735,26 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
         _playerMovement.transform.SetPositionAndRotation(_spawnPosition, _spawnRotation);
         _playerMovement.ClearTrail();
         _previousPlayerPosition = _spawnPosition;
+        _playerVelocity = Vector2.zero;
 
-        foreach (SpriteRenderer renderer in WARNING_RENDERERS)
-            ReturnRenderer(renderer);
+        foreach (PendingEnemy pending in WARNING_ENEMIES)
+        {
+            if (pending == null)
+                continue;
+            ReturnRenderer(pending.Renderer);
+            ReturnRenderer(pending.PathRenderer);
+            ReturnRenderer(pending.TargetRenderer);
+        }
 
         foreach (ActiveEnemy enemy in ACTIVE_ENEMIES)
+        {
             ReturnRenderer(enemy.Renderer);
+            ReturnRenderer(enemy.PathRenderer);
+            ReturnRenderer(enemy.TargetRenderer);
+            enemy.Wave?.Finish();
+        }
 
-        WARNING_RENDERERS.Clear();
+        WARNING_ENEMIES.Clear();
         ACTIVE_ENEMIES.Clear();
         _nextEnemyId = 0;
         _warningWave?.Finish();
@@ -512,6 +762,9 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
 
         _waveDirector.Reset(Random.Range(0, int.MaxValue));
         _survivalSeconds = 0f;
+        _nextInterceptorAtSeconds = _gameBalance.InterceptorPattern != null
+            ? Mathf.Max(1f, _gameBalance.InterceptorPattern.SpawnIntervalSeconds) : float.PositiveInfinity;
+        _interceptorRetryAtSeconds = 0f;
         _readyRemainingSeconds = READY_SECONDS;
         _roundInProgress = true;
 
@@ -537,8 +790,11 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
 
     private void ReturnRenderer(SpriteRenderer renderer)
     {
+        if (renderer == null)
+            return;
         renderer.enabled = false;
         renderer.color = Color.white;
+        renderer.transform.rotation = Quaternion.identity;
         FREE_RENDERERS.Push(renderer);
     }
 
@@ -555,5 +811,7 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
         _deathVisuals?.Dispose();
         if (_warningSprite != null)
             Destroy(_warningSprite);
+        if (_pathSprite != null)
+            Destroy(_pathSprite);
     }
 }

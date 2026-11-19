@@ -61,16 +61,17 @@ public sealed class GameBalance : ScriptableObject
     [SerializeField, Min(0f)] private float _firstWaveDelaySeconds = 2f;
 
     [SerializeField] private PatternWeight[] _patterns = Array.Empty<PatternWeight>();
+    [SerializeField] private InterceptorPatternData _interceptorPattern;
 
     [SerializeField]
     private DifficultyStage[] _stages =
     {
         new DifficultyStage(0f, 6f, 3, 4, 1.2f, 1.5f, EDGE_CHASE),
         new DifficultyStage(15f, 6f, 3, 4, 1.2f, 1.5f, EDGE_CHASE, WALL),
-        new DifficultyStage(30f, 5f, 4, 6, 1.45f, 1.4f, EDGE_CHASE, WALL, ENCIRCLE),
-        new DifficultyStage(60f, 5f, 6, 8, 1.45f, 1.4f, EDGE_CHASE, WALL, ENCIRCLE, ARROW_DASH),
-        new DifficultyStage(120f, 5f, 8, 10, 1.45f, 1.4f, EDGE_CHASE, WALL, ENCIRCLE, ARROW_DASH),
-        new DifficultyStage(180f, 5f, 8, 10, 1.45f, 1.4f, EDGE_CHASE, WALL, ENCIRCLE, ARROW_DASH)
+        new DifficultyStage(30f, 5f, 4, 6, 1.45f, 1.4f, EDGE_CHASE, WALL, ENCIRCLE, CHASE_WALL),
+        new DifficultyStage(60f, 5f, 6, 8, 1.45f, 1.4f, EDGE_CHASE, WALL, ENCIRCLE, ARROW_DASH, CHASE_WALL),
+        new DifficultyStage(120f, 5f, 8, 10, 1.45f, 1.4f, EDGE_CHASE, WALL, ENCIRCLE, ARROW_DASH, CHASE_WALL),
+        new DifficultyStage(180f, 5f, 8, 10, 1.45f, 1.4f, EDGE_CHASE, WALL, ENCIRCLE, ARROW_DASH, CHASE_WALL)
     };
 
     [Header("Item Supply")]
@@ -90,8 +91,8 @@ public sealed class GameBalance : ScriptableObject
     [Header("Item Effects")]
     [SerializeField] private ItemData[] _items =
     {
-        new ItemData(ITEM_TYPE.BOMB, 1, 2f, 0.35f, 0.35f),
-        new ItemData(ITEM_TYPE.FREEZE, 1, 3.5f, 3f, 0.35f)
+        new ItemData(ITEM_TYPE.BOMB, 1, 2.4f, 0.35f, 0.35f),
+        new ItemData(ITEM_TYPE.FREEZE, 1, 3.5f, 3.9f, 0.35f)
     };
     [SerializeField, Min(0f)] private float _freezeWarningSeconds = 0.6f;
 
@@ -105,6 +106,7 @@ public sealed class GameBalance : ScriptableObject
     public int EnemyCapacity => _enemyCapacity;
     public float FirstWaveDelaySeconds => _firstWaveDelaySeconds;
     public IReadOnlyList<PatternWeight> Patterns => _patterns;
+    public InterceptorPatternData InterceptorPattern => _interceptorPattern;
 
     public Vector2 FirstItemDelaySeconds => _firstItemDelaySeconds;
     public Vector2 ItemSpawnIntervalSeconds => _itemSpawnIntervalSeconds;

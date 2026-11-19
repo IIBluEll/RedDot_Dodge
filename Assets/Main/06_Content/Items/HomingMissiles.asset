@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: HomingMissiles
   m_EditorClassIdentifier: Assembly-CSharp::HomingMissileDefinition
   _priority: 0
-  _missileCount: 5
+  _missileCount: 4
   _speed: 9
   _turnSpeed: 540
-  _lifetimeSeconds: 7.5
+  _lifetimeSeconds: 4
   _contactRadius: 0.09
   _blastRadius: 0.75
   _blastDurationSeconds: 0.22

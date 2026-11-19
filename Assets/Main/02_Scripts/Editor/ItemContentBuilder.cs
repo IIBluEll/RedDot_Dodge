@@ -23,7 +23,7 @@ public static class ItemContentBuilder
         EnsureFolder(CONTENT_PATH);
         EnsureFolder(ART_PATH);
         EnsureFolder(AUDIO_PATH);
-        Sprite icon = CreateShieldSprite("pickup_shield", false);
+        Sprite icon = ItemPickupIconBuilder.ImportSprite(ItemPickupIconBuilder.SHIELD_PATH);
         Sprite membrane = CreateShieldSprite("shield_membrane", true);
         AudioClip bombAudio = CreateSound("BombBlast", 0);
         AudioClip freezeAudio = CreateSound("FreezeWave", 1);
@@ -51,8 +51,8 @@ public static class ItemContentBuilder
         var balanceData = new SerializedObject(balance);
         SerializedProperty items = balanceData.FindProperty("_items");
         items.arraySize = Mathf.Max(items.arraySize, 3);
-        SetItem(items.GetArrayElementAtIndex(0), ITEM_TYPE.BOMB, 2f, 0.35f, 0.35f, null);
-        SetItem(items.GetArrayElementAtIndex(1), ITEM_TYPE.FREEZE, 3.5f, 3f, 0.35f, null);
+        SetItem(items.GetArrayElementAtIndex(0), ITEM_TYPE.BOMB, 2.4f, 0.35f, 0.35f, null);
+        SetItem(items.GetArrayElementAtIndex(1), ITEM_TYPE.FREEZE, 3.5f, 3.9f, 0.35f, null);
         SetItem(items.GetArrayElementAtIndex(2), ITEM_TYPE.SHIELD, 0f, 0f, 0f, shield);
         balanceData.ApplyModifiedPropertiesWithoutUndo();
         balance.Validate();

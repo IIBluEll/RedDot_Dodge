@@ -5,6 +5,7 @@ public interface IEnemyWaveHost
 {
     bool HasWarning { get; }
     bool HasFormation { get; }
+    int EnemyCount { get; }
 
     // 현재 경기장에서 가능한 배치를 계산 / 배치할 수 없으면 null을 반환
     WavePlan BuildWavePlan(WaveRequest request);
@@ -19,7 +20,6 @@ public sealed class EnemyWaveDirector
     private readonly GameBalance BALANCE;
     private Random _random;
     private float _nextWaveAtSeconds;
-    private WaveRequest? _pendingRequest;
     private WAVE_PATTERN? _lastPattern;
     private int _repeatCount;
 
@@ -48,7 +48,6 @@ public sealed class EnemyWaveDirector
     {
         _random = new Random(randomSeed);
         _nextWaveAtSeconds = BALANCE.FirstWaveDelaySeconds;
-        _pendingRequest = null;
         _lastPattern = null;
         _repeatCount = 0;
     }
@@ -65,24 +64,6 @@ public sealed class EnemyWaveDirector
         DifficultyStage stage = BALANCE.GetStage(survivalSeconds);
         _nextWaveAtSeconds = survivalSeconds + stage.WaveIntervalSeconds;
 
-        if ( _pendingRequest.HasValue )
-        {
-            WaveRequest pending = _pendingRequest.Value;
-            if ( pending.Pattern.IsFormation && host.HasFormation )
-            {
-                return false;
-            }
-
-            WaveCandidate? retry = BuildCandidate(pending, 1, host);
-
-            if ( retry.HasValue )
-            {
-                return TryBegin(retry.Value , survivalSeconds , host , out wave);
-            }
-
-            _pendingRequest = null;
-        }
-
         WaveCandidate? selected = SelectCandidate(stage, host);
         return selected.HasValue && TryBegin(selected.Value , survivalSeconds , host , out wave);
     }
@@ -94,7 +75,7 @@ public sealed class EnemyWaveDirector
         foreach ( PatternWeight entry in BALANCE.Patterns )
         {
             AEnemyPatternData pattern = entry.Pattern;
-            if ( !stage.Allows(pattern.Kind) || ( pattern.IsFormation && host.HasFormation ) )
+            if ( pattern.Kind == WAVE_PATTERN.INTERCEPTOR || !stage.Allows(pattern.Kind) || ( pattern.IsFormation && host.HasFormation ) )
             {
                 continue;
             }
@@ -152,13 +133,7 @@ public sealed class EnemyWaveDirector
 
         WavePlan plan = host.BuildWavePlan(request);
 
-        if ( plan == null && request.Pattern.Kind == WAVE_PATTERN.ENCIRCLE )
-        {
-            request = CreateRequest(BALANCE.GetPattern(WAVE_PATTERN.EDGE_CHASE) , request.Stage);
-            plan = host.BuildWavePlan(request);
-        }
-
-        if ( plan == null || plan.EnemyCount > BALANCE.EnemyCapacity )
+        if ( plan == null || host.EnemyCount + plan.EnemyCount > BALANCE.EnemyCapacity )
         {
             return null;
         }
@@ -169,7 +144,7 @@ public sealed class EnemyWaveDirector
     private WaveRequest CreateRequest(AEnemyPatternData pattern , DifficultyStage stage)
     {
         int count = 0;
-        if ( pattern.Kind == WAVE_PATTERN.EDGE_CHASE )
+        if ( pattern.Kind == WAVE_PATTERN.EDGE_CHASE || pattern.Kind == WAVE_PATTERN.CHASE_WALL )
         {
             int range = stage.MaximumChaseCount - stage.MinimumChaseCount + 1;
             count = stage.MinimumChaseCount + _random.Next(range);
@@ -184,12 +159,10 @@ public sealed class EnemyWaveDirector
 
         if ( !host.TryBeginWave(wave , BALANCE.EnemyCapacity) )
         {
-            _pendingRequest = candidate.Request;
             wave = null;
             return false;
         }
 
-        _pendingRequest = null;
         WAVE_PATTERN kind = candidate.Request.Pattern.Kind;
         _repeatCount = _lastPattern == kind ? _repeatCount + 1 : 1;
         _lastPattern = kind;

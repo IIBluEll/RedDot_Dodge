@@ -18,7 +18,13 @@ public readonly struct WaveRequest
 
     public float WarningDurationSeconds => Pattern is ArrowDashPatternData arrow
         ? arrow.WarningDurationSeconds
-        : Stage.WarningDurationSeconds;
+        : Pattern is InterceptorPatternData interceptor ? interceptor.WarningDurationSeconds : Stage.WarningDurationSeconds;
+
+    public float GetWarningDuration(EnemyPlacement placement)
+    {
+        return placement.Motion == ENEMY_MOTION.INTERCEPTOR
+            ? ((InterceptorPatternData)Pattern).WarningDurationSeconds : WarningDurationSeconds;
+    }
 
     public WaveRequest(AEnemyPatternData pattern , DifficultyStage stage , int chaseCount)
     {
@@ -28,15 +34,26 @@ public readonly struct WaveRequest
     }
 }
 
+public enum ENEMY_MOTION
+{
+    CHASE,
+    LINEAR,
+    INTERCEPTOR
+}
+
 public readonly struct EnemyPlacement
 {
     public Vector2 WarningPosition { get; }
     public Vector2 SpawnPosition { get; }
+    public ENEMY_MOTION Motion { get; }
+    public float WarningDelaySeconds { get; }
 
-    public EnemyPlacement(Vector2 warningPosition , Vector2 spawnPosition)
+    public EnemyPlacement(Vector2 warningPosition , Vector2 spawnPosition, ENEMY_MOTION motion = ENEMY_MOTION.CHASE, float warningDelaySeconds = 0f)
     {
         WarningPosition = warningPosition;
         SpawnPosition = spawnPosition;
+        Motion = motion;
+        WarningDelaySeconds = warningDelaySeconds;
     }
 }
 
@@ -66,7 +83,16 @@ public sealed class WaveState
     public WaveRequest Request { get; }
     public WavePlan Plan { get; }
     public float WarningStartedAtSeconds { get; }
-    public float WarningEndsAtSeconds => WarningStartedAtSeconds + Request.WarningDurationSeconds;
+    public float WarningEndsAtSeconds
+    {
+        get
+        {
+            float duration = 0f;
+            foreach (EnemyPlacement placement in Plan.Placements)
+                duration = Mathf.Max(duration, placement.WarningDelaySeconds + Request.GetWarningDuration(placement));
+            return WarningStartedAtSeconds + duration;
+        }
+    }
 
     public WAVE_PHASE Phase { get; private set; } = WAVE_PHASE.WARNING;
     public Vector2? LockedAimDirection { get; private set; }
@@ -107,7 +133,8 @@ public sealed class WaveState
             return false;
         }
 
-        Phase = kind == WAVE_PATTERN.WALL || kind == WAVE_PATTERN.ARROW_DASH ? WAVE_PHASE.ACTIVE_FORMATION : WAVE_PHASE.INDEPENDENT_ENEMIES;
+        Phase = kind == WAVE_PATTERN.WALL || kind == WAVE_PATTERN.ARROW_DASH || kind == WAVE_PATTERN.CHASE_WALL
+            ? WAVE_PHASE.ACTIVE_FORMATION : WAVE_PHASE.INDEPENDENT_ENEMIES;
 
         return true;
     }

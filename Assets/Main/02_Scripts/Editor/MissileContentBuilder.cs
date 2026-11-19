@@ -21,7 +21,7 @@ public static class MissileContentBuilder
         Directory.CreateDirectory(CONTENT_PATH);
         Directory.CreateDirectory(AUDIO_PATH);
         AssetDatabase.Refresh();
-        Sprite icon = CreateSprite("pickup_missile", true);
+        Sprite icon = ItemPickupIconBuilder.ImportSprite(ItemPickupIconBuilder.MISSILE_PATH);
         Sprite missile = CreateSprite("missile_body", false);
         Material bodyMaterial = CreateMaterial("MissileNeon", "Assets/Main/04_Resource/Items/Shield/ShieldNeon.shader", true);
         Material trailMaterial = CreateMaterial("MissileTrailNeon", "Assets/Main/04_Resource/VFX/PlayerTrailNeon.shader", false);

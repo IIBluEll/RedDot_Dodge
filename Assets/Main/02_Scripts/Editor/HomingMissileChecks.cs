@@ -35,7 +35,7 @@ public static class HomingMissileChecks
         using (var fixture = new Fixture())
         {
             HomingMissileEffect effect = fixture.Begin();
-            Require(effect.Missiles.Count == 5, "Expected five missiles.");
+            Require(effect.Missiles.Count == 4, "Expected four missiles.");
             fixture.Step(effect, 0.1f);
             Require(effect.Missiles.All(missile => missile.TargetId == 0 && Mathf.Abs(missile.Position.magnitude - 0.9f) < 0.001f), "Empty-space flight failed.");
             fixture.Add(1, new Vector2(0f, 4f));
@@ -68,7 +68,7 @@ public static class HomingMissileChecks
             Require(effect.IsFinished, "Expired volley did not finish.");
             Require(!fixture.DEFINITION.ReplaceExisting, "New pickups must keep existing volleys.");
         }
-        Debug.Log("MISSILE_RULES_PASSED: five-shot launch, target acquisition/distribution, retargeting, swept splash, frozen kills, no duplicate score and timeout.");
+        Debug.Log("MISSILE_RULES_PASSED: four-shot launch, target acquisition/distribution, retargeting, swept splash, frozen kills, no duplicate score and timeout.");
     }
 
     [InitializeOnLoadMethod]
@@ -158,7 +158,7 @@ public static class HomingMissileChecks
         Call(s_host, "FixedUpdate");
         foreach (object entry in Get<IList>(s_items, "EFFECTS"))
             if (entry.GetType().GetField("EFFECT").GetValue(entry) is HomingMissileEffect missile) s_effect = missile;
-        Require(s_effect != null && s_effect.Missiles.Count == 5, "Pickup did not launch five missiles.");
+        Require(s_effect != null && s_effect.Missiles.Count == 4, "Pickup did not launch four missiles.");
     }
 
     private static void Capture(string name, bool requireMissilePixels)
