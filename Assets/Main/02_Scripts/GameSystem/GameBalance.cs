@@ -97,7 +97,7 @@ public sealed class GameBalance : ScriptableObject
     [SerializeField, Min(0f)] private float _freezeWarningSeconds = 0.6f;
 
     [Header("Score")]
-    [SerializeField, Min(1)] private int _baseKillScore = 100;
+    [SerializeField, Min(1)] private int _baseKillScore = 1;
     [SerializeField, Min(0.01f)] private float _comboWindowSeconds = 4f;
 
     public Vector2 ArenaSize => _arenaSize;

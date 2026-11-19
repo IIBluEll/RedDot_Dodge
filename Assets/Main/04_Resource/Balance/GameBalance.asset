@@ -110,5 +110,5 @@ MonoBehaviour:
     _durationSeconds: 0
     _visualDurationSeconds: 0
   _freezeWarningSeconds: 0.6
-  _baseKillScore: 100
+  _baseKillScore: 1
   _comboWindowSeconds: 4

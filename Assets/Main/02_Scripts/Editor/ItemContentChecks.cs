@@ -72,8 +72,8 @@ public static class ItemContentChecks
                 s_player.transform.position = new Vector2(2f, 0f);
                 AddEnemy(new Vector2(1f, 0f)); AddEnemy(new Vector2(2.1f, 0f)); AddEnemy(new Vector2(3f, 0f));
                 Tick();
-                Require(s_host.Score == 600 && Enemies.Count == 0 && Running, "폭탄 처치/피격/점수 오류");
-                Require(Object.FindObjectsByType<UnityEngine.UI.Text>(FindObjectsSortMode.None).Single(text => text.name == "Score Value").text == "600", "실제 점수 HUD 미갱신");
+                Require(s_host.Score == 6 && Enemies.Count == 0 && Running, "폭탄 처치/피격/점수 오류");
+                Require(Object.FindObjectsByType<UnityEngine.UI.Text>(FindObjectsSortMode.None).Single(text => text.name == "Score Value").text == "6", "실제 점수 HUD 미갱신");
                 for (int i = 0; i < 5; i++) Tick();
                 Capture("Bomb_Active");
             });
@@ -88,7 +88,7 @@ public static class ItemContentChecks
                 Capture("Freeze_Active");
                 s_player.transform.position = new Vector2(2.9f, 0f);
                 Tick();
-                Require(s_host.Score == 100 && Enemies.Count == 1 && Running, "쇄빙 오류");
+                Require(s_host.Score == 1 && Enemies.Count == 1 && Running, "쇄빙 오류");
             });
             Check("bubble shield stays armed beyond sixty seconds", () =>
             {
@@ -101,14 +101,14 @@ public static class ItemContentChecks
                 Spawn(ITEM_TYPE.SHIELD, Vector2.zero); Tick();
                 AddEnemy(new Vector2(0.7f, 0f)); AddEnemy(new Vector2(1.6f, 0f)); AddEnemy(new Vector2(3f, 0f));
                 Tick();
-                Require(Running && s_host.Score == 300 && Enemies.Count == 1 && ShieldCount(true) == 1, "보호막 접촉 폭발 오류");
+                Require(Running && s_host.Score == 3 && Enemies.Count == 1 && ShieldCount(true) == 1, "보호막 접촉 폭발 오류");
                 for (int i = 0; i < 5; i++) Tick();
                 Capture("Shield_Burst");
             });
             Check("frozen contact shatters without spending shield", () =>
             {
                 Spawn(ITEM_TYPE.SHIELD, Vector2.zero); AddEnemy(Vector2.zero, 10f); Tick();
-                Require(Running && s_host.Score == 100 && ShieldCount(false) == 1, "빙결 접촉에서 보호막 소모됨");
+                Require(Running && s_host.Score == 1 && ShieldCount(false) == 1, "빙결 접촉에서 보호막 소모됨");
             });
             Check("repeated pickups keep one armed bubble", () =>
             {
@@ -127,20 +127,20 @@ public static class ItemContentChecks
             {
                 Spawn(ITEM_TYPE.SHIELD, Vector2.zero); Spawn(ITEM_TYPE.FREEZE, Vector2.zero);
                 AddEnemy(new Vector2(0.1f, 0f)); Tick();
-                Require(ShieldCount(false) == 1 && s_host.Score == 100 && Running, "동시 획득 처리 순서 오류");
+                Require(ShieldCount(false) == 1 && s_host.Score == 1 && Running, "동시 획득 처리 순서 오류");
             });
             Check("bubble blast grants no global invulnerability", () =>
             {
                 Spawn(ITEM_TYPE.SHIELD, Vector2.zero); Tick();
                 AddEnemy(new Vector2(0.5f, 0f)); AddEnemy(new Vector2(6f, 0f));
                 s_player.transform.position = new Vector2(6f, 0f); Tick();
-                Require(!Running && s_host.Score == 100, "범위 밖 피격까지 무효화함");
+                Require(!Running && s_host.Score == 1, "범위 밖 피격까지 무효화함");
             });
             Check("expiry disables burst visuals and damage together", () =>
             {
                 Spawn(ITEM_TYPE.SHIELD, Vector2.zero); AddEnemy(new Vector2(0.7f, 0f)); Tick();
                 Set(s_host, "_survivalSeconds", 1f); AddEnemy(new Vector2(1.5f, 0f)); Tick();
-                Require(s_items.ActiveEffectCount == 0 && Enemies.Count == 1 && s_host.Score == 100, "종료된 보호막 폭발이 남음");
+                Require(s_items.ActiveEffectCount == 0 && Enemies.Count == 1 && s_host.Score == 1, "종료된 보호막 폭발이 남음");
             });
             Check("reset clears held shield, effects, pickups and combo", () =>
             {

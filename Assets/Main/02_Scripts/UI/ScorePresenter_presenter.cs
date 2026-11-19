@@ -41,5 +41,6 @@ public sealed class ScorePresenter_presenter : MonoBehaviour
     {
         _view.ShowCombo(_waveHost.Combo, _waveHost.ComboRemainingSeconds, _waveHost.ComboWindowSeconds);
         _view.ShowElapsed(_waveHost.SurvivalSeconds);
+        _view.ShowReadyCountdown(_waveHost.ReadyRemainingSeconds);
     }
 }

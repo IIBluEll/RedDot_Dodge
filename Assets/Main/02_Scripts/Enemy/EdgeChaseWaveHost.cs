@@ -18,6 +18,7 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
     [SerializeField] private Sprite _enemySprite;
     [SerializeField, FormerlySerializedAs("_bombItem")] private ItemSystem _itemSystem;
     [SerializeField] private AudioSource _shatterAudio;
+    [SerializeField] private bool _startAutomatically = true;
 
     [Header("Enemy Animation")]
     [SerializeField, Min(0.01f)] private float _spawnBlinkStartInterval = 0.28f;
@@ -76,6 +77,8 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
     private float _nextInterceptorAtSeconds;
     private float _interceptorRetryAtSeconds;
     private bool _roundInProgress;
+    private bool _initialized;
+    private bool _canRestartRound;
     private int _nextEnemyId;
 
     public bool HasWarning => _warningWave != null;
@@ -99,15 +102,30 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
     public float ComboRemainingSeconds => _roundScore?.GetRemainingSeconds(_survivalSeconds) ?? 0f;
     public float ComboWindowSeconds => _gameBalance != null ? _gameBalance.ComboWindowSeconds : 0f;
     public float SurvivalSeconds => _survivalSeconds;
+    public float ReadyRemainingSeconds => _roundInProgress ? _readyRemainingSeconds : 0f;
     public event System.Action<long> ScoreChanged;
 
     private void Start()
     {
+        if (_initialized || !TryInitialize())
+            return;
+
+        if (_startAutomatically)
+            RestartRound();
+        else
+            StopRound();
+    }
+
+    private bool TryInitialize()
+    {
+        if (_initialized)
+            return true;
+
         if (_gameBalance == null || _playerMovement == null || _warningTexture == null || _enemySprite == null)
         {
             Debug.LogError("EdgeChaseWaveHost의 Inspector 참조를 채워 주세요.", this);
             enabled = false;
-            return;
+            return false;
         }
 
         if (_itemSystem == null || !_itemSystem.Initialize(_gameBalance, this, Random.Range(0, int.MaxValue), _playerMovement.transform))
@@ -115,7 +133,7 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
             Debug.LogError("EdgeChaseWaveHost의 Item System 연결과 아이템 리소스를 확인해 주세요.", this);
             enabled = false;
             _playerMovement.enabled = false;
-            return;
+            return false;
         }
 
         _roundScore = new RoundScore(_gameBalance);
@@ -127,12 +145,13 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
 
         _spawnPosition = _playerMovement.transform.position;
         _spawnRotation = _playerMovement.transform.rotation;
-        RestartRound();
+        _initialized = true;
+        return true;
     }
 
     private void Update()
     {
-        if (Keyboard.current?.rKey.wasPressedThisFrame == true)
+        if (_canRestartRound && Keyboard.current?.rKey.wasPressedThisFrame == true)
             RestartRound();
 
         // Let cosmetic fragments finish after a lethal hit; gameplay remains stopped.
@@ -728,9 +747,38 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
 
     public void RestartRound()
     {
-        if (_waveDirector == null)
-            return;
+        BeginRound();
+    }
 
+    public bool BeginRound()
+    {
+        if (!TryInitialize())
+            return false;
+
+        ResetRound(true);
+        return true;
+    }
+
+    public void StopRound()
+    {
+        if (!_initialized)
+        {
+            _roundInProgress = false;
+            _canRestartRound = false;
+            _readyRemainingSeconds = 0f;
+            if (_playerMovement != null)
+            {
+                _playerMovement.enabled = false;
+                _playerMovement.gameObject.SetActive(false);
+            }
+            return;
+        }
+
+        ResetRound(false);
+    }
+
+    private void ResetRound(bool startRound)
+    {
         _playerMovement.enabled = false;
         _playerMovement.transform.SetPositionAndRotation(_spawnPosition, _spawnRotation);
         _playerMovement.ClearTrail();
@@ -765,14 +813,16 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
         _nextInterceptorAtSeconds = _gameBalance.InterceptorPattern != null
             ? Mathf.Max(1f, _gameBalance.InterceptorPattern.SpawnIntervalSeconds) : float.PositiveInfinity;
         _interceptorRetryAtSeconds = 0f;
-        _readyRemainingSeconds = READY_SECONDS;
-        _roundInProgress = true;
+        _readyRemainingSeconds = startRound ? READY_SECONDS : 0f;
+        _roundInProgress = startRound;
+        _canRestartRound = startRound;
 
         _itemSystem.ResetRound(Random.Range(0, int.MaxValue));
         _deathVisuals?.Reset();
         if (_shatterAudio != null)
             _shatterAudio.Stop();
         _roundScore.Reset();
+        _playerMovement.gameObject.SetActive(startRound);
         ScoreChanged?.Invoke(Score);
     }
 
