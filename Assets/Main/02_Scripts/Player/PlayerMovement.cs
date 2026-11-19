@@ -30,6 +30,7 @@ public sealed class PlayerMovement : MonoBehaviour
     private Vector2 _neutralTilt;
     private Vector2 _filteredTilt;
     private Vector2 _tiltInput;
+    private float _tiltSensitivity = 1f;
     private WallBounce _horizontalBounce;
     private WallBounce _verticalBounce;
 
@@ -73,16 +74,15 @@ public sealed class PlayerMovement : MonoBehaviour
         _verticalBounce = default;
     }
 
-    private void OnApplicationPause(bool paused)
-    {
-        if (_useTilt)
-            RecenterTilt();
-    }
-
     public void RecenterTilt()
     {
         _tiltNeedsCalibration = true;
         _tiltInput = Vector2.zero;
+    }
+
+    public void SetTiltSensitivity(float sensitivity)
+    {
+        _tiltSensitivity = Mathf.Max(0.01f, sensitivity);
     }
 
     public void ClearTrail()
@@ -97,7 +97,7 @@ public sealed class PlayerMovement : MonoBehaviour
     {
         if (_useTilt)
         {
-            ReadTilt(Time.deltaTime);
+            ReadTilt(Time.unscaledDeltaTime);
             return;
         }
 
@@ -146,7 +146,7 @@ public sealed class PlayerMovement : MonoBehaviour
 
         Vector2 tilt = (Vector2)acceleration - _neutralTilt;
         _filteredTilt = Vector2.Lerp(_filteredTilt, tilt, 1f - Mathf.Exp(-_tiltResponse * deltaTime));
-        float strength = Mathf.InverseLerp(_tiltDeadZone, 1f, _filteredTilt.magnitude / _fullSpeedTilt);
+        float strength = Mathf.InverseLerp(_tiltDeadZone, 1f, _filteredTilt.magnitude * _tiltSensitivity / _fullSpeedTilt);
         _tiltInput = _filteredTilt.normalized * strength;
     }
 

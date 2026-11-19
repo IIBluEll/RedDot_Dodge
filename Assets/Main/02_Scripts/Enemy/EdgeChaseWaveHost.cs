@@ -19,13 +19,16 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
     [SerializeField, FormerlySerializedAs("_bombItem")] private ItemSystem _itemSystem;
     [SerializeField] private AudioSource _shatterAudio;
     [SerializeField] private bool _startAutomatically = true;
+    [SerializeField] private bool _allowKeyboardRestart = true;
 
     [Header("Enemy Animation")]
     [SerializeField, Min(0.01f)] private float _spawnBlinkStartInterval = 0.28f;
     [SerializeField, Min(0.01f)] private float _spawnBlinkEndInterval = 0.1f;
     [SerializeField, Min(0.01f)] private float _spawnRevealSeconds = 0.12f;
+    [SerializeField, Min(0.01f)] private float _frozenEnemySizeMultiplier = 128f / 90f;
     [SerializeField, Range(5, 8)] private int _deathShardCount = 7;
     [SerializeField, Min(0.01f)] private float _deathDurationSeconds = 0.32f;
+    [SerializeField, Min(0.01f)] private float _roundEndDeathDurationSeconds = 0.6f;
     [SerializeField, Min(0f)] private float _deathShardSpeed = 2.2f;
 
     private readonly List<PendingEnemy> WARNING_ENEMIES = new();
@@ -104,6 +107,7 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
     public float SurvivalSeconds => _survivalSeconds;
     public float ReadyRemainingSeconds => _roundInProgress ? _readyRemainingSeconds : 0f;
     public event System.Action<long> ScoreChanged;
+    public event System.Action<RoundResult> RoundEnded;
 
     private void Start()
     {
@@ -151,11 +155,11 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
 
     private void Update()
     {
-        if (_canRestartRound && Keyboard.current?.rKey.wasPressedThisFrame == true)
+        if (_allowKeyboardRestart && _canRestartRound && Keyboard.current?.rKey.wasPressedThisFrame == true)
             RestartRound();
 
         // Let cosmetic fragments finish after a lethal hit; gameplay remains stopped.
-        _deathVisuals?.Tick(Time.deltaTime);
+        _deathVisuals?.Tick(_roundInProgress ? Time.deltaTime : Time.unscaledDeltaTime);
     }
 
     private void FixedUpdate()
@@ -204,14 +208,59 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
 
         if (playerHit)
         {
-            _roundInProgress = false;
-            _playerMovement.enabled = false;
-            Debug.Log($"플레이어 피격 ({_survivalSeconds:F2}초), 점수 {Score}. R 키로 다시 시작합니다.", this);
+            FinishRound();
             return;
         }
 
         if (!TryStartInterceptor())
             _waveDirector.TryStartWave(_survivalSeconds, this, out _);
+    }
+
+    private void FinishRound()
+    {
+        if (!_roundInProgress)
+            return;
+
+        _roundInProgress = false;
+        _playerMovement.enabled = false;
+        var result = new RoundResult(Score, MaximumCombo, KillCount, _survivalSeconds);
+        DestroyRemainingEnemies();
+        _itemSystem.ResetRound(Random.Range(0, int.MaxValue));
+        _playerMovement.ClearTrail();
+        _playerMovement.gameObject.SetActive(false);
+        if (_shatterAudio != null)
+            _shatterAudio.Stop();
+        RoundEnded?.Invoke(result);
+        if (_allowKeyboardRestart)
+            Debug.Log($"플레이어 피격 ({result.SurvivalSeconds:F2}초), 점수 {result.Score}. R 키로 다시 시작합니다.", this);
+    }
+
+    private void DestroyRemainingEnemies()
+    {
+        // 사망 연출은 처치 점수와 통계를 갱신하지 않습니다.
+        _deathVisuals?.Reset();
+        for (int i = ACTIVE_ENEMIES.Count - 1; i >= 0; i--)
+            KillEnemy(i, _roundEndDeathDurationSeconds);
+
+        foreach (PendingEnemy pending in WARNING_ENEMIES)
+        {
+            if (pending == null)
+                continue;
+            if (pending.Renderer.enabled)
+                _deathVisuals?.Play(pending.Position, pending.Renderer.sprite, WARNING_WIDTH, false,
+                    _deathShardCount, _roundEndDeathDurationSeconds, _deathShardSpeed);
+            ReturnRenderer(pending.Renderer);
+            ReturnRenderer(pending.PathRenderer);
+            ReturnRenderer(pending.TargetRenderer);
+        }
+        WARNING_ENEMIES.Clear();
+        _warningWave?.Finish();
+        _warningWave = null;
+    }
+
+    public void ClearDeathVisuals()
+    {
+        _deathVisuals?.Reset();
     }
 
     private bool TryStartInterceptor()
@@ -681,7 +730,9 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
             Sprite sprite = frozen && frozenSprite != null ? frozenSprite
                 : enemy.Motion == ENEMY_MOTION.INTERCEPTOR ? _pathSprite : _enemySprite;
             float reveal = Mathf.Clamp01((_survivalSeconds - enemy.ActivatedAtSeconds) / Mathf.Max(0.01f, _spawnRevealSeconds));
-            ShowSprite(enemy.Renderer, sprite, enemy.Renderer.transform.position, ENEMY_WIDTH * Mathf.Lerp(0.72f, 1f, reveal));
+            // 빙결 이미지는 128px 전체 프레임을 사용하므로 일반 적의 90px 본체 프레임에 맞춥니다.
+            float width = ENEMY_WIDTH * (frozen && frozenSprite != null ? _frozenEnemySizeMultiplier : 1f);
+            ShowSprite(enemy.Renderer, sprite, enemy.Renderer.transform.position, width * Mathf.Lerp(0.72f, 1f, reveal));
             enemy.Renderer.transform.rotation = !frozen && enemy.Motion == ENEMY_MOTION.INTERCEPTOR ? Quaternion.Euler(0f, 0f, 45f) : Quaternion.identity;
             Color color = frozen ? (frozenSprite == null ? Color.cyan : Color.white)
                 : enemy.Motion == ENEMY_MOTION.INTERCEPTOR ? INTERCEPT_COLOR : Color.white;
@@ -696,14 +747,15 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
         }
     }
 
-    private void KillEnemy(int index)
+    private void KillEnemy(int index, float? deathDurationSeconds = null)
     {
         ActiveEnemy enemy = ACTIVE_ENEMIES[index];
         bool frozen = enemy.FrozenUntilSeconds > _survivalSeconds;
         Sprite deathSprite = frozen && _itemSystem.FrozenEnemySprite != null ? _itemSystem.FrozenEnemySprite
             : enemy.Motion == ENEMY_MOTION.INTERCEPTOR ? _pathSprite : _enemySprite;
-        _deathVisuals?.Play(enemy.Renderer.transform.position, deathSprite, ENEMY_WIDTH, frozen,
-            _deathShardCount, _deathDurationSeconds, _deathShardSpeed);
+        float deathWidth = ENEMY_WIDTH * (frozen && _itemSystem.FrozenEnemySprite != null ? _frozenEnemySizeMultiplier : 1f);
+        _deathVisuals?.Play(enemy.Renderer.transform.position, deathSprite, deathWidth, frozen,
+            _deathShardCount, deathDurationSeconds ?? _deathDurationSeconds, _deathShardSpeed);
         RemoveEnemy(index);
     }
 
@@ -834,7 +886,7 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
         var enemyObj = new GameObject("Chase Enemy", typeof(SpriteRenderer));
         enemyObj.transform.SetParent(transform, false);
         SpriteRenderer renderer = enemyObj.GetComponent<SpriteRenderer>();
-        renderer.sortingOrder = 1;
+        renderer.sortingOrder = 4;
         return renderer;
     }
 

@@ -127,7 +127,7 @@ public sealed class EnemyDeathVisuals
             var shardObj = new GameObject("Death Particle", typeof(SpriteRenderer));
             shardObj.transform.SetParent(ROOT_TRANS, false);
             renderer = shardObj.GetComponent<SpriteRenderer>();
-            renderer.sortingOrder = 3;
+            renderer.sortingOrder = 5;
         }
 
         renderer.sprite = sprite;
