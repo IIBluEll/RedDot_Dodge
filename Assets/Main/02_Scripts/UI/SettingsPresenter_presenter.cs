@@ -8,6 +8,25 @@ public sealed class SettingsPresenter_presenter : MonoBehaviour
     [SerializeField] private BackgroundMusicPlayer _backgroundMusic;
 
     private SettingsModel_model _model;
+    private bool _waitingForCalibration;
+
+    private void Update()
+    {
+        _playerMovement.UpdateTiltCalibration(Time.unscaledDeltaTime);
+        if (!_waitingForCalibration || _playerMovement.IsTiltCalibrating)
+        {
+            return;
+        }
+        _waitingForCalibration = false;
+        if (_playerMovement.TiltCalibrationFailed)
+        {
+            _view.ShowCalibrationFailed();
+        }
+        else
+        {
+            _view.ShowCalibrationCompleted();
+        }
+    }
 
     public void Initialize()
     {
@@ -19,7 +38,12 @@ public sealed class SettingsPresenter_presenter : MonoBehaviour
 
     public void Show()
     {
-        _view.Show(_model, Application.isMobilePlatform, _playerMovement.gameObject.activeInHierarchy);
+        _waitingForCalibration = _playerMovement.IsTiltCalibrating;
+        _view.Show(_model, _playerMovement.UsesTiltInput, _playerMovement.UsesTiltInput);
+        if (_waitingForCalibration)
+        {
+            _view.ShowCalibrationRequested();
+        }
     }
 
     public void OnBgmVolumeChanged(float volume)
@@ -38,7 +62,7 @@ public sealed class SettingsPresenter_presenter : MonoBehaviour
 
     public void OnSensitivityChanged(float sensitivity)
     {
-        if (!Application.isMobilePlatform)
+        if (!_playerMovement.UsesTiltInput)
         {
             return;
         }
@@ -49,11 +73,12 @@ public sealed class SettingsPresenter_presenter : MonoBehaviour
 
     public void OnRecenterActioned()
     {
-        if (!Application.isMobilePlatform || !_playerMovement.gameObject.activeInHierarchy)
+        if (!_playerMovement.UsesTiltInput)
         {
             return;
         }
         _playerMovement.RecenterTilt();
+        _waitingForCalibration = true;
         _view.ShowCalibrationRequested();
     }
 

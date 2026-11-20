@@ -19,6 +19,9 @@ public sealed class SettingsPanel_view : MonoBehaviour
 
     private bool _showTiltSettings;
     private bool _canRecalibrate;
+    private bool _calibrationRequested;
+    private bool _calibrationCompleted;
+    private bool _calibrationFailed;
 
     private void OnEnable()
     {
@@ -36,6 +39,9 @@ public sealed class SettingsPanel_view : MonoBehaviour
         gameObject.SetActive(true);
         _showTiltSettings = showTiltSettings;
         _canRecalibrate = canRecalibrate;
+        _calibrationRequested = false;
+        _calibrationCompleted = false;
+        _calibrationFailed = false;
         _tiltGroup.alpha = showTiltSettings ? 1f : 0.4f;
         _tiltGroup.interactable = showTiltSettings;
         _recalibrateBtn.gameObject.SetActive(showTiltSettings);
@@ -60,12 +66,36 @@ public sealed class SettingsPanel_view : MonoBehaviour
         _languageTxt.text = GameLocalization.Language == GAME_LANGUAGE.KOREAN ? "한국어" : "English";
         _calibrationHintTxt.text = !_showTiltSettings ? string.Empty : _canRecalibrate
             ? GameLocalization.GetText("현재 자세를 기준으로 보정합니다", "Use your current tilt as neutral")
-            : GameLocalization.GetText("시작 시 현재 자세로 자동 보정합니다", "Tilt is calibrated when the run starts");
+            : GameLocalization.GetText("모바일에서 기울기를 보정할 수 있습니다", "Tilt calibration is available on mobile");
+        if (_showTiltSettings && _calibrationRequested)
+        {
+            _calibrationHintTxt.text = _calibrationFailed
+                ? GameLocalization.GetText("보정하지 못했습니다. 자세를 고정하고 다시 눌러 주세요", "Calibration failed. Hold still and try again")
+                : _calibrationCompleted
+                ? GameLocalization.GetText("현재 자세로 보정했습니다", "Current tilt set as neutral")
+                : GameLocalization.GetText("휴대폰을 편한 자세로 가만히 유지해 주세요", "Hold your device still in a comfortable position");
+        }
+        _recalibrateBtn.interactable = _showTiltSettings && _canRecalibrate && (!_calibrationRequested || _calibrationCompleted || _calibrationFailed);
     }
 
     public void ShowCalibrationRequested()
     {
-        _calibrationHintTxt.text = GameLocalization.GetText("현재 자세를 기준으로 보정합니다.", "Current tilt set as neutral.");
+        _calibrationRequested = true;
+        _calibrationCompleted = false;
+        _calibrationFailed = false;
+        RefreshLanguage();
+    }
+
+    public void ShowCalibrationCompleted()
+    {
+        _calibrationCompleted = true;
+        RefreshLanguage();
+    }
+
+    public void ShowCalibrationFailed()
+    {
+        _calibrationFailed = true;
+        RefreshLanguage();
     }
 
     public void Hide()

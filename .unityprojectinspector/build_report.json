@@ -4,16 +4,16 @@
     "unityVersion": "6000.3.20f1",
     "assetSizeDefinition": "Unity BuildReport PackedAssetInfo.packedSize",
     "build": {
-        "buildGuid": "af44c739f8ec45979be22182e68722aa",
-        "platform": "StandaloneWindows64",
+        "buildGuid": "79360827387148969f242a892910904f",
+        "platform": "Android",
         "result": "Succeeded",
-        "outputPath": "D:/Fork/RedDot_Dodge/Builds/RedDot_Dodge.exe",
-        "buildStartedAtUtc": "2026-11-20T04:44:53.2292054Z",
-        "buildEndedAtUtc": "2026-11-20T04:47:17.7790449Z",
-        "reportGeneratedAtUtc": "2026-11-20T04:47:18.0047256Z",
-        "buildTimeSeconds": 144.5498395,
-        "reportedOutputSizeBytes": 211040956,
-        "artifactSizeBytes": 667136,
+        "outputPath": "D:/Fork/RedDot_Dodge/AndroidBuild/REDDOTDODGE.apk",
+        "buildStartedAtUtc": "2026-11-20T05:34:04.7330158Z",
+        "buildEndedAtUtc": "2026-11-20T05:36:17.4542511Z",
+        "reportGeneratedAtUtc": "2026-11-20T05:36:17.6846297Z",
+        "buildTimeSeconds": 132.7212353,
+        "reportedOutputSizeBytes": 1077977142,
+        "artifactSizeBytes": 99119965,
         "artifactSizeSource": "File",
         "warningCount": 1,
         "errorCount": 0,
@@ -136,6 +136,18 @@
             "packedSizeBytes": 1078488
         },
         {
+            "name": "UberPost.shader",
+            "path": "Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/UberPost.shader",
+            "type": "Shader",
+            "packedSizeBytes": 811188
+        },
+        {
+            "name": "Light2D.shader",
+            "path": "Packages/com.unity.render-pipelines.universal/Shaders/2D/Light2D.shader",
+            "type": "Shader",
+            "packedSizeBytes": 787616
+        },
+        {
             "name": "button_secondary.png",
             "path": "Assets/Main/04_Resource/UI/MainMenu/button_secondary.png",
             "type": "Texture",
@@ -232,28 +244,22 @@
             "packedSizeBytes": 262296
         },
         {
-            "name": "TMP_SDF-Mobile.shader",
-            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader",
-            "type": "Shader",
-            "packedSizeBytes": 260980
-        },
-        {
-            "name": "Light2D.shader",
-            "path": "Packages/com.unity.render-pipelines.universal/Shaders/2D/Light2D.shader",
-            "type": "Shader",
-            "packedSizeBytes": 183880
-        },
-        {
             "name": "panel_dialog.png",
             "path": "Assets/Main/04_Resource/Sprites/UI/panel_dialog.png",
             "type": "Texture",
             "packedSizeBytes": 165628
         },
         {
-            "name": "UberPost.shader",
-            "path": "Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/UberPost.shader",
+            "name": "VrsTexture.compute",
+            "path": "Packages/com.unity.render-pipelines.core/Runtime/Vrs/Shaders/VrsTexture.compute",
             "type": "Shader",
-            "packedSizeBytes": 147772
+            "packedSizeBytes": 160872
+        },
+        {
+            "name": "FinalPost.shader",
+            "path": "Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/FinalPost.shader",
+            "type": "Shader",
+            "packedSizeBytes": 107492
         },
         {
             "name": "freeze_ring.png",
@@ -286,16 +292,10 @@
             "packedSizeBytes": 78408
         },
         {
-            "name": "VrsTexture.compute",
-            "path": "Packages/com.unity.render-pipelines.core/Runtime/Vrs/Shaders/VrsTexture.compute",
-            "type": "Shader",
-            "packedSizeBytes": 69916
-        },
-        {
             "name": "CoreBlit.shader",
             "path": "Packages/com.unity.render-pipelines.universal/Shaders/Utils/CoreBlit.shader",
             "type": "Shader",
-            "packedSizeBytes": 67312
+            "packedSizeBytes": 68688
         },
         {
             "name": "shield_membrane.png",
@@ -340,6 +340,18 @@
             "packedSizeBytes": 58092
         },
         {
+            "name": "WavingGrass.shader",
+            "path": "Packages/com.unity.render-pipelines.universal/Shaders/Terrain/WavingGrass.shader",
+            "type": "Shader",
+            "packedSizeBytes": 55396
+        },
+        {
+            "name": "LensFlareDataDriven.shader",
+            "path": "Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/LensFlareDataDriven.shader",
+            "type": "Shader",
+            "packedSizeBytes": 51704
+        },
+        {
             "name": "PauseButtonPressed.png",
             "path": "Assets/Main/04_Resource/UI/InGameHUD/PauseButtonPressed.png",
             "type": "Texture",
@@ -352,16 +364,52 @@
             "packedSizeBytes": 50760
         },
         {
+            "name": "TemporalAA.shader",
+            "path": "Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/TemporalAA.shader",
+            "type": "Shader",
+            "packedSizeBytes": 42800
+        },
+        {
+            "name": "WavingGrassBillboard.shader",
+            "path": "Packages/com.unity.render-pipelines.universal/Shaders/Terrain/WavingGrassBillboard.shader",
+            "type": "Shader",
+            "packedSizeBytes": 37260
+        },
+        {
+            "name": "BokehDepthOfField.shader",
+            "path": "Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/BokehDepthOfField.shader",
+            "type": "Shader",
+            "packedSizeBytes": 34324
+        },
+        {
+            "name": "Sprite-Lit-Default.shader",
+            "path": "Packages/com.unity.render-pipelines.universal/Shaders/2D/Sprite-Lit-Default.shader",
+            "type": "Shader",
+            "packedSizeBytes": 34184
+        },
+        {
             "name": "missile_body.png",
             "path": "Assets/Main/04_Resource/Items/Missile/missile_body.png",
             "type": "Texture",
             "packedSizeBytes": 33776
         },
         {
-            "name": "BokehDepthOfField.shader",
-            "path": "Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/BokehDepthOfField.shader",
+            "name": "TMP_SDF-Mobile.shader",
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader",
             "type": "Shader",
-            "packedSizeBytes": 30268
+            "packedSizeBytes": 32872
+        },
+        {
+            "name": "Bloom.shader",
+            "path": "Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/Bloom.shader",
+            "type": "Shader",
+            "packedSizeBytes": 29944
+        },
+        {
+            "name": "TerrainDetailLit.shader",
+            "path": "Packages/com.unity.render-pipelines.universal/Shaders/Terrain/TerrainDetailLit.shader",
+            "type": "Shader",
+            "packedSizeBytes": 29772
         },
         {
             "name": "pickup_bomb.png",
@@ -376,16 +424,22 @@
             "packedSizeBytes": 26492
         },
         {
-            "name": "FinalPost.shader",
-            "path": "Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/FinalPost.shader",
+            "name": "SubpixelMorphologicalAntialiasing.shader",
+            "path": "Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/SubpixelMorphologicalAntialiasing.shader",
             "type": "Shader",
-            "packedSizeBytes": 26304
+            "packedSizeBytes": 26368
         },
         {
             "name": "TimerIcon.png",
             "path": "Assets/Main/04_Resource/UI/InGameHUD/TimerIcon.png",
             "type": "Texture",
             "packedSizeBytes": 26184
+        },
+        {
+            "name": "LensFlareScreenSpace.shader",
+            "path": "Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/LensFlareScreenSpace.shader",
+            "type": "Shader",
+            "packedSizeBytes": 25556
         },
         {
             "name": "CountdownStart.wav",
@@ -400,58 +454,34 @@
             "packedSizeBytes": 25160
         },
         {
-            "name": "TemporalAA.shader",
-            "path": "Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/TemporalAA.shader",
-            "type": "Shader",
-            "packedSizeBytes": 23404
-        },
-        {
-            "name": "Bloom.shader",
-            "path": "Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/Bloom.shader",
-            "type": "Shader",
-            "packedSizeBytes": 22104
-        },
-        {
-            "name": "LensFlareDataDriven.shader",
-            "path": "Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/LensFlareDataDriven.shader",
-            "type": "Shader",
-            "packedSizeBytes": 21540
-        },
-        {
-            "name": "WavingGrass.shader",
-            "path": "Packages/com.unity.render-pipelines.universal/Shaders/Terrain/WavingGrass.shader",
-            "type": "Shader",
-            "packedSizeBytes": 20652
-        },
-        {
             "name": "CameraMotionBlur.shader",
             "path": "Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/CameraMotionBlur.shader",
             "type": "Shader",
-            "packedSizeBytes": 19412
+            "packedSizeBytes": 24636
         },
         {
-            "name": "Sprite-Lit-Default.shader",
-            "path": "Packages/com.unity.render-pipelines.universal/Shaders/2D/Sprite-Lit-Default.shader",
+            "name": "LutBuilderHdr.shader",
+            "path": "Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/LutBuilderHdr.shader",
             "type": "Shader",
-            "packedSizeBytes": 18812
+            "packedSizeBytes": 24368
         },
         {
-            "name": "TerrainDetailLit.shader",
-            "path": "Packages/com.unity.render-pipelines.universal/Shaders/Terrain/TerrainDetailLit.shader",
+            "name": "TMP_SDF.shader",
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF.shader",
             "type": "Shader",
-            "packedSizeBytes": 18504
+            "packedSizeBytes": 24012
         },
         {
-            "name": "WavingGrassBillboard.shader",
-            "path": "Packages/com.unity.render-pipelines.universal/Shaders/Terrain/WavingGrassBillboard.shader",
+            "name": "GaussianDepthOfField.shader",
+            "path": "Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/GaussianDepthOfField.shader",
             "type": "Shader",
-            "packedSizeBytes": 17920
+            "packedSizeBytes": 22996
         },
         {
-            "name": "LensFlareScreenSpace.shader",
-            "path": "Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/LensFlareScreenSpace.shader",
+            "name": "HDRDebugView.shader",
+            "path": "Packages/com.unity.render-pipelines.universal/Shaders/Debug/HDRDebugView.shader",
             "type": "Shader",
-            "packedSizeBytes": 17524
+            "packedSizeBytes": 20460
         },
         {
             "name": "enemy_active.png",
@@ -484,22 +514,28 @@
             "packedSizeBytes": 16540
         },
         {
-            "name": "GaussianDepthOfField.shader",
-            "path": "Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/GaussianDepthOfField.shader",
+            "name": "LutBuilderLdr.shader",
+            "path": "Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/LutBuilderLdr.shader",
             "type": "Shader",
-            "packedSizeBytes": 16256
+            "packedSizeBytes": 12680
         },
         {
-            "name": "TMP_SDF.shader",
-            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF.shader",
+            "name": "CoreBlitColorAndDepth.shader",
+            "path": "Packages/com.unity.render-pipelines.universal/Shaders/Utils/CoreBlitColorAndDepth.shader",
             "type": "Shader",
-            "packedSizeBytes": 13784
+            "packedSizeBytes": 12568
         },
         {
-            "name": "SubpixelMorphologicalAntialiasing.shader",
-            "path": "Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/SubpixelMorphologicalAntialiasing.shader",
+            "name": "ScalingSetup.shader",
+            "path": "Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/ScalingSetup.shader",
             "type": "Shader",
-            "packedSizeBytes": 13648
+            "packedSizeBytes": 12284
+        },
+        {
+            "name": "EdgeAdaptiveSpatialUpsampling.shader",
+            "path": "Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/EdgeAdaptiveSpatialUpsampling.shader",
+            "type": "Shader",
+            "packedSizeBytes": 12052
         },
         {
             "name": "CountdownTick.wav",
@@ -544,22 +580,28 @@
             "packedSizeBytes": 9968
         },
         {
-            "name": "HDRDebugView.shader",
-            "path": "Packages/com.unity.render-pipelines.universal/Shaders/Debug/HDRDebugView.shader",
-            "type": "Shader",
-            "packedSizeBytes": 9960
-        },
-        {
             "name": "icon_back.png",
             "path": "Assets/Main/04_Resource/Sprites/Icons/icon_back.png",
             "type": "Texture",
             "packedSizeBytes": 9852
         },
         {
-            "name": "CoreBlitColorAndDepth.shader",
-            "path": "Packages/com.unity.render-pipelines.universal/Shaders/Utils/CoreBlitColorAndDepth.shader",
+            "name": "Sprite-Unlit-Default.shader",
+            "path": "Packages/com.unity.render-pipelines.universal/Shaders/2D/Sprite-Unlit-Default.shader",
             "type": "Shader",
-            "packedSizeBytes": 9840
+            "packedSizeBytes": 9804
+        },
+        {
+            "name": "TMP_Sprite.shader",
+            "path": "Assets/TextMesh Pro/Shaders/TMP_Sprite.shader",
+            "type": "Shader",
+            "packedSizeBytes": 9676
+        },
+        {
+            "name": "Shadow2D-Projected.shader",
+            "path": "Packages/com.unity.render-pipelines.universal/Shaders/2D/Shadow2D-Projected.shader",
+            "type": "Shader",
+            "packedSizeBytes": 9676
         },
         {
             "name": "DebugUIPanel.prefab",
@@ -574,16 +616,34 @@
             "packedSizeBytes": 8976
         },
         {
-            "name": "LutBuilderHdr.shader",
-            "path": "Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/LutBuilderHdr.shader",
+            "name": "ProbeVolumeSamplingDebugPositionNormal.compute",
+            "path": "Packages/com.unity.render-pipelines.universal/Shaders/Debug/ProbeVolumeSamplingDebugPositionNormal.compute",
             "type": "Shader",
-            "packedSizeBytes": 8408
+            "packedSizeBytes": 8664
         },
         {
-            "name": "Shadow2D-Projected.shader",
-            "path": "Packages/com.unity.render-pipelines.universal/Shaders/2D/Shadow2D-Projected.shader",
+            "name": "Shadow2D-Unshadow-Sprite.shader",
+            "path": "Packages/com.unity.render-pipelines.universal/Shaders/2D/Shadow2D-Unshadow-Sprite.shader",
             "type": "Shader",
-            "packedSizeBytes": 7396
+            "packedSizeBytes": 8480
+        },
+        {
+            "name": "Shadow2D-Unshadow-Geometry.shader",
+            "path": "Packages/com.unity.render-pipelines.universal/Shaders/2D/Shadow2D-Unshadow-Geometry.shader",
+            "type": "Shader",
+            "packedSizeBytes": 8040
+        },
+        {
+            "name": "CopyDepth.shader",
+            "path": "Packages/com.unity.render-pipelines.universal/Shaders/Utils/CopyDepth.shader",
+            "type": "Shader",
+            "packedSizeBytes": 7080
+        },
+        {
+            "name": "CoreCopy.shader",
+            "path": "Packages/com.unity.render-pipelines.core/Shaders/CoreCopy.shader",
+            "type": "Shader",
+            "packedSizeBytes": 6936
         },
         {
             "name": "BubbleShieldEffect.prefab",
@@ -592,10 +652,10 @@
             "packedSizeBytes": 6878
         },
         {
-            "name": "Shadow2D-Unshadow-Sprite.shader",
-            "path": "Packages/com.unity.render-pipelines.universal/Shaders/2D/Shadow2D-Unshadow-Sprite.shader",
+            "name": "ShieldNeon.shader",
+            "path": "Assets/Main/04_Resource/Items/Shield/ShieldNeon.shader",
             "type": "Shader",
-            "packedSizeBytes": 6772
+            "packedSizeBytes": 6636
         },
         {
             "name": "DebugUIColor.prefab",
@@ -604,52 +664,40 @@
             "packedSizeBytes": 6614
         },
         {
+            "name": "PaniniProjection.shader",
+            "path": "Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/PaniniProjection.shader",
+            "type": "Shader",
+            "packedSizeBytes": 6412
+        },
+        {
+            "name": "PreviewNeonSprite.shader",
+            "path": "Assets/Main/04_Resource/VFX/PreviewNeon/PreviewNeonSprite.shader",
+            "type": "Shader",
+            "packedSizeBytes": 6316
+        },
+        {
             "name": "DebugUIVector4.prefab",
             "path": "Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Widgets/DebugUIVector4.prefab",
             "type": "Prefab",
             "packedSizeBytes": 6278
         },
         {
-            "name": "TMP_Sprite.shader",
-            "path": "Assets/TextMesh Pro/Shaders/TMP_Sprite.shader",
+            "name": "DebugReplacement.shader",
+            "path": "Packages/com.unity.render-pipelines.universal/Shaders/Debug/DebugReplacement.shader",
             "type": "Shader",
-            "packedSizeBytes": 6260
+            "packedSizeBytes": 6256
         },
         {
-            "name": "Shadow2D-Unshadow-Geometry.shader",
-            "path": "Packages/com.unity.render-pipelines.universal/Shaders/2D/Shadow2D-Unshadow-Geometry.shader",
+            "name": "PlayerTrailNeon.shader",
+            "path": "Assets/Main/04_Resource/VFX/PlayerTrailNeon.shader",
             "type": "Shader",
-            "packedSizeBytes": 6260
+            "packedSizeBytes": 6156
         },
         {
-            "name": "EdgeAdaptiveSpatialUpsampling.shader",
-            "path": "Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/EdgeAdaptiveSpatialUpsampling.shader",
+            "name": "Shadow2D-Shadow-Sprite.shader",
+            "path": "Packages/com.unity.render-pipelines.universal/Shaders/2D/Shadow2D-Shadow-Sprite.shader",
             "type": "Shader",
-            "packedSizeBytes": 6200
-        },
-        {
-            "name": "LutBuilderLdr.shader",
-            "path": "Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/LutBuilderLdr.shader",
-            "type": "Shader",
-            "packedSizeBytes": 6124
-        },
-        {
-            "name": "CoreCopy.shader",
-            "path": "Packages/com.unity.render-pipelines.core/Shaders/CoreCopy.shader",
-            "type": "Shader",
-            "packedSizeBytes": 5736
-        },
-        {
-            "name": "Sprite-Unlit-Default.shader",
-            "path": "Packages/com.unity.render-pipelines.universal/Shaders/2D/Sprite-Unlit-Default.shader",
-            "type": "Shader",
-            "packedSizeBytes": 5524
-        },
-        {
-            "name": "ScalingSetup.shader",
-            "path": "Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/ScalingSetup.shader",
-            "type": "Shader",
-            "packedSizeBytes": 5524
+            "packedSizeBytes": 5536
         },
         {
             "name": "DebugUIVector3.prefab",
@@ -658,10 +706,28 @@
             "packedSizeBytes": 5331
         },
         {
-            "name": "CopyDepth.shader",
-            "path": "Packages/com.unity.render-pipelines.universal/Shaders/Utils/CopyDepth.shader",
+            "name": "Sampling.shader",
+            "path": "Packages/com.unity.render-pipelines.universal/Shaders/Utils/Sampling.shader",
             "type": "Shader",
-            "packedSizeBytes": 4644
+            "packedSizeBytes": 5284
+        },
+        {
+            "name": "StopNaN.shader",
+            "path": "Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/StopNaN.shader",
+            "type": "Shader",
+            "packedSizeBytes": 5192
+        },
+        {
+            "name": "FallbackError.shader",
+            "path": "Packages/com.unity.render-pipelines.universal/Shaders/Utils/FallbackError.shader",
+            "type": "Shader",
+            "packedSizeBytes": 5012
+        },
+        {
+            "name": "Shadow2D-Shadow-Geometry.shader",
+            "path": "Packages/com.unity.render-pipelines.universal/Shaders/2D/Shadow2D-Shadow-Geometry.shader",
+            "type": "Shader",
+            "packedSizeBytes": 4836
         },
         {
             "name": "DebugUICanvas.prefab",
@@ -682,28 +748,10 @@
             "packedSizeBytes": 4498
         },
         {
-            "name": "ShieldNeon.shader",
-            "path": "Assets/Main/04_Resource/Items/Shield/ShieldNeon.shader",
-            "type": "Shader",
-            "packedSizeBytes": 4440
-        },
-        {
             "name": "DebugUIVector2.prefab",
             "path": "Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Widgets/DebugUIVector2.prefab",
             "type": "Prefab",
             "packedSizeBytes": 4384
-        },
-        {
-            "name": "PreviewNeonSprite.shader",
-            "path": "Assets/Main/04_Resource/VFX/PreviewNeon/PreviewNeonSprite.shader",
-            "type": "Shader",
-            "packedSizeBytes": 4308
-        },
-        {
-            "name": "DebugReplacement.shader",
-            "path": "Packages/com.unity.render-pipelines.universal/Shaders/Debug/DebugReplacement.shader",
-            "type": "Shader",
-            "packedSizeBytes": 4308
         },
         {
             "name": "LDR_LLL1_0.png",
@@ -718,22 +766,22 @@
             "packedSizeBytes": 4174
         },
         {
-            "name": "PaniniProjection.shader",
-            "path": "Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/PaniniProjection.shader",
-            "type": "Shader",
-            "packedSizeBytes": 4132
-        },
-        {
             "name": "FreezeWave.wav",
             "path": "Assets/Main/04_Resource/Audio/Items/FreezeWave.wav",
             "type": "Audio",
             "packedSizeBytes": 4128
         },
         {
-            "name": "PlayerTrailNeon.shader",
-            "path": "Assets/Main/04_Resource/VFX/PlayerTrailNeon.shader",
+            "name": "VrsVisualization.shader",
+            "path": "Packages/com.unity.render-pipelines.core/Runtime/Vrs/Shaders/VrsVisualization.shader",
             "type": "Shader",
-            "packedSizeBytes": 4036
+            "packedSizeBytes": 4104
+        },
+        {
+            "name": "FallbackShader.shader",
+            "path": "Packages/com.unity.render-pipelines.core/Runtime/RenderPipelineResources/FallbackShader.shader",
+            "type": "Shader",
+            "packedSizeBytes": 4084
         },
         {
             "name": "BombBlast.wav",
@@ -742,52 +790,16 @@
             "packedSizeBytes": 3904
         },
         {
-            "name": "Shadow2D-Shadow-Sprite.shader",
-            "path": "Packages/com.unity.render-pipelines.universal/Shaders/2D/Shadow2D-Shadow-Sprite.shader",
-            "type": "Shader",
-            "packedSizeBytes": 3828
-        },
-        {
             "name": "IceShatter.wav",
             "path": "Assets/Main/04_Resource/Audio/Items/IceShatter.wav",
             "type": "Audio",
             "packedSizeBytes": 3712
         },
         {
-            "name": "Sampling.shader",
-            "path": "Packages/com.unity.render-pipelines.universal/Shaders/Utils/Sampling.shader",
-            "type": "Shader",
-            "packedSizeBytes": 3700
-        },
-        {
-            "name": "StopNaN.shader",
-            "path": "Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/StopNaN.shader",
-            "type": "Shader",
-            "packedSizeBytes": 3608
-        },
-        {
             "name": "ShieldBurst.wav",
             "path": "Assets/Main/04_Resource/Audio/Items/ShieldBurst.wav",
             "type": "Audio",
             "packedSizeBytes": 3584
-        },
-        {
-            "name": "FallbackError.shader",
-            "path": "Packages/com.unity.render-pipelines.universal/Shaders/Utils/FallbackError.shader",
-            "type": "Shader",
-            "packedSizeBytes": 3572
-        },
-        {
-            "name": "VrsVisualization.shader",
-            "path": "Packages/com.unity.render-pipelines.core/Runtime/Vrs/Shaders/VrsVisualization.shader",
-            "type": "Shader",
-            "packedSizeBytes": 3448
-        },
-        {
-            "name": "Shadow2D-Shadow-Geometry.shader",
-            "path": "Packages/com.unity.render-pipelines.universal/Shaders/2D/Shadow2D-Shadow-Geometry.shader",
-            "type": "Shader",
-            "packedSizeBytes": 3384
         },
         {
             "name": "LiberationSans SDF - Fallback.asset",
@@ -811,13 +823,7 @@
             "name": "PerformanceTestRunInfo.json",
             "path": "Assets/Resources/PerformanceTestRunInfo.json",
             "type": "Data",
-            "packedSizeBytes": 3264
-        },
-        {
-            "name": "FallbackShader.shader",
-            "path": "Packages/com.unity.render-pipelines.core/Runtime/RenderPipelineResources/FallbackShader.shader",
-            "type": "Shader",
-            "packedSizeBytes": 3236
+            "packedSizeBytes": 3260
         },
         {
             "name": "HudDivider.png",
@@ -866,12 +872,6 @@
             "path": "Assets/Main/04_Resource/Audio/Items/MissileLaunch.wav",
             "type": "Audio",
             "packedSizeBytes": 2564
-        },
-        {
-            "name": "ProbeVolumeSamplingDebugPositionNormal.compute",
-            "path": "Packages/com.unity.render-pipelines.universal/Shaders/Debug/ProbeVolumeSamplingDebugPositionNormal.compute",
-            "type": "Shader",
-            "packedSizeBytes": 2528
         },
         {
             "name": "DebugUIFoldout.prefab",
@@ -1063,19 +1063,25 @@
             "name": "XRMirrorView.shader",
             "path": "Packages/com.unity.render-pipelines.universal/Shaders/XR/XRMirrorView.shader",
             "type": "Shader",
-            "packedSizeBytes": 480
+            "packedSizeBytes": 516
         },
         {
             "name": "BlitHDROverlay.shader",
             "path": "Packages/com.unity.render-pipelines.universal/Shaders/Utils/BlitHDROverlay.shader",
             "type": "Shader",
-            "packedSizeBytes": 476
+            "packedSizeBytes": 512
         },
         {
             "name": "UniversalRP.asset",
             "path": "Assets/Settings/UniversalRP.asset",
             "type": "Data",
             "packedSizeBytes": 448
+        },
+        {
+            "name": "XROcclusionMesh.shader",
+            "path": "Packages/com.unity.render-pipelines.universal/Shaders/XR/XROcclusionMesh.shader",
+            "type": "Shader",
+            "packedSizeBytes": 432
         },
         {
             "name": "DebugUIHBox.prefab",
@@ -1294,16 +1300,10 @@
             "packedSizeBytes": 412
         },
         {
-            "name": "XROcclusionMesh.shader",
-            "path": "Packages/com.unity.render-pipelines.universal/Shaders/XR/XROcclusionMesh.shader",
-            "type": "Shader",
-            "packedSizeBytes": 396
-        },
-        {
             "name": "XRMotionVector.shader",
             "path": "Packages/com.unity.render-pipelines.universal/Shaders/XR/XRMotionVector.shader",
             "type": "Shader",
-            "packedSizeBytes": 360
+            "packedSizeBytes": 396
         },
         {
             "name": "Sprite-Unlit-Default.mat",
