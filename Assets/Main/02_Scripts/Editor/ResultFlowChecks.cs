@@ -173,7 +173,9 @@ public static class ResultFlowChecks
             Call(host, "FinishRound");
             Call(host, "FixedUpdate");
             Require(resultCount == round + 1 && host.Score == snapshot.Score && host.SurvivalSeconds == snapshot.SurvivalSeconds, "사망 후 점수·시간·결과 고정: " + round);
-            Require(Get<TMP_Text>(view, "_recordLabelTxt").text == (round == 0 ? "최고 기록!" : "최고 점수"), "신기록과 동점 표시: " + round);
+            string expectedRecordLabel = GameLocalization.Language == GAME_LANGUAGE.ENGLISH
+                ? (round == 0 ? "NEW BEST!" : "BEST SCORE") : (round == 0 ? "최고 기록!" : "최고 점수");
+            Require(Get<TMP_Text>(view, "_recordLabelTxt").text == expectedRecordLabel, "신기록과 동점 표시: " + round);
             Require(storage.BestScore == 15L && Get<TMP_Text>(presenter, "_hudBestScoreTxt").text == "15", "결과·HUD 최고 점수 연결: " + round);
 
             if (round == 2)

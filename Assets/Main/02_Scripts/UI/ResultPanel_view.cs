@@ -20,6 +20,18 @@ public sealed class ResultPanel_view : MonoBehaviour
     [SerializeField, Min(0.01f)] private float _revealSeconds = 0.22f;
 
     private Sequence _reveal;
+    private bool _isNewRecord;
+
+    private void OnEnable()
+    {
+        GameLocalization.LanguageChanged += RefreshRecordLabel;
+        RefreshRecordLabel();
+    }
+
+    private void RefreshRecordLabel()
+    {
+        _recordLabelTxt.text = _isNewRecord ? GameLocalization.GetText("최고 기록!", "NEW BEST!") : GameLocalization.GetText("최고 점수", "BEST SCORE");
+    }
 
     public void Show(RoundResult result, long bestScore, bool isNewRecord)
     {
@@ -30,7 +42,8 @@ public sealed class ResultPanel_view : MonoBehaviour
         int hundredths = Mathf.FloorToInt(result.SurvivalSeconds * 100f);
         _survivalTxt.text = $"{hundredths / 6000:00}:{hundredths / 100 % 60:00}<size=65%>.{hundredths % 100:00}</size>";
         _bestScoreTxt.text = bestScore.ToString("N0");
-        _recordLabelTxt.text = isNewRecord ? "최고 기록!" : "최고 점수";
+        _isNewRecord = isNewRecord;
+        RefreshRecordLabel();
 
         gameObject.SetActive(true);
         _canvasGroup.alpha = 0f;
@@ -50,6 +63,14 @@ public sealed class ResultPanel_view : MonoBehaviour
         });
     }
 
+    public RectTransform PrepareMenuReturn()
+    {
+        KillReveal();
+        _canvasGroup.interactable = false;
+        _canvasGroup.blocksRaycasts = true;
+        return (RectTransform)transform;
+    }
+
     public void Hide()
     {
         KillReveal();
@@ -61,6 +82,7 @@ public sealed class ResultPanel_view : MonoBehaviour
 
     private void OnDisable()
     {
+        GameLocalization.LanguageChanged -= RefreshRecordLabel;
         KillReveal();
     }
 

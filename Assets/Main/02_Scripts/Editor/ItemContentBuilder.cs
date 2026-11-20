@@ -368,7 +368,7 @@ public static class ItemContentBuilder
         source.clip = clip;
         source.playOnAwake = playOnAwake;
         source.spatialBlend = 0f;
-        source.volume = 0.3f;
+        source.volume = 0.45f;
     }
     private static void EnsureFolder(string path)
     {

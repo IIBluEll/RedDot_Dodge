@@ -24,6 +24,7 @@ public class DifficultyStage
     [SerializeField, Min(1)] private int _maximumChaseCount;
     [SerializeField, Min(0.01f)] private float _chaseSpeed;
     [SerializeField, Min(0.01f)] private float _warningDurationSeconds;
+    [SerializeField, Min(0.01f)] private float _ambientSpawnIntervalSeconds = 1.6f;
     [SerializeField] private WAVE_PATTERN[] _allowedPatterns;
 
     public float StartSeconds => _startSeconds;
@@ -32,9 +33,10 @@ public class DifficultyStage
     public int MaximumChaseCount => _maximumChaseCount;
     public float ChaseSpeed => _chaseSpeed;
     public float WarningDurationSeconds => _warningDurationSeconds;
+    public float AmbientSpawnIntervalSeconds => _ambientSpawnIntervalSeconds;
     public IReadOnlyList<WAVE_PATTERN> AllowedPatterns => _allowedPatterns;
 
-    public DifficultyStage(float startSeconds , float waveIntervalSeconds , int minimumChaseCount , int maximumChaseCount , float chaseSpeed , float warningDurationSeconds , params WAVE_PATTERN[] allowedPatterns)
+    public DifficultyStage(float startSeconds, float waveIntervalSeconds, int minimumChaseCount, int maximumChaseCount, float chaseSpeed, float warningDurationSeconds, float ambientSpawnIntervalSeconds, params WAVE_PATTERN[] allowedPatterns)
     {
         _startSeconds = startSeconds;
         _waveIntervalSeconds = waveIntervalSeconds;
@@ -42,6 +44,7 @@ public class DifficultyStage
         _maximumChaseCount = maximumChaseCount;
         _chaseSpeed = chaseSpeed;
         _warningDurationSeconds = warningDurationSeconds;
+        _ambientSpawnIntervalSeconds = ambientSpawnIntervalSeconds;
         _allowedPatterns = allowedPatterns;
     }
 
@@ -58,7 +61,9 @@ public sealed class GameBalance : ScriptableObject
     [SerializeField, Min(0.01f)] private float _playerRadius = 0.25f;
     [SerializeField, Min(0.01f)] private float _enemyRadius = 0.15f;
     [SerializeField, Min(1)] private int _enemyCapacity = 96;
-    [SerializeField, Min(0f)] private float _firstWaveDelaySeconds = 2f;
+    [SerializeField, Min(0f)] private float _firstWaveDelaySeconds = 1.5f;
+    [SerializeField, Min(0f)] private float _firstAmbientSpawnDelaySeconds = 1f;
+    [SerializeField, Min(0f)] private float _ambientMinPlayerDistance = 2.5f;
 
     [SerializeField] private PatternWeight[] _patterns = Array.Empty<PatternWeight>();
     [SerializeField] private InterceptorPatternData _interceptorPattern;
@@ -66,19 +71,19 @@ public sealed class GameBalance : ScriptableObject
     [SerializeField]
     private DifficultyStage[] _stages =
     {
-        new DifficultyStage(0f, 6f, 3, 4, 1.2f, 1.5f, EDGE_CHASE),
-        new DifficultyStage(15f, 6f, 3, 4, 1.2f, 1.5f, EDGE_CHASE, WALL),
-        new DifficultyStage(30f, 5f, 4, 6, 1.45f, 1.4f, EDGE_CHASE, WALL, ENCIRCLE, CHASE_WALL),
-        new DifficultyStage(60f, 5f, 6, 8, 1.45f, 1.4f, EDGE_CHASE, WALL, ENCIRCLE, ARROW_DASH, CHASE_WALL),
-        new DifficultyStage(120f, 5f, 8, 10, 1.45f, 1.4f, EDGE_CHASE, WALL, ENCIRCLE, ARROW_DASH, CHASE_WALL),
-        new DifficultyStage(180f, 5f, 8, 10, 1.45f, 1.4f, EDGE_CHASE, WALL, ENCIRCLE, ARROW_DASH, CHASE_WALL)
+        new DifficultyStage(0f, 4.5f, 4, 6, 1.25f, 1.5f, 1.6f, EDGE_CHASE),
+        new DifficultyStage(10f, 4f, 5, 7, 1.35f, 1.5f, 1.4f, EDGE_CHASE, WALL),
+        new DifficultyStage(20f, 3.5f, 6, 8, 1.45f, 1.4f, 1.2f, EDGE_CHASE, WALL, ENCIRCLE, CHASE_WALL),
+        new DifficultyStage(40f, 3f, 8, 10, 1.55f, 1.4f, 1f, EDGE_CHASE, WALL, ENCIRCLE, ARROW_DASH, CHASE_WALL),
+        new DifficultyStage(70f, 2.7f, 10, 12, 1.65f, 1.3f, 0.85f, EDGE_CHASE, WALL, ENCIRCLE, ARROW_DASH, CHASE_WALL),
+        new DifficultyStage(110f, 2.5f, 12, 14, 1.75f, 1.3f, 0.75f, EDGE_CHASE, WALL, ENCIRCLE, ARROW_DASH, CHASE_WALL)
     };
 
     [Header("Item Supply")]
-    [SerializeField] private Vector2 _firstItemDelaySeconds = new Vector2(4f, 6f);
-    [SerializeField] private Vector2 _itemSpawnIntervalSeconds = new Vector2(3f, 5f);
+    [SerializeField] private Vector2 _firstItemDelaySeconds = new Vector2(3f, 4f);
+    [SerializeField] private Vector2 _itemSpawnIntervalSeconds = new Vector2(2f, 3f);
     [SerializeField, Min(0.01f)] private float _itemRetrySeconds = 1f;
-    [SerializeField, Min(1)] private int _itemCapacity = 3;
+    [SerializeField, Min(1)] private int _itemCapacity = 5;
     [SerializeField, Min(1)] private int _itemPlacementAttempts = 32;
     [SerializeField, FormerlySerializedAs("_bombPickupRadius"), Min(0.01f)] private float _itemPickupRadius = 0.7f;
     [SerializeField, FormerlySerializedAs("_bombLifetimeSeconds"), Min(0.01f)] private float _itemLifetimeSeconds = 18f;
@@ -105,6 +110,8 @@ public sealed class GameBalance : ScriptableObject
     public float EnemyRadius => _enemyRadius;
     public int EnemyCapacity => _enemyCapacity;
     public float FirstWaveDelaySeconds => _firstWaveDelaySeconds;
+    public float FirstAmbientSpawnDelaySeconds => _firstAmbientSpawnDelaySeconds;
+    public float AmbientMinPlayerDistance => _ambientMinPlayerDistance;
     public IReadOnlyList<PatternWeight> Patterns => _patterns;
     public InterceptorPatternData InterceptorPattern => _interceptorPattern;
 
@@ -154,9 +161,10 @@ public sealed class GameBalance : ScriptableObject
     public void Validate()
     {
         ValidateItems();
-        if ( _arenaSize.x <= 0f || _arenaSize.y <= 0f )
+        if ( _arenaSize.x <= 0f || _arenaSize.y <= 0f || _enemyCapacity < 1 || _firstWaveDelaySeconds < 0f
+            || _firstAmbientSpawnDelaySeconds < 0f || _ambientMinPlayerDistance < _playerRadius + _enemyRadius )
         {
-            throw new InvalidOperationException("경기장 크기를 확인하세요.");
+            throw new InvalidOperationException("경기장 크기, 적 수 상한과 최초 생성·안전 거리 설정을 확인하세요.");
         }
 
         var kinds = new HashSet<WAVE_PATTERN>();
@@ -179,9 +187,10 @@ public sealed class GameBalance : ScriptableObject
         foreach ( DifficultyStage stage in _stages )
         {
             if ( stage == null || stage.StartSeconds <= previousStartSeconds || stage.MaximumChaseCount < stage.MinimumChaseCount
-                || stage.MaximumChaseCount > _enemyCapacity )
+                || stage.MinimumChaseCount < 1 || stage.MaximumChaseCount > _enemyCapacity || stage.WaveIntervalSeconds <= 0f
+                || stage.ChaseSpeed <= 0f || stage.WarningDurationSeconds <= 0f || stage.AmbientSpawnIntervalSeconds <= 0f )
             {
-                throw new InvalidOperationException("난이도 단계의 시작 시각과 추적 적 수 범위를 확인하세요.");
+                throw new InvalidOperationException("난이도 단계의 시작 시각, 추적 적 수, 속도·예고·공급 간격을 확인하세요.");
             }
 
             if ( stage.AllowedPatterns == null || !stage.Allows(EDGE_CHASE) )

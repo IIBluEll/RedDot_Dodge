@@ -18,6 +18,9 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
     [SerializeField] private Sprite _enemySprite;
     [SerializeField, FormerlySerializedAs("_bombItem")] private ItemSystem _itemSystem;
     [SerializeField] private AudioSource _shatterAudio;
+    [SerializeField] private AudioSource _countdownAudio;
+    [SerializeField] private AudioClip _countdownTickClip;
+    [SerializeField] private AudioClip _countdownStartClip;
     [SerializeField] private bool _startAutomatically = true;
     [SerializeField] private bool _allowKeyboardRestart = true;
 
@@ -32,6 +35,7 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
     [SerializeField, Min(0f)] private float _deathShardSpeed = 2.2f;
 
     private readonly List<PendingEnemy> WARNING_ENEMIES = new();
+    private readonly List<AmbientEnemyWarning> AMBIENT_WARNINGS = new();
     private readonly List<ActiveEnemy> ACTIVE_ENEMIES = new();
     private readonly Stack<SpriteRenderer> FREE_RENDERERS = new();
 
@@ -65,6 +69,15 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
         public bool AimLocked;
     }
 
+    private struct AmbientEnemyWarning
+    {
+        public SpriteRenderer Renderer;
+        public Vector2 Position;
+        public float StartedAtSeconds;
+        public float DurationSeconds;
+        public float Speed;
+    }
+
     private EnemyWaveDirector _waveDirector;
     private RoundScore _roundScore;
     private WaveState _warningWave;
@@ -79,6 +92,7 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
     private float _survivalSeconds;
     private float _nextInterceptorAtSeconds;
     private float _interceptorRetryAtSeconds;
+    private float _nextAmbientSpawnAtSeconds;
     private bool _roundInProgress;
     private bool _initialized;
     private bool _canRestartRound;
@@ -91,7 +105,7 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
     {
         get
         {
-            int count = ACTIVE_ENEMIES.Count;
+            int count = ACTIVE_ENEMIES.Count + AMBIENT_WARNINGS.Count;
             foreach (PendingEnemy enemy in WARNING_ENEMIES)
                 if (enemy != null)
                     count++;
@@ -171,9 +185,17 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
 
         if (_readyRemainingSeconds > 0f)
         {
+            int previousCount = Mathf.CeilToInt(_readyRemainingSeconds);
             _readyRemainingSeconds = Mathf.Max(0f, _readyRemainingSeconds - deltaTime);
+            int count = Mathf.CeilToInt(_readyRemainingSeconds);
+            if (count != previousCount)
+            {
+                PlayCountdownSound(count);
+            }
             if (_readyRemainingSeconds == 0f)
+            {
                 _playerMovement.enabled = true;
+            }
 
             return;
         }
@@ -187,6 +209,7 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
         TickActiveEnemies(playerPosition, deltaTime);
         RefreshWarningVisuals();
         ActivateWarning();
+        TickAmbientWarnings();
 
         _itemSystem.TickSupply(_survivalSeconds, playerPosition);
         _itemSystem.CollectPickups(_previousPlayerPosition, playerPosition, _gameBalance.PlayerRadius, _survivalSeconds);
@@ -213,7 +236,10 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
         }
 
         if (!TryStartInterceptor())
+        {
             _waveDirector.TryStartWave(_survivalSeconds, this, out _);
+        }
+        TryStartAmbientEnemy();
     }
 
     private void FinishRound()
@@ -254,6 +280,7 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
             ReturnRenderer(pending.TargetRenderer);
         }
         WARNING_ENEMIES.Clear();
+        ClearAmbientWarnings();
         _warningWave?.Finish();
         _warningWave = null;
     }
@@ -329,6 +356,20 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
                         break;
                     }
                 }
+                foreach (AmbientEnemyWarning warning in AMBIENT_WARNINGS)
+                {
+                    float activationDelay = warning.StartedAtSeconds + warning.DurationSeconds - _survivalSeconds;
+                    if (time < activationDelay)
+                    {
+                        continue;
+                    }
+                    Vector2 predicted = Vector2.MoveTowards(warning.Position, position, warning.Speed * (time - activationDelay));
+                    if ((position - predicted).sqrMagnitude < radius * radius)
+                    {
+                        clear = false;
+                        break;
+                    }
+                }
                 if (step != 16)
                     continue;
                 foreach (EnemyPlacement placement in plan.Placements)
@@ -370,6 +411,83 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
         // Include the warning's maximum animated width as well as the enemy collision circle.
         float padding = Mathf.Max(_gameBalance.EnemyRadius, Mathf.Max(ENEMY_WIDTH, WARNING_WIDTH * 1.08f) * 0.5f);
         return _gameBalance.ArenaSize * 0.5f - Vector2.one * padding;
+    }
+
+    private void TryStartAmbientEnemy()
+    {
+        if (_survivalSeconds < _nextAmbientSpawnAtSeconds)
+        {
+            return;
+        }
+
+        DifficultyStage stage = _gameBalance.GetStage(_survivalSeconds);
+        // 패턴이 먼저 수용량을 확보합니다. 실패한 일반 적을 누적하거나 몰아서 보충하지 않습니다.
+        _nextAmbientSpawnAtSeconds = _survivalSeconds + stage.AmbientSpawnIntervalSeconds;
+        if (EnemyCount >= _gameBalance.EnemyCapacity)
+        {
+            return;
+        }
+
+        Vector2 limits = GetSpawnLimits();
+        if (limits.x <= 0f || limits.y <= 0f)
+        {
+            return;
+        }
+
+        Vector2 playerPosition = _playerMovement.transform.position;
+        float playerDistanceSquared = _gameBalance.AmbientMinPlayerDistance * _gameBalance.AmbientMinPlayerDistance;
+        for (int attempt = 0; attempt < 16; attempt++)
+        {
+            // 각 변의 길이에 비례해 선택하여 긴 변에도 고르게 공급합니다.
+            bool vertical = Random.value < limits.y / (limits.x + limits.y);
+            float side = Random.value < 0.5f ? -1f : 1f;
+            Vector2 position = vertical
+                ? new Vector2(limits.x * side, Random.Range(-limits.y, limits.y))
+                : new Vector2(Random.Range(-limits.x, limits.x), limits.y * side);
+            if ((position - playerPosition).sqrMagnitude < playerDistanceSquared || !IsItemPositionClear(position, WARNING_WIDTH))
+            {
+                continue;
+            }
+
+            AMBIENT_WARNINGS.Add(new AmbientEnemyWarning
+            {
+                Renderer = RentRenderer(), Position = position, StartedAtSeconds = _survivalSeconds,
+                DurationSeconds = stage.WarningDurationSeconds, Speed = stage.ChaseSpeed
+            });
+            return;
+        }
+    }
+
+    private void TickAmbientWarnings()
+    {
+        for (int i = AMBIENT_WARNINGS.Count - 1; i >= 0; i--)
+        {
+            AmbientEnemyWarning warning = AMBIENT_WARNINGS[i];
+            float elapsed = _survivalSeconds - warning.StartedAtSeconds;
+            if (elapsed + 0.0001f < warning.DurationSeconds)
+            {
+                ShowSpawnWarning(warning.Renderer, warning.Position, elapsed, warning.DurationSeconds, Color.white);
+                continue;
+            }
+
+            ShowSprite(warning.Renderer, _enemySprite, warning.Position, ENEMY_WIDTH);
+            warning.Renderer.color = Color.white;
+            ACTIVE_ENEMIES.Add(new ActiveEnemy
+            {
+                Id = ++_nextEnemyId, Renderer = warning.Renderer, PreviousPosition = warning.Position,
+                Speed = warning.Speed, ActivatedAtSeconds = _survivalSeconds, Motion = ENEMY_MOTION.CHASE
+            });
+            AMBIENT_WARNINGS.RemoveAt(i);
+        }
+    }
+
+    private void ClearAmbientWarnings()
+    {
+        foreach (AmbientEnemyWarning warning in AMBIENT_WARNINGS)
+        {
+            ReturnRenderer(warning.Renderer);
+        }
+        AMBIENT_WARNINGS.Clear();
     }
 
     private float GetWarningDuration(EnemyPlacement placement)
@@ -418,16 +536,21 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
                 }
                 pending.Position = _warningWave.Plan.Anchor + EnemyWaveLayouts.Rotate(offset, direction);
             }
-            float progress = Mathf.Clamp01(localElapsed / Mathf.Max(0.01f, GetWarningDuration(placement)));
-            float startFrequency = 1f / Mathf.Max(0.01f, _spawnBlinkStartInterval);
-            float endFrequency = 1f / Mathf.Max(0.01f, _spawnBlinkEndInterval);
-            float cycles = localElapsed * (startFrequency + (endFrequency - startFrequency) * progress * 0.5f);
-            float pulse = (1f - Mathf.Cos(cycles * Mathf.PI * 2f)) * 0.5f;
-            ShowSprite(pending.Renderer, _warningSprite, pending.Position, WARNING_WIDTH * (Mathf.Lerp(0.85f, 1f, progress) + pulse * 0.08f));
             Color color = placement.Motion == ENEMY_MOTION.INTERCEPTOR ? INTERCEPT_COLOR : Color.white;
-            color.a = Mathf.Lerp(0.18f, 1f, pulse) * Mathf.Lerp(0.4f, 1f, Mathf.Clamp01(localElapsed / 0.12f));
-            pending.Renderer.color = color;
+            ShowSpawnWarning(pending.Renderer, pending.Position, localElapsed, GetWarningDuration(placement), color);
         }
+    }
+
+    private void ShowSpawnWarning(SpriteRenderer renderer, Vector2 position, float elapsed, float duration, Color color)
+    {
+        float progress = Mathf.Clamp01(elapsed / Mathf.Max(0.01f, duration));
+        float startFrequency = 1f / Mathf.Max(0.01f, _spawnBlinkStartInterval);
+        float endFrequency = 1f / Mathf.Max(0.01f, _spawnBlinkEndInterval);
+        float cycles = elapsed * (startFrequency + (endFrequency - startFrequency) * progress * 0.5f);
+        float pulse = (1f - Mathf.Cos(cycles * Mathf.PI * 2f)) * 0.5f;
+        ShowSprite(renderer, _warningSprite, position, WARNING_WIDTH * (Mathf.Lerp(0.85f, 1f, progress) + pulse * 0.08f));
+        color.a = Mathf.Lerp(0.18f, 1f, pulse) * Mathf.Lerp(0.4f, 1f, Mathf.Clamp01(elapsed / 0.12f));
+        renderer.color = color;
     }
 
     private void ActivateWarning()
@@ -773,6 +896,13 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
     public bool IsItemPositionClear(Vector2 position, float enemyDistance)
     {
         float distanceSquared = enemyDistance * enemyDistance;
+        foreach (AmbientEnemyWarning warning in AMBIENT_WARNINGS)
+        {
+            if ((position - warning.Position).sqrMagnitude < distanceSquared)
+            {
+                return false;
+            }
+        }
         foreach (ActiveEnemy enemy in ACTIVE_ENEMIES)
         {
             Vector2 enemyPosition = enemy.Renderer.transform.position;
@@ -855,6 +985,7 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
         }
 
         WARNING_ENEMIES.Clear();
+        ClearAmbientWarnings();
         ACTIVE_ENEMIES.Clear();
         _nextEnemyId = 0;
         _warningWave?.Finish();
@@ -862,6 +993,7 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
 
         _waveDirector.Reset(Random.Range(0, int.MaxValue));
         _survivalSeconds = 0f;
+        _nextAmbientSpawnAtSeconds = _gameBalance.FirstAmbientSpawnDelaySeconds;
         _nextInterceptorAtSeconds = _gameBalance.InterceptorPattern != null
             ? Mathf.Max(1f, _gameBalance.InterceptorPattern.SpawnIntervalSeconds) : float.PositiveInfinity;
         _interceptorRetryAtSeconds = 0f;
@@ -876,6 +1008,23 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
         _roundScore.Reset();
         _playerMovement.gameObject.SetActive(startRound);
         ScoreChanged?.Invoke(Score);
+        if (_countdownAudio != null)
+        {
+            _countdownAudio.Stop();
+        }
+        if (startRound)
+        {
+            PlayCountdownSound(Mathf.CeilToInt(_readyRemainingSeconds));
+        }
+    }
+
+    private void PlayCountdownSound(int count)
+    {
+        AudioClip clip = count > 0 ? _countdownTickClip : _countdownStartClip;
+        if (_countdownAudio != null && clip != null)
+        {
+            _countdownAudio.PlayOneShot(clip);
+        }
     }
 
     private SpriteRenderer RentRenderer()

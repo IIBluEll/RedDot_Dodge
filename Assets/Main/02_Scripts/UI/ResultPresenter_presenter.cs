@@ -31,6 +31,11 @@ public sealed class ResultPresenter_presenter : MonoBehaviour
         _view.Show(_result, _scoreStorage.BestScore, _isNewRecord);
     }
 
+    public RectTransform PrepareMenuReturn()
+    {
+        return _view.PrepareMenuReturn();
+    }
+
     public void Hide()
     {
         if (_view != null)

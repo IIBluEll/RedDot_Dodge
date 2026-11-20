@@ -89,7 +89,7 @@ public static class MissileContentBuilder
         AudioSource audio = rootObj.AddComponent<AudioSource>();
         audio.playOnAwake = false;
         audio.spatialBlend = 0f;
-        audio.volume = 0.6f;
+        audio.volume = 0.9f;
         HomingMissileVisual visual = rootObj.AddComponent<HomingMissileVisual>();
         var data = new SerializedObject(visual);
         data.FindProperty("_missileSprite").objectReferenceValue = missile;

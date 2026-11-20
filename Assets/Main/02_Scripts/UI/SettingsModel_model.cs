@@ -2,29 +2,34 @@ using UnityEngine;
 
 public sealed class SettingsModel_model
 {
-    private const string VOLUME_KEY = "RedDotDodge.Settings.Volume.v1";
-    private const string MUTE_KEY = "RedDotDodge.Settings.Muted.v1";
+    private const string LEGACY_VOLUME_KEY = "RedDotDodge.Settings.Volume.v1";
+    private const string LEGACY_MUTE_KEY = "RedDotDodge.Settings.Muted.v1";
     private const string TILT_KEY = "RedDotDodge.Settings.TiltSensitivity.v1";
+    private const string BGM_KEY = "RedDotDodge.Settings.BgmVolume.v1";
+    private const string SFX_KEY = "RedDotDodge.Settings.SfxVolume.v1";
 
-    public float Volume { get; private set; }
-    public bool IsMuted { get; private set; }
+    public float BgmVolume { get; private set; }
+    public float SfxVolume { get; private set; }
     public float TiltSensitivity { get; private set; }
+    public GAME_LANGUAGE Language { get; private set; }
 
     public SettingsModel_model()
     {
-        Volume = ReadFloat(VOLUME_KEY, 1f, 0f, 1f);
-        IsMuted = PlayerPrefs.GetInt(MUTE_KEY, 0) == 1;
+        float previousVolume = PlayerPrefs.GetInt(LEGACY_MUTE_KEY, 0) == 1 ? 0f : ReadFloat(LEGACY_VOLUME_KEY, 1f, 0f, 1f);
+        BgmVolume = ReadFloat(BGM_KEY, previousVolume, 0f, 1f);
+        SfxVolume = ReadFloat(SFX_KEY, previousVolume, 0f, 1f);
         TiltSensitivity = ReadFloat(TILT_KEY, 1f, 0.5f, 2f);
+        Language = GameLocalization.ReadSavedLanguage();
     }
 
-    public void SetVolume(float volume)
+    public void SetBgmVolume(float volume)
     {
-        Volume = Mathf.Clamp01(volume);
+        BgmVolume = Mathf.Clamp01(volume);
     }
 
-    public void ToggleMute()
+    public void SetSfxVolume(float volume)
     {
-        IsMuted = !IsMuted;
+        SfxVolume = Mathf.Clamp01(volume);
     }
 
     public void SetTiltSensitivity(float sensitivity)
@@ -32,11 +37,17 @@ public sealed class SettingsModel_model
         TiltSensitivity = Mathf.Clamp(sensitivity, 0.5f, 2f);
     }
 
+    public void ToggleLanguage()
+    {
+        Language = Language == GAME_LANGUAGE.KOREAN ? GAME_LANGUAGE.ENGLISH : GAME_LANGUAGE.KOREAN;
+    }
+
     public void Save()
     {
-        PlayerPrefs.SetFloat(VOLUME_KEY, Volume);
-        PlayerPrefs.SetInt(MUTE_KEY, IsMuted ? 1 : 0);
+        PlayerPrefs.SetFloat(BGM_KEY, BgmVolume);
+        PlayerPrefs.SetFloat(SFX_KEY, SfxVolume);
         PlayerPrefs.SetFloat(TILT_KEY, TiltSensitivity);
+        PlayerPrefs.SetInt(GameLocalization.LANGUAGE_KEY, (int)Language);
         PlayerPrefs.Save();
     }
 

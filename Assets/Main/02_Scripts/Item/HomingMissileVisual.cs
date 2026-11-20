@@ -37,7 +37,9 @@ public sealed class HomingMissileVisual : ItemEffectVisual
             view.PlayedBurst = false;
         }
         if (_audio != null && _launchClip != null)
-            _audio.PlayOneShot(_launchClip, 0.3f);
+        {
+            _audio.PlayOneShot(_launchClip, 0.85f);
+        }
     }
 
     protected override void OnEffectTicked()
@@ -61,7 +63,9 @@ public sealed class HomingMissileVisual : ItemEffectVisual
             {
                 view.PlayedBurst = true;
                 if (_audio != null && _impactClip != null)
-                    _audio.PlayOneShot(_impactClip, 0.22f);
+                {
+                    _audio.PlayOneShot(_impactClip, 0.5f);
+                }
             }
             float progress = Mathf.Clamp01((effect.ElapsedSeconds - missile.ExplosionStartedAtSeconds) / effect.BlastDurationSeconds);
             int frame = Mathf.Min((int)(progress * _explosionFrames.Length), _explosionFrames.Length - 1);

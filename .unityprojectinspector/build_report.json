@@ -4,15 +4,15 @@
     "unityVersion": "6000.3.20f1",
     "assetSizeDefinition": "Unity BuildReport PackedAssetInfo.packedSize",
     "build": {
-        "buildGuid": "25723e5d072a4e858d4ba2fb868cf88c",
+        "buildGuid": "af44c739f8ec45979be22182e68722aa",
         "platform": "StandaloneWindows64",
         "result": "Succeeded",
-        "outputPath": "F:/GitFork/RedDot_Dodge/Builds/RedDot_Dodge.exe",
-        "buildStartedAtUtc": "2026-11-19T08:10:06.7001461Z",
-        "buildEndedAtUtc": "2026-11-19T08:10:58.9058853Z",
-        "reportGeneratedAtUtc": "2026-11-19T08:10:59.0103674Z",
-        "buildTimeSeconds": 52.2057392,
-        "reportedOutputSizeBytes": 122942506,
+        "outputPath": "D:/Fork/RedDot_Dodge/Builds/RedDot_Dodge.exe",
+        "buildStartedAtUtc": "2026-11-20T04:44:53.2292054Z",
+        "buildEndedAtUtc": "2026-11-20T04:47:17.7790449Z",
+        "reportGeneratedAtUtc": "2026-11-20T04:47:18.0047256Z",
+        "buildTimeSeconds": 144.5498395,
+        "reportedOutputSizeBytes": 211040956,
         "artifactSizeBytes": 667136,
         "artifactSizeSource": "File",
         "warningCount": 1,
@@ -22,10 +22,52 @@
     },
     "assets": [
         {
+            "name": "DoHyeon-Regular SDF.asset",
+            "path": "Assets/Main/04_Resource/Font/DoHyeon-Regular SDF.asset",
+            "type": "Font",
+            "packedSizeBytes": 16982000
+        },
+        {
+            "name": "Oxanium-Bold SDF.asset",
+            "path": "Assets/Main/04_Resource/Font/Oxanium-Bold SDF.asset",
+            "type": "Font",
+            "packedSizeBytes": 16793456
+        },
+        {
+            "name": "ai_fight.mp3",
+            "path": "Assets/Main/04_Resource/Music/ai_fight.mp3",
+            "type": "Audio",
+            "packedSizeBytes": 16409852
+        },
+        {
+            "name": "specular_city.mp3",
+            "path": "Assets/Main/04_Resource/Music/specular_city.mp3",
+            "type": "Audio",
+            "packedSizeBytes": 5931108
+        },
+        {
+            "name": "electric_stream.mp3",
+            "path": "Assets/Main/04_Resource/Music/electric_stream.mp3",
+            "type": "Audio",
+            "packedSizeBytes": 5010436
+        },
+        {
+            "name": "menu_background.png",
+            "path": "Assets/Main/04_Resource/UI/MainMenu/menu_background.png",
+            "type": "Texture",
+            "packedSizeBytes": 4720684
+        },
+        {
             "name": "SpaceBackground.png",
             "path": "Assets/Main/04_Resource/UI/InGameHUD/SpaceBackground.png",
             "type": "Texture",
             "packedSizeBytes": 4720648
+        },
+        {
+            "name": "starshooterv2.1.ogg",
+            "path": "Assets/Main/04_Resource/Music/starshooterv2.1.ogg",
+            "type": "Audio",
+            "packedSizeBytes": 4692452
         },
         {
             "name": "BombBlastLayered_Sheet.png",
@@ -40,6 +82,30 @@
             "packedSizeBytes": 4201508
         },
         {
+            "name": "neon_sign_circuit_remake_bpm145.mp3",
+            "path": "Assets/Main/04_Resource/Music/neon_sign_circuit_remake_bpm145.mp3",
+            "type": "Audio",
+            "packedSizeBytes": 3397908
+        },
+        {
+            "name": "hot_roadway_bpm160.ogg",
+            "path": "Assets/Main/04_Resource/Music/hot_roadway_bpm160.ogg",
+            "type": "Audio",
+            "packedSizeBytes": 2954696
+        },
+        {
+            "name": "pure_raceway_bpm160.mp3",
+            "path": "Assets/Main/04_Resource/Music/pure_raceway_bpm160.mp3",
+            "type": "Audio",
+            "packedSizeBytes": 2854664
+        },
+        {
+            "name": "fever_stadium_bpm165.mp3",
+            "path": "Assets/Main/04_Resource/Music/fever_stadium_bpm165.mp3",
+            "type": "Audio",
+            "packedSizeBytes": 2798120
+        },
+        {
             "name": "Built-in Texture2D: Splash Screen Unity Logo",
             "path": "Built-in Texture2D: Splash Screen Unity Logo",
             "type": "Texture",
@@ -52,10 +118,40 @@
             "packedSizeBytes": 2452524
         },
         {
+            "name": "cyber_runner.mp3",
+            "path": "Assets/Main/04_Resource/Music/cyber_runner.mp3",
+            "type": "Audio",
+            "packedSizeBytes": 1974752
+        },
+        {
+            "name": "button_primary.png",
+            "path": "Assets/Main/04_Resource/UI/MainMenu/button_primary.png",
+            "type": "Texture",
+            "packedSizeBytes": 1088708
+        },
+        {
             "name": "LiberationSans SDF.asset",
             "path": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset",
             "type": "Font",
             "packedSizeBytes": 1078488
+        },
+        {
+            "name": "button_secondary.png",
+            "path": "Assets/Main/04_Resource/UI/MainMenu/button_secondary.png",
+            "type": "Texture",
+            "packedSizeBytes": 597624
+        },
+        {
+            "name": "unity_builtin_extra",
+            "path": "Resources/unity_builtin_extra",
+            "type": "Material",
+            "packedSizeBytes": 559752
+        },
+        {
+            "name": "title_logo.png",
+            "path": "Assets/Main/04_Resource/UI/MainMenu/title_logo.png",
+            "type": "Texture",
+            "packedSizeBytes": 504236
         },
         {
             "name": "LiberationSans.ttf",
@@ -139,7 +235,7 @@
             "name": "TMP_SDF-Mobile.shader",
             "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader",
             "type": "Shader",
-            "packedSizeBytes": 196292
+            "packedSizeBytes": 260980
         },
         {
             "name": "Light2D.shader",
@@ -148,10 +244,22 @@
             "packedSizeBytes": 183880
         },
         {
+            "name": "panel_dialog.png",
+            "path": "Assets/Main/04_Resource/Sprites/UI/panel_dialog.png",
+            "type": "Texture",
+            "packedSizeBytes": 165628
+        },
+        {
             "name": "UberPost.shader",
             "path": "Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/UberPost.shader",
             "type": "Shader",
             "packedSizeBytes": 147772
+        },
+        {
+            "name": "freeze_ring.png",
+            "path": "Assets/Main/04_Resource/Sprites/VFX/freeze_ring.png",
+            "type": "Texture",
+            "packedSizeBytes": 104408
         },
         {
             "name": "pickup_interceptor_missile.png",
@@ -214,6 +322,30 @@
             "packedSizeBytes": 60506
         },
         {
+            "name": "button_pressed.png",
+            "path": "Assets/Main/04_Resource/Sprites/UI/button_pressed.png",
+            "type": "Texture",
+            "packedSizeBytes": 58324
+        },
+        {
+            "name": "button_focus.png",
+            "path": "Assets/Main/04_Resource/Sprites/UI/button_focus.png",
+            "type": "Texture",
+            "packedSizeBytes": 58312
+        },
+        {
+            "name": "button_normal.png",
+            "path": "Assets/Main/04_Resource/Sprites/UI/button_normal.png",
+            "type": "Texture",
+            "packedSizeBytes": 58092
+        },
+        {
+            "name": "PauseButtonPressed.png",
+            "path": "Assets/Main/04_Resource/UI/InGameHUD/PauseButtonPressed.png",
+            "type": "Texture",
+            "packedSizeBytes": 50776
+        },
+        {
             "name": "PauseButton.png",
             "path": "Assets/Main/04_Resource/UI/InGameHUD/PauseButton.png",
             "type": "Texture",
@@ -254,6 +386,12 @@
             "path": "Assets/Main/04_Resource/UI/InGameHUD/TimerIcon.png",
             "type": "Texture",
             "packedSizeBytes": 26184
+        },
+        {
+            "name": "CountdownStart.wav",
+            "path": "Assets/Main/04_Resource/Audio/System/CountdownStart.wav",
+            "type": "Audio",
+            "packedSizeBytes": 25188
         },
         {
             "name": "ComboTrack.png",
@@ -322,6 +460,12 @@
             "packedSizeBytes": 17240
         },
         {
+            "name": "icon_play.png",
+            "path": "Assets/Main/04_Resource/UI/MainMenu/icon_play.png",
+            "type": "Texture",
+            "packedSizeBytes": 17192
+        },
+        {
             "name": "player_arrow.png",
             "path": "Assets/Main/04_Resource/Sprites/Gameplay/player_arrow.png",
             "type": "Texture",
@@ -346,22 +490,70 @@
             "packedSizeBytes": 16256
         },
         {
+            "name": "TMP_SDF.shader",
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF.shader",
+            "type": "Shader",
+            "packedSizeBytes": 13784
+        },
+        {
             "name": "SubpixelMorphologicalAntialiasing.shader",
             "path": "Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/SubpixelMorphologicalAntialiasing.shader",
             "type": "Shader",
             "packedSizeBytes": 13648
         },
         {
+            "name": "CountdownTick.wav",
+            "path": "Assets/Main/04_Resource/Audio/System/CountdownTick.wav",
+            "type": "Audio",
+            "packedSizeBytes": 11748
+        },
+        {
+            "name": "icon_retry.png",
+            "path": "Assets/Main/04_Resource/Sprites/Icons/icon_retry.png",
+            "type": "Texture",
+            "packedSizeBytes": 10284
+        },
+        {
+            "name": "icon_home.png",
+            "path": "Assets/Main/04_Resource/Sprites/Icons/icon_home.png",
+            "type": "Texture",
+            "packedSizeBytes": 10172
+        },
+        {
+            "name": "icon_settings.png",
+            "path": "Assets/Main/04_Resource/Sprites/Icons/icon_settings.png",
+            "type": "Texture",
+            "packedSizeBytes": 10160
+        },
+        {
             "name": "InputSystem_Actions.inputactions",
             "path": "Assets/InputSystem_Actions.inputactions",
             "type": "Data",
-            "packedSizeBytes": 11072
+            "packedSizeBytes": 10080
+        },
+        {
+            "name": "icon_pause.png",
+            "path": "Assets/Main/04_Resource/Sprites/Icons/icon_pause.png",
+            "type": "Texture",
+            "packedSizeBytes": 10060
+        },
+        {
+            "name": "icon_play.png",
+            "path": "Assets/Main/04_Resource/Sprites/Icons/icon_play.png",
+            "type": "Texture",
+            "packedSizeBytes": 9968
         },
         {
             "name": "HDRDebugView.shader",
             "path": "Packages/com.unity.render-pipelines.universal/Shaders/Debug/HDRDebugView.shader",
             "type": "Shader",
             "packedSizeBytes": 9960
+        },
+        {
+            "name": "icon_back.png",
+            "path": "Assets/Main/04_Resource/Sprites/Icons/icon_back.png",
+            "type": "Texture",
+            "packedSizeBytes": 9852
         },
         {
             "name": "CoreBlitColorAndDepth.shader",
@@ -374,6 +566,12 @@
             "path": "Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Widgets/DebugUIPanel.prefab",
             "type": "Prefab",
             "packedSizeBytes": 9571
+        },
+        {
+            "name": "DefaultInputActions.inputactions",
+            "path": "Packages/com.unity.inputsystem/InputSystem/Plugins/PlayerInput/DefaultInputActions.inputactions",
+            "type": "Data",
+            "packedSizeBytes": 8976
         },
         {
             "name": "LutBuilderHdr.shader",
@@ -404,12 +602,6 @@
             "path": "Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Widgets/DebugUIColor.prefab",
             "type": "Prefab",
             "packedSizeBytes": 6614
-        },
-        {
-            "name": "unity_builtin_extra",
-            "path": "Resources/unity_builtin_extra",
-            "type": "Material",
-            "packedSizeBytes": 6428
         },
         {
             "name": "DebugUIVector4.prefab",
@@ -532,16 +724,34 @@
             "packedSizeBytes": 4132
         },
         {
+            "name": "FreezeWave.wav",
+            "path": "Assets/Main/04_Resource/Audio/Items/FreezeWave.wav",
+            "type": "Audio",
+            "packedSizeBytes": 4128
+        },
+        {
             "name": "PlayerTrailNeon.shader",
             "path": "Assets/Main/04_Resource/VFX/PlayerTrailNeon.shader",
             "type": "Shader",
             "packedSizeBytes": 4036
         },
         {
+            "name": "BombBlast.wav",
+            "path": "Assets/Main/04_Resource/Audio/Items/BombBlast.wav",
+            "type": "Audio",
+            "packedSizeBytes": 3904
+        },
+        {
             "name": "Shadow2D-Shadow-Sprite.shader",
             "path": "Packages/com.unity.render-pipelines.universal/Shaders/2D/Shadow2D-Shadow-Sprite.shader",
             "type": "Shader",
             "packedSizeBytes": 3828
+        },
+        {
+            "name": "IceShatter.wav",
+            "path": "Assets/Main/04_Resource/Audio/Items/IceShatter.wav",
+            "type": "Audio",
+            "packedSizeBytes": 3712
         },
         {
             "name": "Sampling.shader",
@@ -554,6 +764,12 @@
             "path": "Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/StopNaN.shader",
             "type": "Shader",
             "packedSizeBytes": 3608
+        },
+        {
+            "name": "ShieldBurst.wav",
+            "path": "Assets/Main/04_Resource/Audio/Items/ShieldBurst.wav",
+            "type": "Audio",
+            "packedSizeBytes": 3584
         },
         {
             "name": "FallbackError.shader",
@@ -578,6 +794,12 @@
             "path": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset",
             "type": "Font",
             "packedSizeBytes": 3340
+        },
+        {
+            "name": "ShieldEquip.wav",
+            "path": "Assets/Main/04_Resource/Audio/Items/ShieldEquip.wav",
+            "type": "Audio",
+            "packedSizeBytes": 3328
         },
         {
             "name": "EmojiOne.asset",
@@ -634,16 +856,16 @@
             "packedSizeBytes": 2670
         },
         {
-            "name": "ShieldBurst.wav",
-            "path": "Assets/Main/04_Resource/Audio/Items/ShieldBurst.wav",
+            "name": "MissileImpact.wav",
+            "path": "Assets/Main/04_Resource/Audio/Items/MissileImpact.wav",
             "type": "Audio",
-            "packedSizeBytes": 2560
+            "packedSizeBytes": 2564
         },
         {
-            "name": "BombBlast.wav",
-            "path": "Assets/Main/04_Resource/Audio/Items/BombBlast.wav",
+            "name": "MissileLaunch.wav",
+            "path": "Assets/Main/04_Resource/Audio/Items/MissileLaunch.wav",
             "type": "Audio",
-            "packedSizeBytes": 2528
+            "packedSizeBytes": 2564
         },
         {
             "name": "ProbeVolumeSamplingDebugPositionNormal.compute",
@@ -676,30 +898,6 @@
             "packedSizeBytes": 2112
         },
         {
-            "name": "MissileImpact.wav",
-            "path": "Assets/Main/04_Resource/Audio/Items/MissileImpact.wav",
-            "type": "Audio",
-            "packedSizeBytes": 1860
-        },
-        {
-            "name": "MissileLaunch.wav",
-            "path": "Assets/Main/04_Resource/Audio/Items/MissileLaunch.wav",
-            "type": "Audio",
-            "packedSizeBytes": 1828
-        },
-        {
-            "name": "IceShatter.wav",
-            "path": "Assets/Main/04_Resource/Audio/Items/IceShatter.wav",
-            "type": "Audio",
-            "packedSizeBytes": 1824
-        },
-        {
-            "name": "ShieldEquip.wav",
-            "path": "Assets/Main/04_Resource/Audio/Items/ShieldEquip.wav",
-            "type": "Audio",
-            "packedSizeBytes": 1792
-        },
-        {
             "name": "DebugUIToggle.prefab",
             "path": "Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Widgets/DebugUIToggle.prefab",
             "type": "Prefab",
@@ -712,9 +910,9 @@
             "packedSizeBytes": 1786
         },
         {
-            "name": "FreezeWave.wav",
-            "path": "Assets/Main/04_Resource/Audio/Items/FreezeWave.wav",
-            "type": "Audio",
+            "name": "ResultTitleGlow.mat",
+            "path": "Assets/Main/06_Content/UI/ResultTitleGlow.mat",
+            "type": "Material",
             "packedSizeBytes": 1760
         },
         {
@@ -770,6 +968,12 @@
             "path": "Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Textures/UIFoldoutClosed.png",
             "type": "Texture",
             "packedSizeBytes": 1124
+        },
+        {
+            "name": "00000000000000000000000000000000",
+            "path": "BuiltIn/00000000000000000000000000000000",
+            "type": "Other",
+            "packedSizeBytes": 1022
         },
         {
             "name": "BombEffect.prefab",
@@ -832,12 +1036,6 @@
             "packedSizeBytes": 872
         },
         {
-            "name": "00000000000000000000000000000000",
-            "path": "BuiltIn/00000000000000000000000000000000",
-            "type": "Other",
-            "packedSizeBytes": 818
-        },
-        {
             "name": "PostProcessData.asset",
             "path": "Packages/com.unity.render-pipelines.universal/Runtime/Data/PostProcessData.asset",
             "type": "Data",
@@ -853,7 +1051,7 @@
             "name": "GameBalance.asset",
             "path": "Assets/Main/04_Resource/Balance/GameBalance.asset",
             "type": "Data",
-            "packedSizeBytes": 624
+            "packedSizeBytes": 656
         },
         {
             "name": "White1px.png",
@@ -3380,12 +3578,6 @@
             "path": "Packages/com.unity.visualscripting/Runtime/VisualScripting.Core/Dependencies/FullSerializer/fsExceptions.cs",
             "type": "Script",
             "packedSizeBytes": 148
-        },
-        {
-            "name": "ArenaFrameNeon.mat",
-            "path": "Assets/Main/04_Resource/VFX/ArenaFrameNeon.mat",
-            "type": "Material",
-            "packedSizeBytes": 144
         },
         {
             "name": "UnityAsyncExtensions.AsyncInstantiate.cs",
@@ -14182,8 +14374,20 @@
             "packedSizeBytes": 92
         },
         {
+            "name": "HowToControlImage.cs",
+            "path": "Assets/Main/02_Scripts/UI/HowToControlImage.cs",
+            "type": "Script",
+            "packedSizeBytes": 92
+        },
+        {
             "name": "InGameArenaCamera.cs",
             "path": "Assets/Main/02_Scripts/UI/InGameArenaCamera.cs",
+            "type": "Script",
+            "packedSizeBytes": 92
+        },
+        {
+            "name": "SettingsIconImage.cs",
+            "path": "Assets/Main/02_Scripts/UI/SettingsIconImage.cs",
             "type": "Script",
             "packedSizeBytes": 92
         },
@@ -14728,8 +14932,26 @@
             "packedSizeBytes": 84
         },
         {
+            "name": "GameLocalization.cs",
+            "path": "Assets/Main/02_Scripts/UI/GameLocalization.cs",
+            "type": "Script",
+            "packedSizeBytes": 84
+        },
+        {
             "name": "HowToPanel_view.cs",
             "path": "Assets/Main/02_Scripts/UI/HowToPanel_view.cs",
+            "type": "Script",
+            "packedSizeBytes": 84
+        },
+        {
+            "name": "LocalizedText.cs",
+            "path": "Assets/Main/02_Scripts/UI/LocalizedText.cs",
+            "type": "Script",
+            "packedSizeBytes": 84
+        },
+        {
+            "name": "MenuButtonAudio.cs",
+            "path": "Assets/Main/02_Scripts/UI/MenuButtonAudio.cs",
             "type": "Script",
             "packedSizeBytes": 84
         },

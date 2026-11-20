@@ -27,23 +27,43 @@ public sealed class BackgroundMusicPlayer : MonoBehaviour
     private bool _playlistActive;
     private bool _waitingForLoad;
     private bool _applicationPaused;
+    private bool _hasFocus = true;
     private bool _pausedByApplication;
     private bool _startRequested;
     private Coroutine _startRoutine;
+    private float _baseVolume;
+    private float _volumeMultiplier = 1f;
+    private bool _audioInitialized;
 
     public string CurrentTitle { get; private set; }
-    public bool IsPlaybackPaused => AudioListener.pause || _applicationPaused;
+    public bool IsPlaybackPaused => _applicationPaused || !_hasFocus;
     public event Action<string> TrackChanged;
 
     private void Awake()
     {
         if (_audioSource == null)
+        {
             _audioSource = GetComponent<AudioSource>();
+        }
+        _hasFocus = Application.isFocused;
         _audioSource.playOnAwake = false;
         _audioSource.loop = false;
         _audioSource.spatialBlend = 0f;
-        _audioSource.ignoreListenerPause = false;
-        _audioSource.ignoreListenerVolume = false;
+        // 게임 일시정지의 효과음 정지와 BGM 재생을 분리합니다.
+        _audioSource.ignoreListenerPause = true;
+        _audioSource.ignoreListenerVolume = true;
+        _baseVolume = _audioSource.volume;
+        _audioInitialized = true;
+        _audioSource.volume = _baseVolume * _volumeMultiplier;
+    }
+
+    public void SetVolume(float volume)
+    {
+        _volumeMultiplier = Mathf.Clamp01(volume);
+        if (_audioInitialized)
+        {
+            _audioSource.volume = _baseVolume * _volumeMultiplier;
+        }
     }
 
     public void StartAfterMenuShown()
@@ -189,13 +209,29 @@ public sealed class BackgroundMusicPlayer : MonoBehaviour
     private void OnApplicationPause(bool paused)
     {
         _applicationPaused = paused;
-        if (!_playlistActive || _waitingForLoad || _audioSource == null)
-            return;
+        RefreshApplicationPause();
+    }
 
-        if (paused)
+    private void OnApplicationFocus(bool hasFocus)
+    {
+        _hasFocus = hasFocus;
+        RefreshApplicationPause();
+    }
+
+    private void RefreshApplicationPause()
+    {
+        if (!_playlistActive || _waitingForLoad || _audioSource == null)
         {
-            _audioSource.Pause();
-            _pausedByApplication = true;
+            return;
+        }
+
+        if (IsPlaybackPaused)
+        {
+            if (!_pausedByApplication)
+            {
+                _audioSource.Pause();
+                _pausedByApplication = true;
+            }
         }
         else if (_pausedByApplication)
         {

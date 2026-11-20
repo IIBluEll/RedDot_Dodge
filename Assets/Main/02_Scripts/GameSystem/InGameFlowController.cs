@@ -23,6 +23,7 @@ public sealed class InGameFlowController : MonoBehaviour
 
     [Header("Menu Transition")]
     [SerializeField] private CanvasGroup _menuContentGroup;
+    [SerializeField] private RectTransform _menuBackgroundRectTrans;
     [SerializeField] private RectTransform _titleRectTrans;
     [SerializeField] private RectTransform _startBtnRectTrans;
     [SerializeField] private RectTransform _howToBtnRectTrans;
@@ -34,17 +35,20 @@ public sealed class InGameFlowController : MonoBehaviour
     [SerializeField] private RectTransform _arenaRectTrans;
 
     [Header("Timing")]
-    [SerializeField, Min(0.01f)] private float _menuExitSeconds = 0.36f;
+    [SerializeField, Min(0.01f)] private float _startPanSeconds = 0.65f;
     [SerializeField, Min(0.01f)] private float _gameEnterSeconds = 0.26f;
-    [SerializeField, Min(0.01f)] private float _returnSeconds = 0.22f;
+    [SerializeField, Min(0.01f)] private float _returnSeconds = 0.65f;
     [SerializeField, Min(0f)] private float _deathBurstSeconds = 0.28f;
     [SerializeField, Min(0.01f)] private float _deathExitSeconds = 0.42f;
     [SerializeField, Min(0.01f)] private float _resumePrepareSeconds = 1f;
 
     private RectTransform[] _menuRectTransforms;
     private Vector2[] _menuPositions;
+    private Vector2 _menuBackgroundPosition;
     private Vector2 _hudPosition;
     private Vector2 _arenaPosition;
+    private RectTransform _returningResultRectTrans;
+    private Vector2 _resultReturnPosition;
     private Sequence _transition;
     private FLOW_STATE _state;
     private FLOW_STATE _dialogReturnState;
@@ -69,7 +73,7 @@ public sealed class InGameFlowController : MonoBehaviour
     private void Awake()
     {
         if (_mainMenuCanvasObj == null || _inGameCanvasObj == null || _gameplayObj == null || _waveHost == null || _resultPresenter == null || _arenaCamera == null || _pausePresenter == null
-            || _menuContentGroup == null || _titleRectTrans == null || _startBtnRectTrans == null
+            || _menuContentGroup == null || _menuBackgroundRectTrans == null || _titleRectTrans == null || _startBtnRectTrans == null
             || _howToBtnRectTrans == null || _settingsBtnRectTrans == null || _inGameGroup == null
             || _hudRectTrans == null || _arenaRectTrans == null || _howToPresenter == null || _settingsPresenter == null)
         {
@@ -81,7 +85,10 @@ public sealed class InGameFlowController : MonoBehaviour
         _menuRectTransforms = new[] { _titleRectTrans, _startBtnRectTrans, _howToBtnRectTrans, _settingsBtnRectTrans };
         _menuPositions = new Vector2[_menuRectTransforms.Length];
         for (int i = 0; i < _menuRectTransforms.Length; i++)
+        {
             _menuPositions[i] = _menuRectTransforms[i].anchoredPosition;
+        }
+        _menuBackgroundPosition = _menuBackgroundRectTrans.anchoredPosition;
         _hudPosition = _hudRectTrans.anchoredPosition;
         _arenaPosition = _arenaRectTrans.anchoredPosition;
         _resultPresenter.Initialize();
@@ -291,37 +298,39 @@ public sealed class InGameFlowController : MonoBehaviour
     public void OnGameStartActioned()
     {
         if (!_initialized || _state != FLOW_STATE.MENU)
+        {
             return;
+        }
 
         _state = FLOW_STATE.START_TRANSITION;
         _menuContentGroup.interactable = false;
         _menuContentGroup.blocksRaycasts = false;
-        Canvas.ForceUpdateCanvases();
-        float travel = ((RectTransform)_mainMenuCanvasObj.transform).rect.height + _titleRectTrans.rect.height;
-        _hudRectTrans.anchoredPosition = _hudPosition + Vector2.up * 48f;
-        _arenaRectTrans.anchoredPosition = _arenaPosition + Vector2.down * 72f;
-        _inGameGroup.alpha = 0f;
+        _inGameGroup.alpha = 1f;
         _inGameGroup.interactable = false;
         _inGameGroup.blocksRaycasts = false;
+        ShowInGameForTransition();
+        Canvas.ForceUpdateCanvases();
+
+        // 각 Canvas의 높이를 사용해 화면비가 달라도 같은 화면 거리만큼 함께 이동합니다.
+        float menuTravel = ((RectTransform)_mainMenuCanvasObj.transform).rect.height;
+        float gameTravel = ((RectTransform)_inGameCanvasObj.transform).rect.height;
+        _hudRectTrans.anchoredPosition = _hudPosition + Vector2.up * gameTravel;
+        _arenaRectTrans.anchoredPosition = _arenaPosition + Vector2.up * gameTravel;
 
         _transition = DOTween.Sequence().SetUpdate(true);
         for (int i = 0; i < _menuRectTransforms.Length; i++)
         {
-            float destination = _menuPositions[i].y + (i == 0 ? travel : -travel);
-            float delay = i == 0 ? 0f : (i - 1) * 0.035f;
-            _transition.Insert(delay, _menuRectTransforms[i].DOAnchorPosY(destination, _menuExitSeconds).SetEase(Ease.InBack));
+            Vector2 destination = _menuPositions[i] + Vector2.down * menuTravel;
+            _transition.Insert(0f, _menuRectTransforms[i].DOAnchorPos(destination, _startPanSeconds).SetEase(Ease.InOutCubic));
         }
-        _transition.Insert(_menuExitSeconds * 0.5f, _menuContentGroup.DOFade(0f, _menuExitSeconds * 0.5f));
-        _transition.AppendCallback(ShowInGameForTransition);
-        _transition.Append(_inGameGroup.DOFade(1f, _gameEnterSeconds).SetEase(Ease.OutQuad));
-        _transition.Join(_hudRectTrans.DOAnchorPos(_hudPosition, _gameEnterSeconds).SetEase(Ease.OutCubic));
-        _transition.Join(_arenaRectTrans.DOAnchorPos(_arenaPosition, _gameEnterSeconds).SetEase(Ease.OutCubic));
+        _transition.Insert(0f, _menuBackgroundRectTrans.DOAnchorPos(_menuBackgroundPosition + Vector2.down * menuTravel, _startPanSeconds).SetEase(Ease.InOutCubic));
+        _transition.Insert(0f, _hudRectTrans.DOAnchorPos(_hudPosition, _startPanSeconds).SetEase(Ease.InOutCubic));
+        _transition.Insert(0f, _arenaRectTrans.DOAnchorPos(_arenaPosition, _startPanSeconds).SetEase(Ease.InOutCubic));
         _transition.OnComplete(OnStartTransitionCompleted);
     }
 
     private void ShowInGameForTransition()
     {
-        _mainMenuCanvasObj.SetActive(false);
         _gameplayObj.SetActive(true);
         _waveHost.StopRound();
         _inGameCanvasObj.SetActive(true);
@@ -330,6 +339,7 @@ public sealed class InGameFlowController : MonoBehaviour
     private void OnStartTransitionCompleted()
     {
         _transition = null;
+        _mainMenuCanvasObj.SetActive(false);
         _arenaCamera.enabled = true;
         if (!_waveHost.BeginRound())
         {
@@ -393,27 +403,55 @@ public sealed class InGameFlowController : MonoBehaviour
     public void ReturnToMenu()
     {
         if (!_initialized || _state == FLOW_STATE.MENU || _state == FLOW_STATE.RETURN_TRANSITION)
+        {
             return;
+        }
         if (_state == FLOW_STATE.START_TRANSITION)
         {
             ShowMenuImmediately();
             return;
         }
 
+        bool returningFromResult = _state == FLOW_STATE.RESULT;
         _state = FLOW_STATE.RETURN_TRANSITION;
         KillTransition();
         ReleasePause();
         _pausePresenter.Hide();
         _howToPresenter.Hide();
         _settingsPresenter.Hide();
-        _resultPresenter.Hide();
+        if (!returningFromResult)
+        {
+            _resultPresenter.Hide();
+        }
         _waveHost.StopRound();
+        _menuContentGroup.alpha = 1f;
+        _menuContentGroup.interactable = false;
+        _menuContentGroup.blocksRaycasts = false;
+        _inGameGroup.alpha = 1f;
         _inGameGroup.interactable = false;
         _inGameGroup.blocksRaycasts = false;
+        _mainMenuCanvasObj.SetActive(true);
+        Canvas.ForceUpdateCanvases();
+
+        float menuTravel = ((RectTransform)_mainMenuCanvasObj.transform).rect.height;
+        float gameTravel = ((RectTransform)_inGameCanvasObj.transform).rect.height;
+        _menuBackgroundRectTrans.anchoredPosition = _menuBackgroundPosition + Vector2.down * menuTravel;
         _transition = DOTween.Sequence().SetUpdate(true);
-        _transition.Append(_inGameGroup.DOFade(0f, _returnSeconds));
-        _transition.Join(_hudRectTrans.DOAnchorPos(_hudPosition + Vector2.up * 48f, _returnSeconds).SetEase(Ease.InCubic));
-        _transition.Join(_arenaRectTrans.DOAnchorPos(_arenaPosition + Vector2.down * 72f, _returnSeconds).SetEase(Ease.InCubic));
+        for (int i = 0; i < _menuRectTransforms.Length; i++)
+        {
+            _menuRectTransforms[i].anchoredPosition = _menuPositions[i] + Vector2.down * menuTravel;
+            _transition.Insert(0f, _menuRectTransforms[i].DOAnchorPos(_menuPositions[i], _returnSeconds).SetEase(Ease.InOutCubic));
+        }
+        _transition.Insert(0f, _menuBackgroundRectTrans.DOAnchorPos(_menuBackgroundPosition, _returnSeconds).SetEase(Ease.InOutCubic));
+        _transition.Insert(0f, _hudRectTrans.DOAnchorPos(_hudRectTrans.anchoredPosition + Vector2.up * gameTravel, _returnSeconds).SetEase(Ease.InOutCubic));
+        _transition.Insert(0f, _arenaRectTrans.DOAnchorPos(_arenaRectTrans.anchoredPosition + Vector2.up * gameTravel, _returnSeconds).SetEase(Ease.InOutCubic));
+        if (returningFromResult)
+        {
+            _returningResultRectTrans = _resultPresenter.PrepareMenuReturn();
+            _resultReturnPosition = _returningResultRectTrans.anchoredPosition;
+            float resultTravel = ((RectTransform)_returningResultRectTrans.GetComponentInParent<Canvas>().transform).rect.height;
+            _transition.Insert(0f, _returningResultRectTrans.DOAnchorPos(_resultReturnPosition + Vector2.up * resultTravel, _returnSeconds).SetEase(Ease.InOutCubic));
+        }
         _transition.OnComplete(ShowMenuImmediately);
     }
 
@@ -425,11 +463,19 @@ public sealed class InGameFlowController : MonoBehaviour
         _howToPresenter.Hide();
         _settingsPresenter.Hide();
         _resultPresenter.Hide();
+        if (_returningResultRectTrans != null)
+        {
+            _returningResultRectTrans.anchoredPosition = _resultReturnPosition;
+            _returningResultRectTrans = null;
+        }
         _waveHost.StopRound();
         _inGameCanvasObj.SetActive(false);
         _gameplayObj.SetActive(false);
         for (int i = 0; i < _menuRectTransforms.Length; i++)
+        {
             _menuRectTransforms[i].anchoredPosition = _menuPositions[i];
+        }
+        _menuBackgroundRectTrans.anchoredPosition = _menuBackgroundPosition;
         _hudRectTrans.anchoredPosition = _hudPosition;
         _arenaRectTrans.anchoredPosition = _arenaPosition;
         _hudRectTrans.gameObject.SetActive(true);

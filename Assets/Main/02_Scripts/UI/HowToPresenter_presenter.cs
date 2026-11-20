@@ -7,12 +7,14 @@ public sealed class HowToPresenter_presenter : MonoBehaviour
 
     public void Show()
     {
-        _view.Show(Application.isMobilePlatform);
+        _view.Show();
     }
 
     public void Hide()
     {
         if (_view != null)
+        {
             _view.Hide();
+        }
     }
 }

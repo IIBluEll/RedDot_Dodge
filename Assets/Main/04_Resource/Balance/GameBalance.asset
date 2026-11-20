@@ -16,7 +16,9 @@ MonoBehaviour:
   _playerRadius: 0.25
   _enemyRadius: 0.15
   _enemyCapacity: 96
-  _firstWaveDelaySeconds: 2
+  _firstWaveDelaySeconds: 1.5
+  _firstAmbientSpawnDelaySeconds: 1
+  _ambientMinPlayerDistance: 2.5
   _patterns:
   - _pattern: {fileID: 11400000, guid: e354b8e20dac4471829d1e05ac2a0ebe, type: 2}
     _weight: 50
@@ -31,51 +33,57 @@ MonoBehaviour:
   _interceptorPattern: {fileID: 11400000, guid: bdbd3c2eac72466a9a62eef4c7d430c2, type: 2}
   _stages:
   - _startSeconds: 0
-    _waveIntervalSeconds: 6
-    _minimumChaseCount: 3
-    _maximumChaseCount: 4
-    _chaseSpeed: 1.2
-    _warningDurationSeconds: 1.5
-    _allowedPatterns: 00000000
-  - _startSeconds: 15
-    _waveIntervalSeconds: 6
-    _minimumChaseCount: 3
-    _maximumChaseCount: 4
-    _chaseSpeed: 1.2
-    _warningDurationSeconds: 1.5
-    _allowedPatterns: 0000000001000000
-  - _startSeconds: 30
-    _waveIntervalSeconds: 5
+    _waveIntervalSeconds: 4.5
     _minimumChaseCount: 4
     _maximumChaseCount: 6
-    _chaseSpeed: 1.45
-    _warningDurationSeconds: 1.4
-    _allowedPatterns: 00000000010000000200000004000000
-  - _startSeconds: 60
-    _waveIntervalSeconds: 5
+    _chaseSpeed: 1.25
+    _warningDurationSeconds: 1.5
+    _ambientSpawnIntervalSeconds: 1.6
+    _allowedPatterns: 00000000
+  - _startSeconds: 10
+    _waveIntervalSeconds: 4
+    _minimumChaseCount: 5
+    _maximumChaseCount: 7
+    _chaseSpeed: 1.35
+    _warningDurationSeconds: 1.5
+    _ambientSpawnIntervalSeconds: 1.4
+    _allowedPatterns: 0000000001000000
+  - _startSeconds: 20
+    _waveIntervalSeconds: 3.5
     _minimumChaseCount: 6
     _maximumChaseCount: 8
     _chaseSpeed: 1.45
     _warningDurationSeconds: 1.4
-    _allowedPatterns: 0000000001000000020000000300000004000000
-  - _startSeconds: 120
-    _waveIntervalSeconds: 5
+    _ambientSpawnIntervalSeconds: 1.2
+    _allowedPatterns: 00000000010000000200000004000000
+  - _startSeconds: 40
+    _waveIntervalSeconds: 3
     _minimumChaseCount: 8
     _maximumChaseCount: 10
-    _chaseSpeed: 1.45
+    _chaseSpeed: 1.55
     _warningDurationSeconds: 1.4
+    _ambientSpawnIntervalSeconds: 1
     _allowedPatterns: 0000000001000000020000000300000004000000
-  - _startSeconds: 180
-    _waveIntervalSeconds: 5
-    _minimumChaseCount: 8
-    _maximumChaseCount: 10
-    _chaseSpeed: 1.45
-    _warningDurationSeconds: 1.4
+  - _startSeconds: 70
+    _waveIntervalSeconds: 2.7
+    _minimumChaseCount: 10
+    _maximumChaseCount: 12
+    _chaseSpeed: 1.65
+    _warningDurationSeconds: 1.3
+    _ambientSpawnIntervalSeconds: 0.85
     _allowedPatterns: 0000000001000000020000000300000004000000
-  _firstItemDelaySeconds: {x: 4, y: 6}
-  _itemSpawnIntervalSeconds: {x: 3, y: 5}
+  - _startSeconds: 110
+    _waveIntervalSeconds: 2.5
+    _minimumChaseCount: 12
+    _maximumChaseCount: 14
+    _chaseSpeed: 1.75
+    _warningDurationSeconds: 1.3
+    _ambientSpawnIntervalSeconds: 0.75
+    _allowedPatterns: 0000000001000000020000000300000004000000
+  _firstItemDelaySeconds: {x: 3, y: 4}
+  _itemSpawnIntervalSeconds: {x: 2, y: 3}
   _itemRetrySeconds: 1
-  _itemCapacity: 3
+  _itemCapacity: 5
   _itemPlacementAttempts: 32
   _itemPickupRadius: 0.7
   _itemLifetimeSeconds: 18
