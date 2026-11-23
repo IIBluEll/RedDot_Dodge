@@ -120,6 +120,7 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
     public float ComboWindowSeconds => _gameBalance != null ? _gameBalance.ComboWindowSeconds : 0f;
     public float SurvivalSeconds => _survivalSeconds;
     public float ReadyRemainingSeconds => _roundInProgress ? _readyRemainingSeconds : 0f;
+    public PlayerMovement Player => _playerMovement;
     public event System.Action<long> ScoreChanged;
     public event System.Action<RoundResult> RoundEnded;
 
@@ -169,6 +170,11 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
 
     private void Update()
     {
+        if (_roundInProgress)
+        {
+            _playerMovement.UpdateTiltCalibration(Time.unscaledDeltaTime);
+        }
+
         if (_allowKeyboardRestart && _canRestartRound && Keyboard.current?.rKey.wasPressedThisFrame == true)
             RestartRound();
 
@@ -185,6 +191,9 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
 
         if (_readyRemainingSeconds > 0f)
         {
+            if (_readyRemainingSeconds <= deltaTime && !_playerMovement.CanPlayWithTilt)
+                return;
+
             int previousCount = Mathf.CeilToInt(_readyRemainingSeconds);
             _readyRemainingSeconds = Mathf.Max(0f, _readyRemainingSeconds - deltaTime);
             int count = Mathf.CeilToInt(_readyRemainingSeconds);
@@ -199,6 +208,9 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
 
             return;
         }
+
+        if (!_playerMovement.CanPlayWithTilt)
+            return;
 
         _survivalSeconds += deltaTime;
         Vector2 playerPosition = _playerMovement.transform.position;
@@ -1007,6 +1019,10 @@ public sealed class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, IItemEffe
             _shatterAudio.Stop();
         _roundScore.Reset();
         _playerMovement.gameObject.SetActive(startRound);
+        if (startRound)
+        {
+            _playerMovement.PrepareTiltCalibration(retryFailed: true);
+        }
         ScoreChanged?.Invoke(Score);
         if (_countdownAudio != null)
         {

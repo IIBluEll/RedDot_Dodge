@@ -4,7 +4,7 @@ using UnityEngine.UI;
 // 설정창의 작은 선 아이콘을 UI 메시로 표시합니다.
 public sealed class SettingsIconImage : MaskableGraphic
 {
-    private enum SETTINGS_ICON { MUSIC, SPEAKER, LANGUAGE }
+    private enum SETTINGS_ICON { MUSIC, SPEAKER, LANGUAGE, JOYSTICK }
 
     [SerializeField] private SETTINGS_ICON _settingsIcon;
     [SerializeField, Min(1f)] private float _lineWidth = 3.5f;
@@ -12,6 +12,12 @@ public sealed class SettingsIconImage : MaskableGraphic
     public SettingsIconImage()
     {
         useLegacyMeshGeneration = false;
+    }
+
+    public void ShowJoystickIcon()
+    {
+        _settingsIcon = SETTINGS_ICON.JOYSTICK;
+        SetVerticesDirty();
     }
 
     protected override void OnPopulateMesh(VertexHelper vertexHelper)
@@ -41,6 +47,11 @@ public sealed class SettingsIconImage : MaskableGraphic
                 AddArc(vertexHelper, Vector2.zero, Vector2.one * 32f, 0f, 360f);
                 AddArc(vertexHelper, Vector2.zero, new Vector2(14f, 32f), 0f, 360f);
                 AddLine(vertexHelper, new Vector2(-32f, 0f), new Vector2(32f, 0f));
+                break;
+            case SETTINGS_ICON.JOYSTICK:
+                AddArc(vertexHelper, new Vector2(0f, -22f), new Vector2(32f, 11f), 0f, 360f);
+                AddArc(vertexHelper, new Vector2(9f, 26f), Vector2.one * 11f, 0f, 360f);
+                AddLine(vertexHelper, new Vector2(0f, -22f), new Vector2(7f, 15f));
                 break;
         }
     }

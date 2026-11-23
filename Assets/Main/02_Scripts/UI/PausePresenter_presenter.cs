@@ -6,16 +6,25 @@ public sealed class PausePresenter_presenter : MonoBehaviour
     [SerializeField] private PausePanel_view _view;
     [SerializeField] private PlayerMovement _playerMovement;
     [SerializeField] private Camera _gameCamera;
-    private bool _waitingForCalibration;
+    private (bool Available, bool Calibrating, bool Failed, bool Ready)? _tiltStatus;
 
     private void Update()
     {
-        if (!_waitingForCalibration || _playerMovement.IsTiltCalibrating)
-        {
+        RefreshTiltStatus();
+    }
+
+    private void RefreshTiltStatus()
+    {
+        if (!_view.isActiveAndEnabled || !_playerMovement.UsesTiltInput)
             return;
-        }
-        _waitingForCalibration = false;
-        _view.ShowTiltCalibration(false, !_playerMovement.TiltCalibrationFailed, _playerMovement.TiltCalibrationFailed);
+
+        var status = (Available: _playerMovement.HasTiltSensor, Calibrating: _playerMovement.IsTiltCalibrating,
+            Failed: _playerMovement.TiltCalibrationFailed, Ready: _playerMovement.CanPlayWithTilt);
+        if (_tiltStatus == status)
+            return;
+
+        _tiltStatus = status;
+        _view.ShowTiltCalibration(status.Available, status.Calibrating, status.Failed, status.Ready);
     }
 
     public void Initialize()
@@ -25,12 +34,9 @@ public sealed class PausePresenter_presenter : MonoBehaviour
 
     public void ShowPause()
     {
-        _waitingForCalibration = _playerMovement.IsTiltCalibrating;
+        _tiltStatus = null;
         _view.ShowPause(_playerMovement.UsesTiltInput);
-        if (_waitingForCalibration)
-        {
-            _view.ShowTiltCalibration(true, false);
-        }
+        RefreshTiltStatus();
     }
 
     public void ShowExitConfirmation()
@@ -51,9 +57,11 @@ public sealed class PausePresenter_presenter : MonoBehaviour
 
     public void RecenterTilt()
     {
+        if (!_playerMovement.UsesTiltInput || !_playerMovement.HasTiltSensor)
+            return;
+
         _playerMovement.RecenterTilt();
-        _waitingForCalibration = true;
-        _view.ShowTiltCalibration(true, false);
+        RefreshTiltStatus();
     }
 
     public void Hide()

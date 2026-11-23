@@ -12,7 +12,14 @@ public sealed class SettingsPresenter_presenter : MonoBehaviour
 
     private void Update()
     {
-        _playerMovement.UpdateTiltCalibration(Time.unscaledDeltaTime);
+        if (!_playerMovement.gameObject.activeInHierarchy && _playerMovement.IsTiltCalibrating)
+        {
+            _playerMovement.UpdateTiltCalibration(Time.unscaledDeltaTime);
+        }
+        if (_view.isActiveAndEnabled)
+        {
+            _view.SetTiltSensorAvailable(_playerMovement.HasTiltSensor);
+        }
         if (!_waitingForCalibration || _playerMovement.IsTiltCalibrating)
         {
             return;
@@ -32,6 +39,10 @@ public sealed class SettingsPresenter_presenter : MonoBehaviour
     {
         _model = new SettingsModel_model();
         GameLocalization.SetLanguage(_model.Language);
+        if (Application.isMobilePlatform)
+        {
+            _view.InitializeMobileControls(OnMobileControlsActioned);
+        }
         ApplySettings();
         _view.Hide();
     }
@@ -39,10 +50,14 @@ public sealed class SettingsPresenter_presenter : MonoBehaviour
     public void Show()
     {
         _waitingForCalibration = _playerMovement.IsTiltCalibrating;
-        _view.Show(_model, _playerMovement.UsesTiltInput, _playerMovement.UsesTiltInput);
+        _view.Show(_model, _playerMovement.UsesTiltInput, _playerMovement.HasTiltSensor);
         if (_waitingForCalibration)
         {
             _view.ShowCalibrationRequested();
+        }
+        else if (_playerMovement.UsesTiltInput && _playerMovement.TiltCalibrationFailed)
+        {
+            _view.ShowCalibrationFailed();
         }
     }
 
@@ -73,13 +88,21 @@ public sealed class SettingsPresenter_presenter : MonoBehaviour
 
     public void OnRecenterActioned()
     {
-        if (!_playerMovement.UsesTiltInput)
+        if (!_playerMovement.UsesTiltInput || !_playerMovement.HasTiltSensor)
         {
             return;
         }
         _playerMovement.RecenterTilt();
         _waitingForCalibration = true;
         _view.ShowCalibrationRequested();
+    }
+
+    private void OnMobileControlsActioned()
+    {
+        _model.ToggleMobileControls();
+        ApplySettings();
+        Show();
+        _model.Save();
     }
 
     public void OnLanguageActioned()
@@ -104,6 +127,7 @@ public sealed class SettingsPresenter_presenter : MonoBehaviour
         AudioListener.volume = _model.SfxVolume;
         _backgroundMusic.SetVolume(_model.BgmVolume);
         _playerMovement.SetTiltSensitivity(_model.TiltSensitivity);
+        _playerMovement.SetMobileJoystick(_model.UseJoystick);
     }
 
     private void OnApplicationPause(bool paused)

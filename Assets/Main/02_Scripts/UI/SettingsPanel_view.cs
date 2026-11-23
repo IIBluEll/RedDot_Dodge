@@ -18,10 +18,13 @@ public sealed class SettingsPanel_view : MonoBehaviour
     [SerializeField] private TMP_Text _languageTxt;
 
     private bool _showTiltSettings;
-    private bool _canRecalibrate;
+    private bool _tiltSensorAvailable;
     private bool _calibrationRequested;
     private bool _calibrationCompleted;
     private bool _calibrationFailed;
+    private bool _useJoystick;
+    private TMP_Text _mobileControlsLabelTxt;
+    private TMP_Text _mobileControlsValueTxt;
 
     private void OnEnable()
     {
@@ -34,24 +37,58 @@ public sealed class SettingsPanel_view : MonoBehaviour
         GameLocalization.LanguageChanged -= RefreshLanguage;
     }
 
-    public void Show(SettingsModel_model model, bool showTiltSettings, bool canRecalibrate)
+    public void InitializeMobileControls(UnityEngine.Events.UnityAction onControlsChanged)
+    {
+        if (_mobileControlsValueTxt != null)
+            return;
+
+        // 기존 언어 선택 행의 글꼴과 좌우 버튼을 재사용합니다.
+        var languageRowRectTrans = (RectTransform)_languageTxt.transform.parent;
+        RectTransform controlsRowRectTrans = Instantiate(languageRowRectTrans, languageRowRectTrans.parent, false);
+        controlsRowRectTrans.name = "Mobile Controls";
+        var label = controlsRowRectTrans.GetComponentInChildren<LocalizedText>(true);
+        _mobileControlsLabelTxt = label.GetComponent<TMP_Text>();
+        label.enabled = false;
+        foreach (TMP_Text text in controlsRowRectTrans.GetComponentsInChildren<TMP_Text>(true))
+            if (text != _mobileControlsLabelTxt)
+                _mobileControlsValueTxt = text;
+        foreach (Button button in controlsRowRectTrans.GetComponentsInChildren<Button>(true))
+        {
+            button.onClick = new Button.ButtonClickedEvent();
+            button.onClick.AddListener(onControlsChanged);
+        }
+        controlsRowRectTrans.GetComponentInChildren<SettingsIconImage>(true).ShowJoystickIcon();
+
+        SetRowHeight((RectTransform)_bgmSlider.transform.parent, 198f);
+        SetRowHeight((RectTransform)_sfxSlider.transform.parent, 113f);
+        SetRowHeight(controlsRowRectTrans, 28f);
+        SetRowHeight((RectTransform)_tiltGroup.transform, -65f);
+        SetRowHeight(languageRowRectTrans, -213f);
+    }
+
+    private static void SetRowHeight(RectTransform rowRectTrans, float y)
+    {
+        rowRectTrans.anchoredPosition = new Vector2(rowRectTrans.anchoredPosition.x, y);
+    }
+
+    public void Show(SettingsModel_model model, bool showTiltSettings, bool tiltSensorAvailable)
     {
         gameObject.SetActive(true);
         _showTiltSettings = showTiltSettings;
-        _canRecalibrate = canRecalibrate;
+        _tiltSensorAvailable = tiltSensorAvailable;
         _calibrationRequested = false;
         _calibrationCompleted = false;
         _calibrationFailed = false;
         _tiltGroup.alpha = showTiltSettings ? 1f : 0.4f;
         _tiltGroup.interactable = showTiltSettings;
         _recalibrateBtn.gameObject.SetActive(showTiltSettings);
-        _recalibrateBtn.interactable = showTiltSettings && canRecalibrate;
         Refresh(model);
         _bgmSlider.Select();
     }
 
     public void Refresh(SettingsModel_model model)
     {
+        _useJoystick = model.UseJoystick;
         _bgmSlider.SetValueWithoutNotify(model.BgmVolume);
         _bgmVolumeTxt.text = $"{Mathf.RoundToInt(model.BgmVolume * 100f)}%";
         _sfxSlider.SetValueWithoutNotify(model.SfxVolume);
@@ -64,10 +101,21 @@ public sealed class SettingsPanel_view : MonoBehaviour
     private void RefreshLanguage()
     {
         _languageTxt.text = GameLocalization.Language == GAME_LANGUAGE.KOREAN ? "한국어" : "English";
-        _calibrationHintTxt.text = !_showTiltSettings ? string.Empty : _canRecalibrate
-            ? GameLocalization.GetText("현재 자세를 기준으로 보정합니다", "Use your current tilt as neutral")
-            : GameLocalization.GetText("모바일에서 기울기를 보정할 수 있습니다", "Tilt calibration is available on mobile");
-        if (_showTiltSettings && _calibrationRequested)
+        if (_mobileControlsLabelTxt != null)
+        {
+            _mobileControlsLabelTxt.text = GameLocalization.GetText("조작 방식", "Controls");
+            _mobileControlsValueTxt.text = _useJoystick ? GameLocalization.GetText("조이스틱", "Joystick") : GameLocalization.GetText("기울기", "Tilt");
+        }
+        _calibrationHintTxt.text = string.Empty;
+        if (_showTiltSettings && !_tiltSensorAvailable)
+        {
+            _calibrationHintTxt.text = GameLocalization.GetText("센서 미지원 · 조이스틱을 선택하세요", "No tilt sensor. Choose Joystick.");
+        }
+        else if (_showTiltSettings)
+        {
+            _calibrationHintTxt.text = GameLocalization.GetText("현재 자세를 기준으로 보정합니다", "Use your current tilt as neutral");
+        }
+        if (_showTiltSettings && _tiltSensorAvailable && _calibrationRequested)
         {
             _calibrationHintTxt.text = _calibrationFailed
                 ? GameLocalization.GetText("보정하지 못했습니다. 자세를 고정하고 다시 눌러 주세요", "Calibration failed. Hold still and try again")
@@ -75,7 +123,15 @@ public sealed class SettingsPanel_view : MonoBehaviour
                 ? GameLocalization.GetText("현재 자세로 보정했습니다", "Current tilt set as neutral")
                 : GameLocalization.GetText("휴대폰을 편한 자세로 가만히 유지해 주세요", "Hold your device still in a comfortable position");
         }
-        _recalibrateBtn.interactable = _showTiltSettings && _canRecalibrate && (!_calibrationRequested || _calibrationCompleted || _calibrationFailed);
+        _recalibrateBtn.interactable = _showTiltSettings && _tiltSensorAvailable && (!_calibrationRequested || _calibrationCompleted || _calibrationFailed);
+    }
+
+    public void SetTiltSensorAvailable(bool available)
+    {
+        if (_tiltSensorAvailable == available)
+            return;
+        _tiltSensorAvailable = available;
+        RefreshLanguage();
     }
 
     public void ShowCalibrationRequested()
@@ -94,6 +150,7 @@ public sealed class SettingsPanel_view : MonoBehaviour
 
     public void ShowCalibrationFailed()
     {
+        _calibrationRequested = true;
         _calibrationFailed = true;
         RefreshLanguage();
     }

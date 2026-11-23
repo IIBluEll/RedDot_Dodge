@@ -50,6 +50,7 @@ public sealed class InGameFlowController : MonoBehaviour
     private RectTransform _returningResultRectTrans;
     private Vector2 _resultReturnPosition;
     private Sequence _transition;
+    private MobileJoystick_view _joystickView;
     private FLOW_STATE _state;
     private FLOW_STATE _dialogReturnState;
     private bool _initialized;
@@ -120,6 +121,7 @@ public sealed class InGameFlowController : MonoBehaviour
             _howToPresenter.Hide();
         if (_initialized && _settingsPresenter != null)
             _settingsPresenter.Hide();
+        HideJoystick();
         ReleasePause();
         KillTransition();
     }
@@ -128,6 +130,12 @@ public sealed class InGameFlowController : MonoBehaviour
     {
         if (!_initialized)
             return;
+
+        CheckTiltPause();
+        if (_state == FLOW_STATE.IN_GAME && _waveHost.ReadyRemainingSeconds <= 0f && _waveHost.Player.UsesJoystickInput)
+        {
+            ShowJoystick();
+        }
 
         if (Keyboard.current?.escapeKey.wasPressedThisFrame == true)
         {
@@ -143,7 +151,7 @@ public sealed class InGameFlowController : MonoBehaviour
 
         if (_state != FLOW_STATE.RESUMING)
             return;
-        if (!_hasFocus || _applicationPaused)
+        if (!_hasFocus || _applicationPaused || !_waveHost.Player.CanPlayWithTilt)
         {
             OnPauseActioned();
             return;
@@ -159,6 +167,53 @@ public sealed class InGameFlowController : MonoBehaviour
         _inGameGroup.interactable = true;
         _inGameGroup.blocksRaycasts = true;
         _state = FLOW_STATE.IN_GAME;
+    }
+
+    private void CheckTiltPause()
+    {
+        if (_state != FLOW_STATE.IN_GAME && _state != FLOW_STATE.RESUMING)
+            return;
+
+        PlayerMovement player = _waveHost.Player;
+        if (!player.UsesTiltInput)
+            return;
+
+        bool orientationChanged = player.HasTiltOrientationChanged;
+        player.PrepareTiltCalibration();
+        if (orientationChanged || player.TiltCalibrationFailed || !player.HasTiltSensor
+            || (_waveHost.ReadyRemainingSeconds <= 0f && !player.CanPlayWithTilt))
+        {
+            OnPauseActioned();
+        }
+    }
+
+    private void ShowJoystick()
+    {
+        if (_joystickView == null)
+        {
+            SafeAreaPanel safeArea = _hudRectTrans.GetComponentInParent<SafeAreaPanel>();
+            var joystickObj = new GameObject("Mobile Joystick", typeof(RectTransform), typeof(MobileJoystick_view));
+            _joystickView = joystickObj.GetComponent<MobileJoystick_view>();
+            RectTransform joystickRectTrans = _joystickView.rectTransform;
+            joystickRectTrans.SetParent(_inGameCanvasObj.transform, false);
+            // 배경 위에서 터치를 받고, HUD 버튼은 그보다 앞에서 터치를 받습니다.
+            if (safeArea != null && safeArea.transform.parent == joystickRectTrans.parent)
+                joystickRectTrans.SetSiblingIndex(safeArea.transform.GetSiblingIndex());
+            joystickRectTrans.anchorMin = Vector2.zero;
+            joystickRectTrans.anchorMax = new Vector2(0.5f, 1f);
+            joystickRectTrans.offsetMin = Vector2.zero;
+            joystickRectTrans.offsetMax = Vector2.zero;
+            _joystickView.DirectionChanged += _waveHost.Player.SetJoystickInput;
+        }
+
+        if (!_joystickView.gameObject.activeSelf)
+            _joystickView.gameObject.SetActive(true);
+    }
+
+    private void HideJoystick()
+    {
+        if (_joystickView != null)
+            _joystickView.gameObject.SetActive(false);
     }
 
     private void OnApplicationFocus(bool hasFocus)
@@ -192,12 +247,13 @@ public sealed class InGameFlowController : MonoBehaviour
         _inGameGroup.interactable = false;
         _inGameGroup.blocksRaycasts = false;
         _state = FLOW_STATE.PAUSED;
+        HideJoystick();
         _pausePresenter.ShowPause();
     }
 
     public void OnResumeActioned()
     {
-        if (!_initialized || _state != FLOW_STATE.PAUSED || !_hasFocus || _applicationPaused)
+        if (!_initialized || _state != FLOW_STATE.PAUSED || !_hasFocus || _applicationPaused || !_waveHost.Player.CanPlayWithTilt)
             return;
 
         _state = FLOW_STATE.RESUMING;
@@ -352,6 +408,8 @@ public sealed class InGameFlowController : MonoBehaviour
         _state = FLOW_STATE.IN_GAME;
         if (!_hasFocus || _applicationPaused)
             OnPauseActioned();
+        else
+            CheckTiltPause();
     }
 
     private void OnRoundEnded(RoundResult result)
@@ -360,6 +418,7 @@ public sealed class InGameFlowController : MonoBehaviour
             return;
 
         _state = FLOW_STATE.DEATH_TRANSITION;
+        HideJoystick();
         _inGameGroup.interactable = false;
         _inGameGroup.blocksRaycasts = false;
         _resultPresenter.PrepareResult(result);
@@ -414,6 +473,7 @@ public sealed class InGameFlowController : MonoBehaviour
 
         bool returningFromResult = _state == FLOW_STATE.RESULT;
         _state = FLOW_STATE.RETURN_TRANSITION;
+        HideJoystick();
         KillTransition();
         ReleasePause();
         _pausePresenter.Hide();
@@ -457,6 +517,7 @@ public sealed class InGameFlowController : MonoBehaviour
 
     private void ShowMenuImmediately()
     {
+        HideJoystick();
         KillTransition();
         ReleasePause();
         _pausePresenter.Hide();

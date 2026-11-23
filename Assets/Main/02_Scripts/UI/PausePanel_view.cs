@@ -24,21 +24,22 @@ public sealed class PausePanel_view : MonoBehaviour
         _pauseContentObj.SetActive(true);
         _confirmationContentObj.SetActive(false);
         _recalibrateBtn.gameObject.SetActive(showTiltCalibration);
-        ShowTiltCalibration(false, false);
+        _continueBtn.interactable = !showTiltCalibration;
         _resumeMarkerRectTrans.gameObject.SetActive(false);
         _continueBtn.Select();
     }
 
-    public void ShowTiltCalibration(bool isCalibrating, bool completed, bool failed = false)
+    public void ShowTiltCalibration(bool sensorAvailable, bool isCalibrating, bool failed, bool ready)
     {
-        _recalibrateBtn.interactable = !isCalibrating;
+        _recalibrateBtn.interactable = sensorAvailable && !isCalibrating;
+        _continueBtn.interactable = ready;
         TMP_Text labelTxt = _recalibrateBtn.GetComponentInChildren<TMP_Text>(true);
         if (labelTxt != null)
         {
-            labelTxt.text = failed ? GameLocalization.GetText("보정 실패 · 다시 시도", "Calibration failed · Retry")
+            labelTxt.text = !sensorAvailable ? GameLocalization.GetText("기울기 센서 미지원", "Tilt sensor unavailable")
+                : failed ? GameLocalization.GetText("보정 실패 · 다시 시도", "Calibration failed · Retry")
                 : isCalibrating
                 ? GameLocalization.GetText("가만히 유지해 주세요", "Hold your device still")
-                : completed ? GameLocalization.GetText("보정 완료 · 다시 보정", "Calibrated · Recalibrate")
                 : GameLocalization.GetText("기울기 재보정", "Recalibrate tilt");
         }
     }
