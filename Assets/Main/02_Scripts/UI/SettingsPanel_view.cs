@@ -25,6 +25,7 @@ public sealed class SettingsPanel_view : MonoBehaviour
     private bool _useJoystick;
     private TMP_Text _mobileControlsLabelTxt;
     private TMP_Text _mobileControlsValueTxt;
+    private TMP_Text _sensitivityLabelTxt;
 
     private void OnEnable()
     {
@@ -59,6 +60,10 @@ public sealed class SettingsPanel_view : MonoBehaviour
         }
         controlsRowRectTrans.GetComponentInChildren<SettingsIconImage>(true).ShowJoystickIcon();
 
+        var sensitivityLabel = _tiltGroup.GetComponentInChildren<LocalizedText>(true);
+        _sensitivityLabelTxt = sensitivityLabel.GetComponent<TMP_Text>();
+        sensitivityLabel.enabled = false;
+
         SetRowHeight((RectTransform)_bgmSlider.transform.parent, 198f);
         SetRowHeight((RectTransform)_sfxSlider.transform.parent, 113f);
         SetRowHeight(controlsRowRectTrans, 28f);
@@ -79,8 +84,9 @@ public sealed class SettingsPanel_view : MonoBehaviour
         _calibrationRequested = false;
         _calibrationCompleted = false;
         _calibrationFailed = false;
-        _tiltGroup.alpha = showTiltSettings ? 1f : 0.4f;
-        _tiltGroup.interactable = showTiltSettings;
+        bool showSensitivitySettings = showTiltSettings || (Application.isMobilePlatform && model.UseJoystick);
+        _tiltGroup.alpha = showSensitivitySettings ? 1f : 0.4f;
+        _tiltGroup.interactable = showSensitivitySettings;
         _recalibrateBtn.gameObject.SetActive(showTiltSettings);
         Refresh(model);
         _bgmSlider.Select();
@@ -88,13 +94,14 @@ public sealed class SettingsPanel_view : MonoBehaviour
 
     public void Refresh(SettingsModel_model model)
     {
-        _useJoystick = model.UseJoystick;
+        _useJoystick = Application.isMobilePlatform && model.UseJoystick;
         _bgmSlider.SetValueWithoutNotify(model.BgmVolume);
         _bgmVolumeTxt.text = $"{Mathf.RoundToInt(model.BgmVolume * 100f)}%";
         _sfxSlider.SetValueWithoutNotify(model.SfxVolume);
         _sfxVolumeTxt.text = $"{Mathf.RoundToInt(model.SfxVolume * 100f)}%";
-        _sensitivitySlider.SetValueWithoutNotify(model.TiltSensitivity);
-        _sensitivityTxt.text = $"{Mathf.RoundToInt(model.TiltSensitivity * 100f)}%";
+        float sensitivity = _useJoystick ? model.JoystickSensitivity : model.TiltSensitivity;
+        _sensitivitySlider.SetValueWithoutNotify(sensitivity);
+        _sensitivityTxt.text = $"{Mathf.RoundToInt(sensitivity * 100f)}%";
         RefreshLanguage();
     }
 
@@ -105,6 +112,11 @@ public sealed class SettingsPanel_view : MonoBehaviour
         {
             _mobileControlsLabelTxt.text = GameLocalization.GetText("조작 방식", "Controls");
             _mobileControlsValueTxt.text = _useJoystick ? GameLocalization.GetText("조이스틱", "Joystick") : GameLocalization.GetText("기울기", "Tilt");
+        }
+        if (_sensitivityLabelTxt != null)
+        {
+            string label = _useJoystick ? GameLocalization.GetText("조이스틱 감도", "Joystick sensitivity") : GameLocalization.GetText("기울기 감도", "Tilt sensitivity");
+            _sensitivityLabelTxt.text = label + "\n<size=21><color=#92A5BF>(Android)</color></size>";
         }
         _calibrationHintTxt.text = string.Empty;
         if (_showTiltSettings && !_tiltSensorAvailable)

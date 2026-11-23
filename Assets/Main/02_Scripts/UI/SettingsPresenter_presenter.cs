@@ -77,11 +77,18 @@ public sealed class SettingsPresenter_presenter : MonoBehaviour
 
     public void OnSensitivityChanged(float sensitivity)
     {
-        if (!_playerMovement.UsesTiltInput)
+        if (_playerMovement.UsesJoystickInput)
+        {
+            _model.SetJoystickSensitivity(sensitivity);
+        }
+        else if (_playerMovement.UsesTiltInput)
+        {
+            _model.SetTiltSensitivity(sensitivity);
+        }
+        else
         {
             return;
         }
-        _model.SetTiltSensitivity(sensitivity);
         ApplySettings();
         _view.Refresh(_model);
     }
@@ -127,6 +134,7 @@ public sealed class SettingsPresenter_presenter : MonoBehaviour
         AudioListener.volume = _model.SfxVolume;
         _backgroundMusic.SetVolume(_model.BgmVolume);
         _playerMovement.SetTiltSensitivity(_model.TiltSensitivity);
+        _playerMovement.SetJoystickSensitivity(_model.JoystickSensitivity);
         _playerMovement.SetMobileJoystick(_model.UseJoystick);
     }
 

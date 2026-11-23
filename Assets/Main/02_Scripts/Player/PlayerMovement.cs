@@ -45,6 +45,7 @@ public sealed class PlayerMovement : MonoBehaviour
     private Vector2 _filteredTilt;
     private Vector2 _tiltInput;
     private float _tiltSensitivity = 1f;
+    private float _joystickSensitivity = 1f;
     private WallBounce _horizontalBounce;
     private WallBounce _verticalBounce;
 
@@ -153,6 +154,11 @@ public sealed class PlayerMovement : MonoBehaviour
     public void SetTiltSensitivity(float sensitivity)
     {
         _tiltSensitivity = Mathf.Max(0.01f, sensitivity);
+    }
+
+    public void SetJoystickSensitivity(float sensitivity)
+    {
+        _joystickSensitivity = Mathf.Clamp(sensitivity, 0.5f, 2f);
     }
 
     public void SetMobileJoystick(bool useJoystick)
@@ -403,7 +409,11 @@ public sealed class PlayerMovement : MonoBehaviour
         if (UsesTiltInput)
             return _tiltInput * _maxSpeed;
         if (UsesJoystickInput)
-            return _joystickInput * _maxSpeed;
+        {
+            // 반응 곡선만 바꿔 끝까지 밀었을 때의 최고 속도는 유지합니다.
+            float strength = Mathf.Pow(Mathf.Clamp01(_joystickInput.magnitude), 1f / _joystickSensitivity);
+            return _joystickInput.normalized * (strength * _maxSpeed);
+        }
         return GetMouseVelocity(position, halfSize, deltaTime);
     }
 
