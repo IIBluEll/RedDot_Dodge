@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public sealed class InGameFlowController : MonoBehaviour
 {
     private enum FLOW_STATE { MENU, HOW_TO, SETTINGS, START_TRANSITION, IN_GAME, PAUSED, CONFIRM_EXIT, RESUMING, DEATH_TRANSITION, RESULT, RETURN_TRANSITION }
+    private const float GAME_OVER_BGM_MULTIPLIER = 0.3f;
 
     [Header("Scene")]
     [SerializeField] private GameObject _mainMenuCanvasObj;
@@ -20,6 +21,7 @@ public sealed class InGameFlowController : MonoBehaviour
     [SerializeField] private HowToPresenter_presenter _howToPresenter;
     [SerializeField] private SettingsPresenter_presenter _settingsPresenter;
     [SerializeField] private BackgroundMusicPlayer _backgroundMusic;
+    [SerializeField] private AudioSource _gameOverAudio;
 
     [Header("Menu Transition")]
     [SerializeField] private CanvasGroup _menuContentGroup;
@@ -28,6 +30,7 @@ public sealed class InGameFlowController : MonoBehaviour
     [SerializeField] private RectTransform _startBtnRectTrans;
     [SerializeField] private RectTransform _howToBtnRectTrans;
     [SerializeField] private RectTransform _settingsBtnRectTrans;
+    [SerializeField] private RectTransform _quitBtnRectTrans;
 
     [Header("InGame Transition")]
     [SerializeField] private CanvasGroup _inGameGroup;
@@ -38,8 +41,8 @@ public sealed class InGameFlowController : MonoBehaviour
     [SerializeField, Min(0.01f)] private float _startPanSeconds = 0.65f;
     [SerializeField, Min(0.01f)] private float _gameEnterSeconds = 0.26f;
     [SerializeField, Min(0.01f)] private float _returnSeconds = 0.65f;
-    [SerializeField, Min(0f)] private float _deathBurstSeconds = 0.28f;
-    [SerializeField, Min(0.01f)] private float _deathExitSeconds = 0.42f;
+    [SerializeField, Min(0f)] private float _deathBurstSeconds = 0.70f;
+    [SerializeField, Min(0.01f)] private float _deathExitSeconds = 0.65f;
     [SerializeField, Min(0.01f)] private float _resumePrepareSeconds = 1f;
 
     private RectTransform[] _menuRectTransforms;
@@ -75,7 +78,7 @@ public sealed class InGameFlowController : MonoBehaviour
     {
         if (_mainMenuCanvasObj == null || _inGameCanvasObj == null || _gameplayObj == null || _waveHost == null || _resultPresenter == null || _arenaCamera == null || _pausePresenter == null
             || _menuContentGroup == null || _menuBackgroundRectTrans == null || _titleRectTrans == null || _startBtnRectTrans == null
-            || _howToBtnRectTrans == null || _settingsBtnRectTrans == null || _inGameGroup == null
+            || _howToBtnRectTrans == null || _settingsBtnRectTrans == null || _quitBtnRectTrans == null || _inGameGroup == null
             || _hudRectTrans == null || _arenaRectTrans == null || _howToPresenter == null || _settingsPresenter == null)
         {
             Debug.LogError("InGameFlowController의 메뉴·인게임·결과·일시정지·안내·설정 참조를 연결해 주세요.", this);
@@ -83,7 +86,7 @@ public sealed class InGameFlowController : MonoBehaviour
             return;
         }
 
-        _menuRectTransforms = new[] { _titleRectTrans, _startBtnRectTrans, _howToBtnRectTrans, _settingsBtnRectTrans };
+        _menuRectTransforms = new[] { _titleRectTrans, _startBtnRectTrans, _howToBtnRectTrans, _settingsBtnRectTrans, _quitBtnRectTrans };
         _menuPositions = new Vector2[_menuRectTransforms.Length];
         for (int i = 0; i < _menuRectTransforms.Length; i++)
         {
@@ -132,10 +135,6 @@ public sealed class InGameFlowController : MonoBehaviour
             return;
 
         CheckTiltPause();
-        if (_state == FLOW_STATE.IN_GAME && _waveHost.ReadyRemainingSeconds <= 0f && _waveHost.Player.UsesJoystickInput)
-        {
-            ShowJoystick();
-        }
 
         if (Keyboard.current?.escapeKey.wasPressedThisFrame == true)
         {
@@ -189,6 +188,11 @@ public sealed class InGameFlowController : MonoBehaviour
 
     private void ShowJoystick()
     {
+        if (!_waveHost.Player.UsesJoystickInput)
+        {
+            return;
+        }
+
         if (_joystickView == null)
         {
             SafeAreaPanel safeArea = _hudRectTrans.GetComponentInParent<SafeAreaPanel>();
@@ -259,6 +263,8 @@ public sealed class InGameFlowController : MonoBehaviour
         _state = FLOW_STATE.RESUMING;
         _resumeRemainingSeconds = _resumePrepareSeconds;
         _pausePresenter.BeginResume();
+        _inGameGroup.blocksRaycasts = _waveHost.Player.UsesJoystickInput;
+        ShowJoystick();
     }
 
     public void OnPauseMenuActioned()
@@ -341,6 +347,14 @@ public sealed class InGameFlowController : MonoBehaviour
         }
     }
 
+    public void OnQuitActioned()
+    {
+        if (_initialized && _state == FLOW_STATE.MENU)
+        {
+            Application.Quit();
+        }
+    }
+
     private void ReleasePause()
     {
         if (!_ownsPause)
@@ -407,15 +421,22 @@ public sealed class InGameFlowController : MonoBehaviour
         _inGameGroup.blocksRaycasts = true;
         _state = FLOW_STATE.IN_GAME;
         if (!_hasFocus || _applicationPaused)
+        {
             OnPauseActioned();
+        }
         else
+        {
+            ShowJoystick();
             CheckTiltPause();
+        }
     }
 
     private void OnRoundEnded(RoundResult result)
     {
         if (_state != FLOW_STATE.IN_GAME)
+        {
             return;
+        }
 
         _state = FLOW_STATE.DEATH_TRANSITION;
         HideJoystick();
@@ -427,14 +448,31 @@ public sealed class InGameFlowController : MonoBehaviour
         float travel = ((RectTransform)_inGameCanvasObj.transform).rect.height + _hudRectTrans.rect.height;
 
         _transition = DOTween.Sequence().SetUpdate(true);
-        _transition.Insert(_deathBurstSeconds, _hudRectTrans.DOAnchorPosY(_hudPosition.y + travel, _deathExitSeconds).SetEase(Ease.InBack));
-        _transition.Insert(_deathBurstSeconds + 0.04f, _arenaRectTrans.DOAnchorPosY(_arenaPosition.y - travel, _deathExitSeconds).SetEase(Ease.InBack));
+        if (_deathBurstSeconds > 0f)
+        {
+            _arenaCamera.BeginImpactZoom(_waveHost.Player.transform.position);
+            float zoomOutStart = _deathBurstSeconds * 0.5f;
+            _transition.Insert(0f, DOVirtual.Float(0f, 1f, _deathBurstSeconds * 0.24f, _arenaCamera.SetImpactZoom).SetEase(Ease.OutCubic));
+            _transition.Insert(zoomOutStart, DOVirtual.Float(1f, 0f, _deathBurstSeconds - zoomOutStart, _arenaCamera.SetImpactZoom).SetEase(Ease.InOutSine));
+        }
+        _transition.Insert(_deathBurstSeconds, _hudRectTrans.DOAnchorPosY(_hudPosition.y + travel, _deathExitSeconds).SetEase(Ease.InOutCubic));
+        _transition.Insert(_deathBurstSeconds + 0.07f, _arenaRectTrans.DOAnchorPosY(_arenaPosition.y - travel, _deathExitSeconds).SetEase(Ease.InOutCubic));
+        if (_gameOverAudio != null && _gameOverAudio.clip != null)
+        {
+            _gameOverAudio.Play();
+        }
+        if (_backgroundMusic != null)
+        {
+            _transition.Insert(0f, DOVirtual.Float(1f, GAME_OVER_BGM_MULTIPLIER, 0.10f, _backgroundMusic.SetDuckMultiplier));
+            _transition.Insert(_deathBurstSeconds, DOVirtual.Float(GAME_OVER_BGM_MULTIPLIER, 1f, _deathExitSeconds, _backgroundMusic.SetDuckMultiplier));
+        }
         _transition.OnComplete(OnDeathTransitionCompleted);
     }
 
     private void OnDeathTransitionCompleted()
     {
         _transition = null;
+        _arenaCamera.EndImpactZoom();
         _waveHost.ClearDeathVisuals();
         _hudRectTrans.gameObject.SetActive(false);
         _arenaRectTrans.gameObject.SetActive(false);
@@ -447,6 +485,10 @@ public sealed class InGameFlowController : MonoBehaviour
         if (!_initialized || _state != FLOW_STATE.RESULT)
             return;
 
+        if (_gameOverAudio != null)
+        {
+            _gameOverAudio.Stop();
+        }
         _resultPresenter.Hide();
         _state = FLOW_STATE.START_TRANSITION;
         _hudRectTrans.anchoredPosition = _hudPosition + Vector2.up * 48f;
@@ -555,7 +597,21 @@ public sealed class InGameFlowController : MonoBehaviour
     private void KillTransition()
     {
         if (_transition != null && _transition.IsActive())
+        {
             _transition.Kill();
+        }
         _transition = null;
+        if (_arenaCamera != null)
+        {
+            _arenaCamera.EndImpactZoom();
+        }
+        if (_gameOverAudio != null)
+        {
+            _gameOverAudio.Stop();
+        }
+        if (_backgroundMusic != null)
+        {
+            _backgroundMusic.SetDuckMultiplier(1f);
+        }
     }
 }

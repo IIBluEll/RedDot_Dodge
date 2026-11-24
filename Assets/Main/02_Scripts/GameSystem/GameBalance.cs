@@ -79,6 +79,10 @@ public sealed class GameBalance : ScriptableObject
         new DifficultyStage(110f, 2.5f, 12, 14, 1.75f, 1.3f, 0.75f, EDGE_CHASE, WALL, ENCIRCLE, ARROW_DASH, CHASE_WALL)
     };
 
+    [Header("Mobile Enemy Balance")]
+    [SerializeField, Min(1f)] private float _mobileAmbientSpawnIntervalMultiplier = 1.35f;
+    [SerializeField, Min(0f)] private float _mobileFormationWarningBonusSeconds = 0.45f;
+
     [Header("Item Supply")]
     [SerializeField] private Vector2 _firstItemDelaySeconds = new Vector2(3f, 4f);
     [SerializeField] private Vector2 _itemSpawnIntervalSeconds = new Vector2(2f, 3f);
@@ -112,6 +116,8 @@ public sealed class GameBalance : ScriptableObject
     public float FirstWaveDelaySeconds => _firstWaveDelaySeconds;
     public float FirstAmbientSpawnDelaySeconds => _firstAmbientSpawnDelaySeconds;
     public float AmbientMinPlayerDistance => _ambientMinPlayerDistance;
+    public float MobileAmbientSpawnIntervalMultiplier => _mobileAmbientSpawnIntervalMultiplier;
+    public float MobileFormationWarningBonusSeconds => _mobileFormationWarningBonusSeconds;
     public IReadOnlyList<PatternWeight> Patterns => _patterns;
     public InterceptorPatternData InterceptorPattern => _interceptorPattern;
 
@@ -145,6 +151,15 @@ public sealed class GameBalance : ScriptableObject
         return _stages[ 0 ];
     }
 
+    internal DifficultyStage GetFirstStageForPattern(WAVE_PATTERN kind)
+    {
+        if (kind == INTERCEPTOR && _interceptorPattern != null)
+        {
+            return GetStage(_interceptorPattern.SpawnIntervalSeconds);
+        }
+        return Array.Find(_stages, stage => stage.Allows(kind));
+    }
+
     public AEnemyPatternData GetPattern(WAVE_PATTERN kind)
     {
         foreach ( PatternWeight entry in _patterns )
@@ -161,6 +176,12 @@ public sealed class GameBalance : ScriptableObject
     public void Validate()
     {
         ValidateItems();
+        if (!float.IsFinite(_mobileAmbientSpawnIntervalMultiplier) || _mobileAmbientSpawnIntervalMultiplier < 1f
+            || !float.IsFinite(_mobileFormationWarningBonusSeconds) || _mobileFormationWarningBonusSeconds < 0f)
+        {
+            throw new InvalidOperationException("모바일 일반 적 공급 간격 배율과 대형 예고 추가 시간을 확인하세요.");
+        }
+
         if ( _arenaSize.x <= 0f || _arenaSize.y <= 0f || _enemyCapacity < 1 || _firstWaveDelaySeconds < 0f
             || _firstAmbientSpawnDelaySeconds < 0f || _ambientMinPlayerDistance < _playerRadius + _enemyRadius )
         {

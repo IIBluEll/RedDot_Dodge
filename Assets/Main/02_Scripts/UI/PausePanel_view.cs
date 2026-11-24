@@ -19,6 +19,7 @@ public sealed class PausePanel_view : MonoBehaviour
     {
         gameObject.SetActive(true);
         SetOverlayAlpha(0.72f);
+        _overlayImg.raycastTarget = true;
         _panelRectTrans.gameObject.SetActive(true);
         _panelRectTrans.sizeDelta = new Vector2(_panelRectTrans.sizeDelta.x, showTiltCalibration ? 820f : 720f);
         _pauseContentObj.SetActive(true);
@@ -54,6 +55,7 @@ public sealed class PausePanel_view : MonoBehaviour
     public void ShowResume()
     {
         SetOverlayAlpha(0.12f);
+        _overlayImg.raycastTarget = false;
         _panelRectTrans.gameObject.SetActive(false);
         _resumeMarkerRectTrans.gameObject.SetActive(true);
         if (EventSystem.current != null)

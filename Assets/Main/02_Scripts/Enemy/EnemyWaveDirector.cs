@@ -18,6 +18,7 @@ public interface IEnemyWaveHost
 public sealed class EnemyWaveDirector
 {
     private readonly GameBalance BALANCE;
+    private readonly float FORMATION_WARNING_BONUS_SECONDS;
     private Random _random;
     private float _nextWaveAtSeconds;
     private WAVE_PATTERN? _lastPattern;
@@ -37,9 +38,10 @@ public sealed class EnemyWaveDirector
         }
     }
 
-    public EnemyWaveDirector(GameBalance balance , int randomSeed)
+    public EnemyWaveDirector(GameBalance balance , int randomSeed, float formationWarningBonusSeconds = 0f)
     {
         BALANCE = balance;
+        FORMATION_WARNING_BONUS_SECONDS = formationWarningBonusSeconds;
         BALANCE.Validate();
         Reset(randomSeed);
     }
@@ -141,7 +143,7 @@ public sealed class EnemyWaveDirector
         return new WaveCandidate(request , plan , weight);
     }
 
-    private WaveRequest CreateRequest(AEnemyPatternData pattern , DifficultyStage stage)
+    internal WaveRequest CreateRequest(AEnemyPatternData pattern , DifficultyStage stage)
     {
         int count = 0;
         if ( pattern.Kind == WAVE_PATTERN.EDGE_CHASE || pattern.Kind == WAVE_PATTERN.CHASE_WALL )
@@ -150,7 +152,7 @@ public sealed class EnemyWaveDirector
             count = stage.MinimumChaseCount + _random.Next(range);
         }
 
-        return new WaveRequest(pattern , stage , count);
+        return new WaveRequest(pattern , stage , count, FORMATION_WARNING_BONUS_SECONDS);
     }
 
     private bool TryBegin(WaveCandidate candidate , float survivalSeconds , IEnemyWaveHost host , out WaveState wave)

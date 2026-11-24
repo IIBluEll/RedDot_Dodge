@@ -5,6 +5,8 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public sealed class InGameArenaCamera : MonoBehaviour
 {
+    private const float IMPACT_ZOOM_MULTIPLIER = 1.16f;
+
     [SerializeField] private Camera _gameCamera;
     [SerializeField] private RectTransform _arenaRectTrans;
     [SerializeField] private GameBalance _gameBalance;
@@ -12,6 +14,10 @@ public sealed class InGameArenaCamera : MonoBehaviour
 
     private readonly Vector3[] WORLD_CORNERS = new Vector3[4];
     private Canvas _canvas;
+    private Vector3 _impactCameraPosition;
+    private Vector2 _impactOffset;
+    private float _impactOrthographicSize;
+    private bool _impactZoomActive;
 
     private void OnEnable()
     {
@@ -32,6 +38,38 @@ public sealed class InGameArenaCamera : MonoBehaviour
     private void OnCanvasRendered()
     {
         AlignCamera();
+    }
+
+    public void BeginImpactZoom(Vector2 impactPosition)
+    {
+        if (_gameCamera == null)
+        {
+            return;
+        }
+
+        _impactCameraPosition = _gameCamera.transform.position;
+        _impactOrthographicSize = _gameCamera.orthographicSize;
+        _impactOffset = impactPosition - (Vector2)_impactCameraPosition;
+        _impactZoomActive = true;
+    }
+
+    public void SetImpactZoom(float amount)
+    {
+        if (!_impactZoomActive || _gameCamera == null)
+        {
+            return;
+        }
+
+        float sizeMultiplier = 1f / Mathf.Lerp(1f, IMPACT_ZOOM_MULTIPLIER, amount);
+        _gameCamera.orthographicSize = _impactOrthographicSize * sizeMultiplier;
+        // 피격 지점을 화면의 같은 위치에 두고 그 지점을 중심으로 확대합니다.
+        _gameCamera.transform.position = _impactCameraPosition + (Vector3)(_impactOffset * (1f - sizeMultiplier));
+    }
+
+    public void EndImpactZoom()
+    {
+        SetImpactZoom(0f);
+        _impactZoomActive = false;
     }
 
     public void AlignCamera()

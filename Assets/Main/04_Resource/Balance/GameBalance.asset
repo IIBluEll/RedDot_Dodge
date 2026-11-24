@@ -30,6 +30,16 @@ MonoBehaviour:
     _weight: 10
   - _pattern: {fileID: 11400000, guid: 52c96119babe4d9598bded7f1eb864de, type: 2}
     _weight: 15
+  - _pattern: {fileID: 11400000, guid: b5b258bafb9044489cba753bb2da35d4, type: 2}
+    _weight: 8
+  - _pattern: {fileID: 11400000, guid: e3956cb7033d48f78c073880dbed1424, type: 2}
+    _weight: 9
+  - _pattern: {fileID: 11400000, guid: b1ec98517df34c348150c481ecb130fb, type: 2}
+    _weight: 12
+  - _pattern: {fileID: 11400000, guid: 3a23d672b74f4098bcb238b234cf3f5d, type: 2}
+    _weight: 8
+  - _pattern: {fileID: 11400000, guid: 51c7ae3a45f44bc4ba2cf0ac32f3bfc3, type: 2}
+    _weight: 8
   _interceptorPattern: {fileID: 11400000, guid: bdbd3c2eac72466a9a62eef4c7d430c2, type: 2}
   _stages:
   - _startSeconds: 0
@@ -55,7 +65,7 @@ MonoBehaviour:
     _chaseSpeed: 1.45
     _warningDurationSeconds: 1.4
     _ambientSpawnIntervalSeconds: 1.2
-    _allowedPatterns: 00000000010000000200000004000000
+    _allowedPatterns: 0000000001000000020000000400000008000000
   - _startSeconds: 40
     _waveIntervalSeconds: 3
     _minimumChaseCount: 8
@@ -63,7 +73,7 @@ MonoBehaviour:
     _chaseSpeed: 1.55
     _warningDurationSeconds: 1.4
     _ambientSpawnIntervalSeconds: 1
-    _allowedPatterns: 0000000001000000020000000300000004000000
+    _allowedPatterns: 0000000001000000020000000300000004000000060000000700000008000000
   - _startSeconds: 70
     _waveIntervalSeconds: 2.7
     _minimumChaseCount: 10
@@ -71,7 +81,7 @@ MonoBehaviour:
     _chaseSpeed: 1.65
     _warningDurationSeconds: 1.3
     _ambientSpawnIntervalSeconds: 0.85
-    _allowedPatterns: 0000000001000000020000000300000004000000
+    _allowedPatterns: 0000000001000000020000000300000004000000060000000700000008000000090000000a000000
   - _startSeconds: 110
     _waveIntervalSeconds: 2.5
     _minimumChaseCount: 12
@@ -79,7 +89,9 @@ MonoBehaviour:
     _chaseSpeed: 1.75
     _warningDurationSeconds: 1.3
     _ambientSpawnIntervalSeconds: 0.75
-    _allowedPatterns: 0000000001000000020000000300000004000000
+    _allowedPatterns: 0000000001000000020000000300000004000000060000000700000008000000090000000a000000
+  _mobileAmbientSpawnIntervalMultiplier: 1.35
+  _mobileFormationWarningBonusSeconds: 0.45
   _firstItemDelaySeconds: {x: 3, y: 4}
   _itemSpawnIntervalSeconds: {x: 2, y: 3}
   _itemRetrySeconds: 1

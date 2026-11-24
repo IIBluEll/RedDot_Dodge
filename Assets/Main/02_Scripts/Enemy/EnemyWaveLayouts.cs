@@ -2,10 +2,24 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // 배치만 계산합니다. 예고와 적 오브젝트는 호스트가 일괄 등록합니다.
-public static class EnemyWaveLayouts
+public static partial class EnemyWaveLayouts
 {
     public static WavePlan Build(WaveRequest request, GameBalance balance, Vector2 limits, Vector2 playerPosition)
     {
+        switch (request.Pattern)
+        {
+            case ReboundDashPatternData rebound:
+                return BuildRebound(rebound, balance, limits);
+            case RotatingEncirclePatternData rotating:
+                return BuildRotatingEncircle(rotating, balance, limits, playerPosition);
+            case TailChasePatternData tail:
+                return BuildTailChase(tail, balance, limits, playerPosition);
+            case FanDashPatternData fan:
+                return BuildFanDash(fan, balance, limits);
+            case StaggeredCrossPatternData cross:
+                return BuildStaggeredCross(cross, balance, limits);
+        }
+
         var placements = new List<EnemyPlacement>();
         Vector2 anchor = Vector2.zero;
         Vector2 direction = Vector2.right;
@@ -81,6 +95,39 @@ public static class EnemyWaveLayouts
             if (!Inside(placement.SpawnPosition, limits))
                 return null;
         return new WavePlan(placements.ToArray(), anchor, direction);
+    }
+
+    private static WavePlan BuildRebound(ReboundDashPatternData pattern, GameBalance balance, Vector2 limits)
+    {
+        int count = pattern.EnemyCount;
+        if (count < 1 || count > balance.EnemyCapacity || pattern.EnemySpacing <= 0f || pattern.DashSpeed <= 0f)
+        {
+            return null;
+        }
+
+        float halfHeight = (count - 1) * pattern.EnemySpacing * 0.5f;
+        float verticalRoom = limits.y - halfHeight;
+        if (verticalRoom <= 0f)
+        {
+            return null;
+        }
+
+        float side = Random.value < 0.5f ? -1f : 1f;
+        float verticalSign = Random.value < 0.5f ? -1f : 1f;
+        float rise = Mathf.Min(Random.Range(1.8f, 2.8f), verticalRoom * 0.75f);
+        float startY = Random.Range(-verticalRoom, verticalRoom - rise * 2f);
+        Vector2 start = new Vector2(side * limits.x, verticalSign * startY);
+        float wallX = balance.ArenaSize.x * 0.5f - balance.EnemyRadius;
+        Vector2 turn = new Vector2(-side * wallX, verticalSign * (startY + rise));
+        var path = new ReboundPath(start, turn);
+
+        var placements = new EnemyPlacement[count];
+        for (int i = 0; i < count; i++)
+        {
+            Vector2 position = start + Vector2.up * (i * pattern.EnemySpacing - halfHeight);
+            placements[i] = new EnemyPlacement(position, position, ENEMY_MOTION.REBOUND);
+        }
+        return new WavePlan(placements, start, path.IncomingDirection, path);
     }
 
     private static void AddChasers(List<EnemyPlacement> placements, int count, GameBalance balance, Vector2 limits, int side, bool vertical)

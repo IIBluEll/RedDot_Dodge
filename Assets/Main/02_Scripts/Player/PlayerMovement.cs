@@ -10,6 +10,7 @@ public sealed class PlayerMovement : MonoBehaviour
     private const float MIN_WALL_IMPACT_SPEED_RATIO = 0.6f;
     private const float JOYSTICK_WALL_REBOUND_SCALE = 0.4f;
     private const float TILT_RESPONSE = 24f;
+    private const float TILT_LINEAR_WEIGHT = 0.4f;
     private const float TILT_CALIBRATION_SETTLE_SECONDS = 0.15f;
     private const float TILT_CALIBRATION_SECONDS = 0.25f;
     private const float TILT_CALIBRATION_MAX_ANGLE = 2f;
@@ -149,6 +150,14 @@ public sealed class PlayerMovement : MonoBehaviour
         {
             ReleaseTiltSensor();
         }
+    }
+
+    internal void StopTiltSampling()
+    {
+        _tiltNeedsCalibration = false;
+        _tiltInput = Vector2.zero;
+        _filteredTilt = Vector2.zero;
+        ReleaseTiltSensor();
     }
 
     public void SetTiltSensitivity(float sensitivity)
@@ -317,7 +326,8 @@ public sealed class PlayerMovement : MonoBehaviour
         _filteredTilt = Vector2.Lerp(_filteredTilt, tilt, 1f - Mathf.Exp(-TILT_RESPONSE * deltaTime));
         float tiltMagnitude = _filteredTilt.magnitude / _fullSpeedTilt;
         float strength = Mathf.Clamp01((tiltMagnitude - _tiltDeadZone) * _tiltSensitivity / (1f - _tiltDeadZone));
-        _tiltInput = _filteredTilt.normalized * Mathf.Pow(strength, _tiltCurveExponent);
+        float curvedStrength = Mathf.Pow(strength, _tiltCurveExponent);
+        _tiltInput = _filteredTilt.normalized * Mathf.Lerp(curvedStrength, strength, TILT_LINEAR_WEIGHT);
     }
 
     private void CalibrateTilt(Vector3 gravity, float deltaTime)

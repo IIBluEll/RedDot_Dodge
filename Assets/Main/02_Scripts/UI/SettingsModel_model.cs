@@ -24,7 +24,7 @@ public sealed class SettingsModel_model
         SfxVolume = ReadFloat(SFX_KEY, previousVolume, 0f, 1f);
         TiltSensitivity = ReadFloat(TILT_KEY, 1f, 0.5f, 2f);
         JoystickSensitivity = ReadFloat(JOYSTICK_SENSITIVITY_KEY, 1f, 0.5f, 2f);
-        UseJoystick = PlayerPrefs.GetInt(JOYSTICK_KEY, 0) == 1;
+        UseJoystick = PlayerPrefs.GetInt(JOYSTICK_KEY, 1) == 1;
         Language = GameLocalization.ReadSavedLanguage();
     }
 

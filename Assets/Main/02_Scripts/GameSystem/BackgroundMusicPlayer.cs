@@ -33,6 +33,7 @@ public sealed class BackgroundMusicPlayer : MonoBehaviour
     private Coroutine _startRoutine;
     private float _baseVolume;
     private float _volumeMultiplier = 1f;
+    private float _duckMultiplier = 1f;
     private bool _audioInitialized;
 
     public string CurrentTitle { get; private set; }
@@ -54,15 +55,26 @@ public sealed class BackgroundMusicPlayer : MonoBehaviour
         _audioSource.ignoreListenerVolume = true;
         _baseVolume = _audioSource.volume;
         _audioInitialized = true;
-        _audioSource.volume = _baseVolume * _volumeMultiplier;
+        ApplyVolume();
     }
 
     public void SetVolume(float volume)
     {
         _volumeMultiplier = Mathf.Clamp01(volume);
+        ApplyVolume();
+    }
+
+    public void SetDuckMultiplier(float multiplier)
+    {
+        _duckMultiplier = Mathf.Clamp01(multiplier);
+        ApplyVolume();
+    }
+
+    private void ApplyVolume()
+    {
         if (_audioInitialized)
         {
-            _audioSource.volume = _baseVolume * _volumeMultiplier;
+            _audioSource.volume = _baseVolume * _volumeMultiplier * _duckMultiplier;
         }
     }
 
