@@ -19,10 +19,8 @@ Unity 6000.3.20f1의 C# 컴파일러와 프로젝트 참조로 런타임 코드 
 
 초기 전달 이후 Unity 로그에서 `MaterialPropertyBlock`을 필드 초기화 구문에서 생성할 수 없다는 예외와 뒤이은 `RecordMovement`의 NullReferenceException을 확인했다. 생성 위치를 `Awake`로 옮기고, Play 중 스크립트 재로드로 참조가 사라졌을 때 이동 함수에서 재생성하도록 수정했다.
 
-격리 프로젝트의 실제 Play Mode에서 컴포넌트 자동 추가·이동 기록, 프로퍼티 블록 재생성, 기존 컴포넌트 중복 방지, 꼬리 초기화 후 이동을 확인했다. 결과는 `Temp/CodexPlayerTrail/InitializationCheck/result.json`에 있다. 이 검사는 초기화 경로에 집중하기 위해 기본 재질을 사용했다.
+격리 프로젝트의 실제 Play Mode에서 컴포넌트 자동 추가·이동 기록, 프로퍼티 블록 재생성, 기존 컴포넌트 중복 방지, 꼬리 초기화 후 이동을 확인했다. 이 검사는 초기화 경로에 집중하기 위해 기본 재질을 사용했다.
 
 이후 MainPlay의 실제 네온 재질로 화면을 비교해, 수동으로 점을 추가하면서 `emitting = false`로 둔 상태에서는 메시가 있어도 화면에 나타나지 않는 문제를 재현했다. 방출을 활성화하고 TrailRenderer의 위치를 플레이어 뒤쪽의 실제 기록점과 일치시켰다. 회전 후 기록하도록 호출 순서를 맞춰 방향 전환 시 방출 위치가 어긋나지 않도록 했다.
 
-`RedDot Dodge > Check Player Trail Rendering`은 현재 씬에서 짧은 이동을 구성한 뒤, 꼬리 표시 전후의 화면 픽셀을 비교한다. 결과와 PNG는 `ArtExports/PlayerTrailQA`에 저장하고, 확인할 수 있도록 Play를 일시정지한다. 확인 후 Play를 종료하면 원래 씬으로 돌아간다. Android 실기기 검사는 수행하지 않았다.
-
-최종 수정 후 실제 MainPlay의 곡선 이동에서 꼬리가 보이는 것을 확인했다. 꼬리를 켠 화면과 끈 화면의 비교에서 2,314개 픽셀이 달랐으며, 결과는 `ArtExports/PlayerTrailQA/PlayerTrail-check.txt`, 이미지는 `PlayerTrail.png`에 저장했다. 검사를 마친 뒤 Play를 종료했다.
+최종 수정 후 실제 MainPlay의 곡선 이동에서 꼬리가 보이는 것을 확인했다. 꼬리를 켠 화면과 끈 화면을 비교했을 때 2,314개 픽셀이 달랐다. Android 실기기 검사는 수행하지 않았다.
