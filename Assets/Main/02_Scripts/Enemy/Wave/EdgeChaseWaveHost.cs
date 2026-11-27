@@ -241,8 +241,14 @@ public sealed partial class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, I
         int killCount = _itemSystem.ApplyEffects();
         bool playerHit = ResolvePlayerContact(playerPosition, out int shatterCount);
         killCount += shatterCount;
-        if (shatterCount > 0 && _shatterAudio != null)
-            _shatterAudio.Play();
+        if (shatterCount > 0)
+        {
+            MobileHaptics.PlayLight();
+            if (_shatterAudio != null)
+            {
+                _shatterAudio.Play();
+            }
+        }
         RefreshEnemyVisuals();
         RetireExitedEnemies();
         _previousPlayerPosition = playerPosition;
@@ -272,6 +278,7 @@ public sealed partial class EdgeChaseWaveHost : MonoBehaviour, IEnemyWaveHost, I
             return;
 
         _roundInProgress = false;
+        MobileHaptics.PlayMedium();
         _playerMovement.enabled = false;
         var result = new RoundResult(Score, MaximumCombo, KillCount, _survivalSeconds);
         _deathVisuals?.Reset();

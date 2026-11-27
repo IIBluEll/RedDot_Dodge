@@ -39,6 +39,7 @@ public sealed class ShieldEffect : AItemEffect
             HasBurst = true;
             _burstPosition = impactPosition;
             _burstStartedAtSeconds = ElapsedSeconds;
+            MobileHaptics.PlayLight();
         }
 
         return CONTEXT.Target.KillEnemiesInRadius(_burstPosition, DEFINITION.BurstRadius);

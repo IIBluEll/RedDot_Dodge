@@ -103,6 +103,11 @@ public sealed class BombEffect : AItemEffect, IRadialItemEffect
         RADIUS = data.Radius;
     }
 
+    protected override void OnBegan()
+    {
+        MobileHaptics.PlayLight();
+    }
+
     public override int Apply()
     {
         return KillEnemiesInRange(RADIUS);
